@@ -1,0 +1,207 @@
+{
+  "main": {
+    "id": "b3ff6a7223427a48",
+    "type": "split",
+    "children": [
+      {
+        "id": "dd8aad54d4e03277",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "14b654542a040882",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "3d4ea60bfb01c6ff",
+    "type": "split",
+    "children": [
+      {
+        "id": "ab65edae7e76cb65",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6f27db4a2ce50a14",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "52bcdb2abd135a8f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "ca89e7bb39b821d2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "74b35b4648a270ef",
+    "type": "split",
+    "children": [
+      {
+        "id": "e399c965a0bf8b72",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7a0187ecea834312",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "cdd8e84b384ce866",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "d60650d44a14af22",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "8d938f2dc20b124a",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": true,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "945cc5887d180760",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": true,
+                "showSearch": true,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "14b654542a040882",
+  "lastOpenFiles": [
+    "wiki/concepts/socialcompass_tools.md",
+    "wiki/sources/info_txt.md",
+    "wiki/sources/chapter_14_presentation.md",
+    "wiki/index.md",
+    "wiki/concepts",
+    "wiki/sources/tips_groupwork.md",
+    "wiki/sources/seminar_signup.md",
+    "raw/CyberneticAlchemy_Seminar_SignUp2.xlsx",
+    "raw/Cybernetic_Alchemy_Complete.pdf",
+    "raw/Chapter_14_Upgraded_Presentation.pptx",
+    "raw/Tips for groupwork_COINs25.pptx",
+    "CLAUDE.md",
+    "Untitled.canvas",
+    "Untitled.base",
+    "wiki/entities/Peter_Gloor.md",
+    "wiki/entities/Janine_Hacker.md",
+    "wiki/log.md",
+    "wiki/Project_Overview.md",
+    "wiki/Team_Profile.md",
+    "Welcome.md",
+    "raw/info.txt",
+    "wiki/sources",
+    "wiki/entities",
+    "wiki"
+  ]
+}
