@@ -159,3 +159,85 @@ No I have to do my part in the presentation of chapter 14.
 Slide 1 to 11 are for Hammad Anwar
 Slide 12 to 14 are for Hassaan Ahmad
 Slide 15 to whatever is left are for Zuraiz (me)
+
+Presentation done and now we selected the topic of 'Entanglement in Online Choir / Analyzing entanglement of members of an online choir
+A combination of low-latency software (e.g., SoundJack) and videoconferencing software (e.g., Zoom) enables choir members to sing together online in real time. However, in contrast to physical choir rehearsals, coordination of the group of singers cannot occur through visual signals from a conductor, as the video from conventional videoconferencing software lags behind the audio transmitted by the low-latency software.
+
+This project aims to determine how, if at all, singers can coordinate in the absence of visual cues and measure their level of entanglement.
+
+Tech: Python, analysis of audio and video material, qualitative interviews (if applicable)'
+
+Invitation to 2nd COINseminar statusmeeting, April 30, 14:00 + Team Member List
+Peter A Gloor<pgloor@mit.edu>
+
+​sloehner@smail.uni-koeln.de;​nbringew@smail.uni-koeln.de;​estein5@smail.uni-koeln.de;​jjetter@smail.uni-koeln.de;​+27 others​​​​​​​​​​​​
+​
+​
+​
+​
+​Simon Wolf <wolf@wim.uni-koeln.de>;​Hacker, Janine <janine.hacker@uni-bamberg.de>​
+Dear COIN course participants,
+
+ 
+
+You will find the finalized team member list here:
+
+https://sites.google.com/view/coinseminar26/team
+
+Next steps: 
+
+Schedule a meeting with the instructors at your earliest convenience if you have open questions regarding the focus of your work. 
+Set up a WhatsApp group or similar for team communication, this will be used as input for the virtual mirror on May 21.
+ 
+
+This presentation resumes the way of working together.
+
+ 
+
+Zoom Link for meeting on April 30, 14:00:
+
+https://uni-koeln.zoom.us/j/93428890457?pwd=kcPmLzGrp5ypd8zNqYp8MZ94E9Iapr.1
+
+Meeting ID: 934 2889 0457
+Password: 585037
+ 
+
+For this meeting prepare a 5-10-MINUTE PowerPoint presentation 
+
+– Team members
+
+– Your goals (scope)
+
+– Overall project plan (be specific!)
+
+– Plan for the next iteration
+
+– Your way-of-working
+
+ 
+
+Please upload your presentation prior to the meeting here
+
+ https://drive.google.com/drive/folders/1huUQ6KXZUf_hRTr9l6zSJD_ASJ5hIHrg?usp=sharing
+
+
+
+enter who will do the presentation prior to the meeting
+
+ https://docs.google.com/document/d/1S4Ky4c1VY4dU5eEmy9kzF4vFXrH-2BNoLhbR1Tpl7mA/edit?usp=sharing
+
+
+
+Here is the presentation explaining how to build the plant sensor
+
+https://www.dropbox.com/scl/fi/n02ucymequkp2rkcjry7p/Measuring_Plant_Honest_Signals.pdf?rlkey=6ulk086zdlviyz75comoya5vj&dl=0
+
+
+
+We will be happy to answer any questions.
+
+ 
+
+Best regards,
+
+Janine, Simon, Peter

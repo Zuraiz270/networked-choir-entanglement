@@ -1,0 +1,9 @@
+# Claude Code local settings
+**/.claude/settings.local.json
+
+# AI session artifacts
+Claude_Code_Project_8_Context.md
+
+# OS
+.DS_Store
+Thumbs.db

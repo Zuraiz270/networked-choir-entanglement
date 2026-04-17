@@ -151,3 +151,35 @@ First LINT pass triggered by ingest counter reaching 6/5 (overdue from 5/5). Sco
 - Verify Sheet 2 waitlist purpose next time the team talks to [[Janine_Hacker]] or [[Peter_Gloor]].
 
 **Ingest counter**: reset → 0/5.
+
+---
+
+## [2026-04-17] ingest | implementation_plan.md v2.1 (Project 8 deep plan)
+
+Source: repo-root `implementation_plan.md` — 24-ECTS deep implementation plan for Project 8 (*Entanglement in Online Choir*), v2.1 authored 2026-04-17 by Zuraiz + LLM. Seeds the vault graph with Project-8-specific pages so every future ingest (Cybernetic Alchemy PDF, Dagstuhl digest, Hacker URL list, etc.) has stable Rubedo/Citrinitas anchors to backlink into.
+
+Key content seeded:
+
+- **Rubedo MOC** for Project 8: hypotheses (H1/H2/H3 tier-mapped), 4 work packages, alchemical pipeline mapping, milestone table (Apr 30 Hacker+Gloor meeting; Jul 17 final).
+- **E(t) Citrinitas page**: formula decomposition A(t)/V(t)/N(t) + null-model protocol + DSP reality-check (v2.1 correction — mixed-stereo YouTube cannot yield per-singer pairwise audio features; Demucs separates instrument classes, pyin is monophonic).
+- **Data-sourcing policy Citrinitas page**: three-tier architecture · Tier-0/1/2/3 scientific roles · legal basis (§60d UrhG, EU DSM Art. 3, GDPR Art. 6/89) · prohibited practices (no self-recording preserved).
+
+**Pages touched** (3 content + 2 meta):
+
+- CREATED [[Project_8_MOC]] (Rubedo)
+- CREATED [[entanglement_index]] (Citrinitas)
+- CREATED [[data_sourcing_policy]] (Citrinitas)
+- UPDATED [[index]] (3 new entries · last-updated 2026-04-17 · counter 1/5)
+- UPDATED [[log]] (this file)
+
+**Rule 1**: 3 content pages ✓
+**Rule 2**: LINT counter 1/5 (reset at previous LINT 2026-04-16).
+**Ingest counter**: 1/5.
+
+**Evidence-trail note**: the five top architectural decisions underpinning the v2.1 plan (yt-dlp vs YouTube Data API · MediaPipe vs OpenPose · librosa pyin vs CREPE · Granger vs transfer entropy · uv vs poetry/conda) live in `implementation_plan.md` §8 with full L1–L5 source tables and Confidence/Applicability ratings per global `CLAUDE.md` §3. Not duplicated in the wiki (YAGNI — single source of truth is the plan file; wiki concept pages link back to it).
+
+**Deferred**:
+
+- Ingest `raw/Cybernetic_Alchemy_Complete.pdf` → 4 expected wiki pages ([[honest_signals]], [[coin_framework]], [[Alex_Pentland]], `cybernetic_alchemy_complete_pdf.md`). Scheduled 2026-04-18.
+- Create [[hacker_url_list]] on receipt (blocked: email sent 2026-04-17; go/no-go 2026-04-22 09:00 CET).
+- [[Kumaran_Vasu]] SocialCompass backfill (tracked in plan §6 WP2 onboarding).
