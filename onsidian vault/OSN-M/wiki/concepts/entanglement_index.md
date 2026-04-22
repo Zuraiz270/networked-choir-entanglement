@@ -11,7 +11,7 @@ team_take: Decomposing "entanglement" into three equal-weight sub-signals (audio
 
 # Entanglement Index E(t)
 
-**Role**: Citrinitas synthesis of Project 8's central scientific contribution — a reproducible, falsifiable operationalisation of "entanglement" for online choir performance. Backlinked from [[Project_8_MOC]]; detailed in `implementation_plan.md` §3.
+**Role**: Citrinitas synthesis of Project 8's central scientific contribution — a reproducible, falsifiable operationalisation of "entanglement" for online choir performance. Backlinked from [[Project_8_MOC]]; detailed in `PROJECT_GUIDE.md` §11.1 (formulas) and §2 (plain-language framing).
 
 **Owner**: WP1 (Zuraiz, PI).
 **Inputs**: `features/<video_id>.parquet` (33 features).
@@ -28,6 +28,8 @@ E(t) = (1/3)·A(t) + (1/3)·V(t) + (1/3)·N(t)
 ```
 
 Reported as **z-score against a 200× time-shuffled null model** (singer streams independently time-permuted). `|z| > 2` is the discrimination threshold.
+
+> **v2.2 scope rule (2026-04-19):** weights frozen at (1/3, 1/3, 1/3). No regime-specific reweighting, no learned weights, no extra terms. Simplicity is defensible at our sample size (Tier 1 N = 20 to 30, plus Tier 2 and Tier 3); complexity without validation is not. Reweighting stays out of scope until an independent replication cohort exists.
 
 ### 1.1 A(t) — Acoustic coupling
 
@@ -64,7 +66,7 @@ N(t) = 0.4 · (1 − |density_dev_from_null|)
 - **Visual coupling** (V): Honest Signals framework — Pentland 2008, *Honest Signals* (MIT Press). Trunk-sway is V1 primary (MediaPipe validated Pearson 0.80–0.91 vs Vicon for limb landmarks). Mouth-aperture via FaceMesh (Kartynnik et al. 2019).
 - **Network coherence** (N): Granger causality (Granger 1969, *Econometrica*; statsmodels implementation); Louvain modularity (Blondel et al. 2008, J. Stat. Mech.); eigenvector centrality inverse-Gini operationalises [[Peter_Gloor]]'s COINs "collective leadership" principle.
 
-See `implementation_plan.md` §2 for full citation ladder and §8 for EBSE evidence trails on library selection (Decisions 3 & 4).
+See `PROJECT_GUIDE.md` §11.4 for the EBSE evidence trails on library selection (Decisions 3 & 4 — librosa DTW + pyin; Granger primary with transfer-entropy fallback).
 
 ---
 
@@ -120,9 +122,11 @@ See [[data_sourcing_policy]] for tier definitions.
 
 ## 7. Open Questions
 
-1. Should `A_ens(t)` be reported alongside the main E(t) or strictly separated in the paper? — Leaning "separated" to avoid muddying H1. Decide by v1 paper draft (2026-07-07).
-2. Does trunk-sway vs. head-sway validity degrade on webcam-framed Zoom videos where only head+shoulders are visible? — WP2 calibration study scheduled (`wiki/concepts/pose_validity.md` expected 2026-05-22).
-3. Granger stationarity failure rate on Dagstuhl pilot — if > 30 %, activate IDTxl fallback (Decision 4 R1-level evidence trail).
+1. Should `A_ens(t)` be reported alongside the main E(t) or strictly separated in the paper? — Leaning "separated" to avoid muddying H1. Decide by v1 paper draft (2026-07-07). *Paper-drafting decision; not a Limitations-Register entry.*
+2. Does trunk-sway vs. head-sway validity degrade on webcam-framed Zoom videos where only head+shoulders are visible? — WP2 calibration study scheduled (`wiki/concepts/pose_validity.md` expected 2026-05-22). *Register: `PROJECT_GUIDE.md` §12.2 L-B-1, L-B-3.*
+3. Granger stationarity failure rate on Dagstuhl pilot — if > 30 %, activate IDTxl fallback (Decision 4 R1-level evidence trail). *Register: `PROJECT_GUIDE.md` §12.3 L-C-1.*
+
+**See also**: `PROJECT_GUIDE.md` §12 *Limitations Register* for the full auditable inventory (17 newly-surfaced items beyond v1.0, including L-A-4 post-synchronisation artefact, L-B-4 mouth-aperture lyric confound, L-C-5/C-7/C-8 statistical-power + MHT strengthening) and [[limitations_register]] for the vault-graph surface.
 
 ## Backlinks
 

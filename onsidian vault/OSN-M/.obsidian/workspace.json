@@ -4,17 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "dd8aad54d4e03277",
+        "id": "05b9bc4a6f8b25e0",
         "type": "tabs",
         "children": [
           {
-            "id": "14b654542a040882",
+            "id": "12d0e38b9d73d39e",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
+              "type": "bases",
+              "state": {
+                "file": "Untitled.base",
+                "viewName": "Table"
+              },
+              "icon": "lucide-table",
+              "title": "Untitled"
             }
           }
         ]
@@ -70,8 +73,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -109,11 +111,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Untitled.base",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from Untitled"
             }
           },
           {
@@ -177,8 +180,12 @@
       "bases:Create new base": false
     }
   },
-  "active": "14b654542a040882",
+  "active": "12d0e38b9d73d39e",
   "lastOpenFiles": [
+    "2026-04-20.md",
+    "Untitled.base",
+    "Untitled",
+    "wiki/Team_Profile.md",
     "wiki/concepts/socialcompass_tools.md",
     "wiki/sources/info_txt.md",
     "wiki/sources/chapter_14_presentation.md",
@@ -192,16 +199,13 @@
     "raw/Tips for groupwork_COINs25.pptx",
     "CLAUDE.md",
     "Untitled.canvas",
-    "Untitled.base",
     "wiki/entities/Peter_Gloor.md",
     "wiki/entities/Janine_Hacker.md",
     "wiki/log.md",
     "wiki/Project_Overview.md",
-    "wiki/Team_Profile.md",
     "Welcome.md",
     "raw/info.txt",
     "wiki/sources",
-    "wiki/entities",
-    "wiki"
+    "wiki/entities"
   ]
 }

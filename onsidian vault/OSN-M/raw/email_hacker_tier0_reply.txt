@@ -1,0 +1,25 @@
+From: Prof. Dr. Janine Hacker
+To: Zuraiz
+Date: 2026-04-22 (received 06:06 CET)
+Subject: Re: Project 8 — Tier-0 YouTube URL Request
+
+---
+
+Dear Zuraiz,
+
+Thank you for your email.
+
+Here are a few YouTube videos that you should help you get started with your project:
+
+https://youtu.be/isIV1XsKCgQ?si=AM3-IdK2VE0k6MYt
+https://youtu.be/YiUJM6f8YpQ?si=i7lt1568vsJb7du8
+https://youtu.be/zp1qLCckgLk?si=ClHMPdfLgd375CzY
+https://www.youtube.com/live/m811fZiPyaQ?si=3vGjR7GUDFNsai29
+https://youtu.be/xPNu9TX-sgY?si=cWQ523TvJkGxw4Ah (this one seems to be a performance though that has been edited, at least to me, singers are "too much in sync")
+
+Feel free to look for more videos. To find choir recordings using low-latency software, using the name of this type of software in your query should be helpful (so e.g. searching for Jamulus or Soundjack, please find more information about low-latency software here: https://choirathome.com/wp-content/uploads/2023/07/R2.2_ChoirAtHome_Tools.pdf). As mentioned above, you should try to recognize the "live" recordings, which shouldn't be too hard though.
+
+I'm already looking forward to your first status report!
+
+Best regards
+Janine Hacker

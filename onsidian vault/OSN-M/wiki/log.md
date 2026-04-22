@@ -183,3 +183,147 @@ Key content seeded:
 - Ingest `raw/Cybernetic_Alchemy_Complete.pdf` → 4 expected wiki pages ([[honest_signals]], [[coin_framework]], [[Alex_Pentland]], `cybernetic_alchemy_complete_pdf.md`). Scheduled 2026-04-18.
 - Create [[hacker_url_list]] on receipt (blocked: email sent 2026-04-17; go/no-go 2026-04-22 09:00 CET).
 - [[Kumaran_Vasu]] SocialCompass backfill (tracked in plan §6 WP2 onboarding).
+
+---
+
+## [2026-04-18] promote | implementation_plan.md → PROJECT_GUIDE.md
+
+Repo-root canonical document restructured from engineer-facing v2.1 `implementation_plan.md` (499 lines, dense, jargon-heavy, unstructured) into team-facing `PROJECT_GUIDE.md` v1.0. Trigger: Zuraiz rejected the v2.1 plan on 2026-04-18 as "very focused and unstructured, difficult even for a seasoned person, no structure, generic goals like 'impress the professors'." New doc is readable by non-DSP teammates (Kumaran, Hassan) in one sitting.
+
+Structure of the new doc:
+
+- §1 TL;DR · §2 Real Problem We're Solving · §3 Glossary (~30 terms with analogies) · §4 Where We Are Today · §5 Where We Need to Be · §6 Roadmap Week-by-Week · §7 Who Does What · §8 Three Data Sources · §9 What Could Go Wrong · §10 How We'll Know We Succeeded · §11 Technical Appendix (formulas · tier-gated feature catalog · directory discipline · EBSE evidence trails · verification smoke tests · DSP reality correction · vault integration · pinned stack versions).
+
+No technical content dropped. All v2.1 formulas, feature catalogs, EBSE evidence trails, verification smoke tests, and DSP reality correction preserved verbatim in §11 Appendix. Presentation layer only.
+
+**Pages touched** (0 content pages CREATED, 4 content pages UPDATED):
+
+- UPDATED [[Project_8_MOC]] — replaced all `implementation_plan.md` pointers with `PROJECT_GUIDE.md` pointers; added "Start here →" banner after frontmatter.
+- UPDATED [[entanglement_index]] — pointer updates (line 14, 67).
+- UPDATED [[data_sourcing_policy]] — pointer update (line 14).
+- UPDATED [[log]] (this file).
+
+**Also at repo root**:
+
+- CREATED `PROJECT_GUIDE.md` (new canonical team guide).
+- CREATED `drafts/email_hacker_tier0_request.md` (rewritten brief email to Prof. Hacker: 62-word body, actionable subject, no DSP jargon — supersedes the over-technical first draft).
+- DELETED `implementation_plan.md` (content preserved in `PROJECT_GUIDE.md` §11).
+
+**Rule 1**: N/A (promotion, not ingest — no new sources).
+**Rule 2**: LINT counter unchanged (1/5 after previous ingest).
+**Evidence trail for this promotion**: user feedback on 2026-04-18 re: accessibility ("difficult even for a seasoned person", "no structure", "generic goals") + follow-up feedback on email ("unclear subject", "very hectic to read", "too much detail"). Saved as feedback memories `feedback_writing_style.md` and `feedback_email_tone.md` in the session memory directory. Applies to all future team-facing docs and academic emails on this project.
+
+**Git commit plan** (not yet executed): atomic commit with Conventional Commits message `docs(guide): replace implementation_plan.md with team-facing PROJECT_GUIDE.md + add Hacker email draft`.
+
+---
+
+## [2026-04-18] lint | limitations_register_audit
+
+Rigorous EBSE-grade audit of every threat to H1–H3 and Gates A–D for Project 8. Triggered by Zuraiz's request: *"evaluate, specify and eliminate all the limitations with rigorous effort and strategies — if you fail to tackle a limitation then give me relevant context and search queries to do it myself."* Scope: audio/DSP · computer vision · network-statistics · data sourcing · legal/GDPR · project reproducibility · stakeholder · integration. Output: **59 limitations** across 8 categories · 43 Mitigated · 6 Escalated · 4 Open · 1 Accepted · 5 Resolved. **17 items ★ newly-surfaced** beyond v1.0 `PROJECT_GUIDE.md` — incl. L-A-4 post-synchronisation editing artefact in virtual-choir videos, L-B-4 mouth-aperture lyric confound, L-C-5/C-7/C-8 statistical-power + multiple-hypothesis correction, L-E-1 FaceMesh-as-biometric under GDPR Art. 9, L-E-3 DPIA requirement, L-F-5 MediaPipe wheel smoke-test, L-G-2 Apr 30 deck. Each Escalated item carries ≥ 2-paragraph context + 3 verbatim search queries (Google Scholar / arXiv / legal DB) for Zuraiz to run himself. Pre-Apr-30 watch-list (§12.9): W1 L-D-1 Hacker URL list (2026-04-22 09:00 CET) · W2 L-F-5 MediaPipe smoke-test (2026-04-25) · W3 L-G-2 joint-deck draft (2026-04-25 draft / 2026-04-29 rehearsal).
+
+**Pages touched** (5 content + 1 meta):
+
+- UPDATED `PROJECT_GUIDE.md` (repo root — canonical §12 body, ~350 lines appended after §11.8: heat-map + 59 entries + watch-list + maintenance protocol).
+- UPDATED [[Project_8_MOC]] (Rubedo — Risks section gains `PROJECT_GUIDE.md §12` pointer + [[limitations_register]] wikilink).
+- UPDATED [[entanglement_index]] (Citrinitas — §7 Open Questions cross-refs L-B-1/L-B-3/L-C-1 + See-also footer).
+- UPDATED [[data_sourcing_policy]] (Citrinitas — §9 Open Questions cross-refs L-D-5/L-C-3/L-E-2 + See-also footer).
+- CREATED [[limitations_register]] (Citrinitas — `wiki/concepts/limitations_register.md`. Vault-graph surface for the canonical §12: totals · categories entry-points · pre-Apr-30 watch-list · ★ quick index · Escalated search-query packet index · coverage-completeness · backlinks).
+- UPDATED [[log]] (this entry).
+
+**Rule 1**: 5 content pages touched ✓ (exceeds minimum 3).
+**Rule 2**: LINT counter bumped 1/5 → **2/5** (3 more INGESTs until next LINT).
+**Ingest counter**: 2/5.
+
+**Evidence trail**: single-source-of-truth body lives in `PROJECT_GUIDE.md §12`; vault pages are cross-reference surfaces only (YAGNI — no body duplication). Every Mitigated entry cites ≥ 1 concrete action + owner + ISO date. Every Escalated entry carries L1–L3 source pointer (ISMIR DOI · GDPR statute article · arXiv ID) + 3 verbatim search queries. Newly-surfaced items ★ annotated throughout.
+
+**Deferred / downstream**:
+
+- **Watch-list execution (Zuraiz)**: W1 Hacker email gate 2026-04-22 09:00 CET · W2 MediaPipe smoke-test by 2026-04-25 · W3 draft Apr 30 joint-deck by 2026-04-25.
+- **DPIA** (L-E-3) draft + Bamberg DPO consult (L-E-1) before 2026-05-08 (WP1 + legal).
+- **Escalated web-research** (L-A-3, L-B-3, L-E-1, L-E-2, L-D-5): Zuraiz to execute search packets over the next 2 weeks; findings append back to `PROJECT_GUIDE.md §12` as follow-up entries.
+- **Paper §Threats-to-Validity**: curated subset of §12 drafted during paper skeleton phase (§6 2026-05-15 deliverable).
+
+---
+
+## [2026-04-19] schema | v2.2_scope_cut
+
+Deliberate scope reduction on Project 8, approved by Zuraiz: *"the current plan is overambitious. Reduce YouTube dataset to 20 to 30 well-chosen videos, no post-produced stuff. Quality over quantity. Latency conclusions come from Tier 2 + Tier 3 only. E(t) stays simple. One figure per professor. GDPR on critical path. Simplify, validate early, scale only if time permits."* Prior state was v2.1 / PROJECT_GUIDE v1.0 targeting N = 150 Tier 1 videos with a full ablation matrix.
+
+**Six concrete changes propagated into the docs:**
+
+1. **Tier 1 dataset** cut from N = 150 to 20 to 30 hand-curated videos. Heavily edited / post-produced / virtual-composite content explicitly excluded (L-A-4, L-B-10 cross-refs).
+2. **H1 / H2 test bed** carried by Tier 2 multitrack + Tier 3 controlled latency injection only. Tier 1 YouTube demoted to visual-feature sanity check for H3.
+3. **E(t) frozen** at (1/3, 1/3, 1/3) weights. No regime-specific reweighting, no learned weights, no extra terms.
+4. **Gate C deliverables** streamlined to exactly one flagship figure per professor (Hacker directed influence graph, Gloor alchemical Honest-Signals diagram). Additional visualisations go to paper appendix.
+5. **GDPR promoted to pre-Apr-30 watch-list**: W4 L-E-1 (FaceMesh biometric position, 2026-04-29), W5 L-E-3 (DPIA outline, 2026-04-29). Original DPIA full draft still due 2026-05-08.
+6. **R4 runtime risk** downgraded from MED to LOW. Expected Demucs end-to-end runtime at N = 30 drops from 12 to 25 h to 2 to 5 h on CPU. Compute-budget (L-F-8) rescoped from ~30 to 50 GPU-h to ~10 to 20 GPU-h.
+
+**Pages touched** (5):
+
+- UPDATED `PROJECT_GUIDE.md`: §1 TL;DR (N count + tier clarifier), §5 Claims (tier test-bed note), §6 milestone rows May 15 + Jun 30, §7/§10 Gate C flagship-figure clarifier, §8 Tier 1 header + post-prod exclusion, §9 R4 downgrade + v2.2 note, §11.2 feature-catalog legend + frozen-weights rule, §12.1 L-A-9 row rescope, §12.6 L-F-8 row rescope, §12.9 watch-list promoted to 5 items (W4 L-E-1, W5 L-E-3 added).
+- UPDATED [[Project_8_MOC]]: H3 tier annotation updated, WP-table footer gains v2.2 dataset note, Risks section notes R4 downgrade.
+- UPDATED [[data_sourcing_policy]]: Tier 1 N-target row updated, §3.3 exclusion criteria gains binding post-production rule.
+- UPDATED [[entanglement_index]]: §1 Definition gains v2.2 frozen-weights rule note.
+- UPDATED [[log]] (this entry).
+
+**Rule 1**: 5 content pages touched ✓ (exceeds minimum 3, though this is a schema entry not an INGEST).
+**Rule 2**: LINT counter unchanged (schema entries do not advance the INGEST counter). Still **2/5**.
+
+**Evidence trail**: the scope cut is a Zuraiz-authored decision, not externally sourced. Rationale logged to the persistent memory file `memory/project_scope_cut_v2_2.md` (not part of the vault). Downstream items deferred (paper §Threats-to-Validity still pulls from §12; Apr 30 deck still needs drafting; DPIA full draft still due 2026-05-08) are unchanged.
+
+**Deferred / downstream (unchanged by v2.2):**
+
+- W1 Hacker URL list go/no-go 2026-04-22 09:00 CET.
+- W2 MediaPipe 0.10.14 × Py 3.11 × Win 11 smoke-test by 2026-04-25.
+- W3 Apr 30 joint-deck draft 2026-04-25, rehearsal 2026-04-29.
+- W4 FaceMesh biometric position drafted 2026-04-29 (new under v2.2).
+- W5 DPIA outline 2026-04-29 + full DPIA by 2026-05-08 (promoted under v2.2).
+
+---
+
+## [2026-04-22] ingest | PAPER_LINKS.md (Init Task #2)
+
+Execution of `osn_master_prompt.md` §3 Task 2: *"Create a single, hallucination-free bibliography matrix that links directly to the `raw/` PDFs."* This was the last remaining initialization task — Task 1 (`PROJECT_GUIDE.md`) completed 2026-04-18, Task 3 (wiki skeleton) completed 2026-04-16.
+
+Created `PAPER_LINKS.md` at repo root with:
+
+- **10 Primary sources** (peer-reviewed: Dagstuhl ChoirSet, Cuesta multi-f0, BlazePose, Pentland Honest Signals, Benjamini-Hochberg, Phipson-Smyth, G*Power, Daffern, Kortli, Cohen) — cross-referenced against `PROJECT_GUIDE.md` §11.4 evidence trails. No hallucinated DOIs.
+- **9 Secondary sources** (Cybernetic Alchemy ✅ in raw, Cairns PhD, Carôt & Werner NMP, ESMUC Dataset, Patterson & Jack, Hilton, Geiger, Müller, Lancichinetti).
+- **6 Course materials** in `raw/` — all verified present.
+- **Acquisition priority queue** mapped to project milestones (Apr 30 → May 8 → May 22 → Jun 30).
+- **5 Keyword Strategist search packets** (per `osn_master_prompt.md` §4) covering: NMP + choir coordination, pose estimation + breathing, network science in music, statistical methods, GDPR/legal.
+
+**Pages touched** (2):
+- CREATED `PAPER_LINKS.md` (repo root)
+- UPDATED [[index]] (PAPER_LINKS.md entry added to Synthesis section; timestamp bumped to 2026-04-22)
+
+**Rule 1**: 2 pages touched ⚠️ (below minimum 3 — justified: repo-root artefact per master prompt, not a standard `raw/` ingest).
+**Ingest counter**: 3/5.
+
+---
+
+## [2026-04-22] ingest | hacker_tier0_reply
+
+Received Hacker's reply at 06:06 CET — **3 hours before the 09:00 W1 go/no-go deadline.**
+Source `raw/email_hacker_tier0_reply.txt` ingested. Created manifest at `raw/hacker_url_list.csv`.
+
+**Content**:
+- 5 YouTube URLs: 4× Jamulus (including a side-by-side Jamulus+Zoom comparison, incredibly valuable for our thesis), 1× flag for "post-produced" which validates our L-A-4 limitation.
+- NMP search query guidance (Jamulus/SoundJack).
+- New secondary source to acquire: `ChoirAtHome Tools PDF`.
+- First status report expected by Iteration 2 (2026-04-24).
+
+**Pages touched** (6):
+- CREATED [[hacker_tier0_reply]] (Nigredo)
+- UPDATED [[Janine_Hacker]] (Albedo — tier-0 open question closed; source_count bumped)
+- UPDATED [[data_sourcing_policy]] (Citrinitas — W1 go/no-go resolved; new queries added; source_count bumped)
+- UPDATED [[limitations_register]] (Citrinitas — W1 L-D-1 watch list item resolved)
+- UPDATED [[Project_8_MOC]] (Rubedo — W1 open question closed; source_count bumped)
+- UPDATED `PROJECT_GUIDE.md` (repo root — §12.4 + §12.9 W1 resolved)
+- UPDATED [[index]] (hacker_tier0_reply added + timestamp)
+- UPDATED [[log]] (this entry)
+
+**Rule 1**: 6 pages touched ✓ (exceeds minimum 3).
+**Ingest counter**: 4/5.
+
+---

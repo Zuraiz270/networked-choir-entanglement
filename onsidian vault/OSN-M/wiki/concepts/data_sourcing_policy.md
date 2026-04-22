@@ -4,14 +4,14 @@ type: concept
 alchemy_stage: citrinitas
 tags: [data, policy, ethics, gdpr, urhg, project-8, scraping, academic-datasets]
 ingested_date: 2026-04-17
-source_count: 2
-related: ["[[Project_8_MOC]]", "[[entanglement_index]]", "[[Janine_Hacker]]"]
+source_count: 3
+related: ["[[Project_8_MOC]]", "[[entanglement_index]]", "[[Janine_Hacker]]", "[[hacker_tier0_reply]]"]
 team_take: Tree Huggers — we deliberately forbid self-recording because the scientific gain (40 min of anecdote) is far outweighed by the IRB friction, privacy debt, and distraction from the scalable scrape-plus-academic strategy. Conscientious stance wins on means as well as ends.
 ---
 
 # Data Sourcing Policy — three-tier strategy
 
-**Role**: Citrinitas policy page governing all data acquisition for Project 8. Binding on all four WPs. Canonical version lives in `implementation_plan.md` §5 (v2.1, 2026-04-17) — this page is the vault-graph surface that cross-links it into the Obsidian network.
+**Role**: Citrinitas policy page governing all data acquisition for Project 8. Binding on all four WPs. Canonical plain-language version lives in `PROJECT_GUIDE.md` §8 (v1.0, 2026-04-18) — this page is the vault-graph surface that cross-links it into the Obsidian network.
 
 **Hard constraint**: **No self-recording.** No asking third-party choirs to perform for us. No human-subject research that would trigger ethics-board review. This is a deliberate scope choice by Zuraiz, logged in the v2.1 plan rejection of Gemini 3.1 Pro's Option C.
 
@@ -22,7 +22,7 @@ team_take: Tree Huggers — we deliberately forbid self-recording because the sc
 | Tier | Role (v2.1) | Feeds hypotheses | N target |
 |:---|:---|:---|:---|
 | **Tier 0** | Prof. Hacker's curated YouTube URL list | anchor — prove minimum viability to supervisor | 5–20 |
-| **Tier 1** | YouTube COVID-era virtual choir corpus (yt-dlp scrape) | **Visual-Primary** · H3 only | 150 (stretch 200) |
+| **Tier 1** | YouTube COVID-era virtual choir corpus (yt-dlp scrape) | **Visual-Primary** · H3 only | 20 to 30, hand-curated (v2.2 scope cut 2026-04-19) |
 | **Tier 2** | Academic multitrack datasets (Dagstuhl, ESMUC) | **Audio+Network primary** · H2 | 30+ pieces |
 | **Tier 3** | Controlled latency injection on Tier 2 | **Regime-discrimination primary** · H1 | 12× multiplier |
 
@@ -32,8 +32,8 @@ See [[entanglement_index]] §5 for hypothesis-to-tier mapping.
 
 ## 2. Tier 0 — Hacker's curated URLs
 
-- **Action 2026-04-17**: Zuraiz emails [[Janine_Hacker]] requesting YT URL list. Store at `raw/hacker_url_list.csv`; digest at `wiki/sources/hacker_url_list.md` on receipt.
-- **Go/no-go 2026-04-22 09:00 CET**: if silent → escalate + proceed on Tier 1 only; log in `log.md`.
+- **Action 2026-04-17 / 2026-04-22**: Zuraiz emailed [[Janine_Hacker]] requesting YT URL list. List received 2026-04-22 06:06 CET. Manifest stored at `raw/hacker_url_list.csv`; digest at `wiki/sources/hacker_tier0_reply.md`.
+- **Go/no-go 2026-04-22 09:00 CET**: ~~if silent → escalate~~ **RESOLVED** (email received 3 hrs before deadline).
 - **Scientific role**: minimum-viable-product demonstration. Pipeline runs on these first; Apr 30 presentation uses them as the visible deliverable.
 
 ---
@@ -46,15 +46,16 @@ See [[entanglement_index]] §5 for hypothesis-to-tier mapping.
 
 yt-dlp's search API (no Google Data API quota):
 
-- `"virtual choir"`
+- `"virtual choir"` (reference anchor)
+- `"Jamulus choir"` / `"Jamulus rehearsal"` / `"Jamulus concert"` (Hacker guidance)
+- `"SoundJack choir"` / `"SoundJack rehearsal"` (Hacker guidance)
+- `"JackTrip choir"` / `"Sonobus choir"`
+- `"low-latency choir"` / `"online rehearsal live"`
 - `"zoom choir"`
-- `"soundjack choir"`
-- `"online choir performance"`
 - `"distributed choir COVID"`
 - `"SATB virtual"`
-- `"Eric Whitacre virtual choir"` (reference anchor)
 
-**Date filter**: 2020-03-01 to 2022-06-30.
+**Date filter**: 2020-03-01 to 2022-06-30 (mostly) but expand for NMP tool queries (Jamulus/SoundJack) up to 2026 per Hacker's Live emphasis.
 
 ### 3.2 Inclusion criteria
 
@@ -66,7 +67,8 @@ yt-dlp's search API (no Google Data API quota):
 
 ### 3.3 Exclusion criteria
 
-- Heavy post-production (reverb layering, visual effects obscuring posture).
+- **Post-produced / heavily edited / virtual-composite** content: videos where each singer recorded alone against a click-track and a producer stitched the tracks in a DAW. The timing offset in such audio is an editorial signal, not a coordination signal (see `PROJECT_GUIDE.md` §12 L-A-4 and L-B-10). Trigger flags: "recorded separately" or "click-track" language in the description; visible lip-sync misalignment on inspection; crisp studio mix with no room acoustic. **Binding under v2.2 (2026-04-19).**
+- Heavy post-production artefacts beyond the above (reverb layering, visual effects obscuring posture).
 - Single performer multitracked into "choir" (defeats the coordination question).
 - Copyright-struck on retrieval.
 - Private / unlisted / regionally blocked.
@@ -154,9 +156,11 @@ Every derived artefact must trace to `raw/youtube/<video_id>/` + SHA-256 via Bag
 
 ## 9. Open Questions
 
-1. Is DUST packet-loss corpus licensing compatible with open-source paper deposit? — resolve by 2026-04-24.
-2. Should we invest in ChoralSynth-generated pieces beyond Dagstuhl+ESMUC to increase Tier-3 N? — decision gate at S1 end (2026-05-15), trigger R9 mitigation.
-3. Is §60d UrhG applicable when the derivative work (the paper) is published on a non-DE-jurisdiction repository (e.g. arXiv)? — consult Uni Bamberg legal desk before v1 draft (2026-07-07).
+1. Is DUST packet-loss corpus licensing compatible with open-source paper deposit? — resolve by 2026-04-24. *Register: `PROJECT_GUIDE.md` §12.4 L-D-5.*
+2. Should we invest in ChoralSynth-generated pieces beyond Dagstuhl+ESMUC to increase Tier-3 N? — decision gate at S1 end (2026-05-15), trigger R9 mitigation. *Register: `PROJECT_GUIDE.md` §12.3 L-C-3.*
+3. Is §60d UrhG applicable when the derivative work (the paper) is published on a non-DE-jurisdiction repository (e.g. arXiv)? — consult Uni Bamberg legal desk before v1 draft (2026-07-07). *Register: `PROJECT_GUIDE.md` §12.5 L-E-2.*
+
+**See also**: `PROJECT_GUIDE.md` §12 *Limitations Register* for the full inventory, including newly-surfaced legal items (L-E-1 FaceMesh-as-biometric question, L-E-3 DPIA requirement) and data-sourcing items (L-D-4 missing SATB labels, L-D-8 English-title cultural bias, L-A-4 post-synchronisation artefact in virtual-choir videos). Vault-graph surface: [[limitations_register]].
 
 ## Backlinks
 
