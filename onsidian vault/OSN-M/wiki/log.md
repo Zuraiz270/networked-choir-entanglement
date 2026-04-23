@@ -327,3 +327,28 @@ Source `raw/email_hacker_tier0_reply.txt` ingested. Created manifest at `raw/hac
 **Ingest counter**: 4/5.
 
 ---
+
+## [2026-04-23] schema | Sanitization & Project Redefinition
+
+Full sanitization pass to "clear the slate" and remove "previous evidence research" as the project is redefined with a more rigorous approach. Trigger: User instruction to eliminate previous loopholes.
+
+**Actions**:
+- **Raw Cleanup**: Deleted temporary seminar documents (`Chapter_14_Upgraded_Presentation.pptx`, sign-up sheets, groupwork tips).
+- **Vault Reset**: Emptied `wiki/sources/`, `wiki/entities/`, and `wiki/concepts/`.
+- **Synthesis Reset**: Reset `index.md`, `Project_Overview.md`, `Project_8_MOC.md`, and `Team_Profile.md` to clean stubs focusing on the new "Networked Choir Entanglement Platform" objective.
+
+**Preserved in raw/**:
+- `email_hacker_tier0_reply.txt`
+- `hacker_url_list.csv`
+- `info.txt`
+- `presentation_deliverables.md`
+- `Cybernetic_Alchemy_Complete.pdf`
+
+**Pages touched** (0 content created, 4 content UPDATED/RESET, many DELETED):
+- UPDATED [[index]] (RESET)
+- UPDATED [[Project_Overview]] (RESET)
+- UPDATED [[Project_8_MOC]] (RESET)
+- UPDATED [[Team_Profile]] (RESET)
+- UPDATED [[log]] (this entry)
+
+**Ingest counter**: reset → 0/5.
