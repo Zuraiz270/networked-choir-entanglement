@@ -94,7 +94,7 @@ Every technical word used in sections 1–10 is explained once here. Keep this o
 
 - **Team**: confirmed 4 members — Zuraiz, Hammad Anwar, Hassan Ahmed, Kumaran Vasu. All at Uni Bamberg.
 - **Seminar progress**: Block course (April 15–16) attended. Chapter 14 presentation delivered Apr 16. Iteration 1 status meeting held Apr 16.
-- **Code**: **zero lines written**. The repo has planning documents only.
+- **Code**: scaffold landed 2026-04-25 on the `scaffold` branch (12 atomic commits). `pyproject.toml` with WP-scoped deps, `uv.lock` (166 packages, numpy 1.26.4), multi-stage `Dockerfile` on `python:3.11.9-slim-bookworm`, GitHub Actions CI on `ubuntu-22.04`, 3 canary smoke tests, `Makefile`, pre-commit hooks. `py-feat==0.6.2` deferred to WP2 sub-plan (nltools/numpy conflict — tracked as L-H-9). Zero feature code yet; WP1 lands on May 8.
 - **Data**: **zero data collected**. No YouTube videos downloaded. No academic datasets fetched. No features extracted.
 - **Planning artefacts**: this guide. Vault restructured into numbered directories. 26 papers migrated into `01_primary_sources/` and `02_secondary_sources/`.
 - **Evidence layer (new, 2026-04-24)**: 27 primary + secondary sources re-ingested full-text against the original PDFs, replacing the prior shallow Gemini Flash digests. Audit log at `onsidian vault/OSN-M/wiki/00_overview/deep_read_audit.md`. Concept pages ([[entanglement_index]], [[latency_thresholds]], [[limitations_register]]) cascaded to match. Rule-2 LINT applied. P-04 Pentland *Honest Signals* remains TO-ACQUIRE.
@@ -527,7 +527,7 @@ Full vault operating protocol in `onsidian vault/OSN-M/CLAUDE.md`. Rules: Rule 1
 
 Auditable EBSE inventory of everything that can undermine H1–H3 or Gates A–D (§10). Each entry is **specified** (what breaks), **rated** for severity, and either **mitigated** (concrete action + owner + date) or **escalated** (context + verbatim search queries Zuraiz can paste into Google Scholar / arXiv / SSRN). Supersedes §9 Risks for technical/statistical/legal concerns; §9 remains the team-facing risk-prose.
 
-**Totals**: 63 limitations across 9 categories · 43 Mitigated · 6 Escalated · 8 Open · 1 Accepted · 5 Resolved · 21 newly-introduced beyond v1.0 (flagged `★`). v1.1 adds 4 deep-read cascade entries (L-H-5..L-H-8) under a new category §12.10.
+**Totals**: 64 limitations across 9 categories · 44 Mitigated · 6 Escalated · 8 Open · 1 Accepted · 5 Resolved · 22 newly-introduced beyond v1.0 (flagged `★`). v1.1 adds deep-read cascade entries (L-H-5..L-H-8) and scaffold finding L-H-9.
 
 ### §12.0 Executive Heat-Map
 
@@ -762,7 +762,7 @@ Empirical literature (Kortli et al. 2020; Xu et al. 2022) shows 3D-face landmark
 | L-F-2              | Paper starts too late                                               | L × Gate D | Mitigated | R6 — skeleton by 2026-05-15                                                                           |
 | L-F-3              | Scope creep into self-recording                                     | L × Gate D | Mitigated | R7 — firm no                                                                                          |
 | **L-F-4 ★** | Docker Desktop WSL2 GPU passthrough fragile on Win 11               | M × Gate D | Mitigated | CPU-only `make reproduce` canonical; Linux-only `make reproduce-gpu` optional · WP1 · 2026-05-08 |
-| **L-F-5 ★** | **MediaPipe 0.10.14 × Py 3.11 × Win 11 wheel not verified** | H × Gate A | Open      | Smoke-test §11.5 #3 by 2026-04-25; fallback mediapipe 0.10.9 · Zuraiz                                |
+| **L-F-5 ★** | MediaPipe 0.10.14 × Py 3.11 × Win 11 wheel                  | H × Gate A | Resolved  | **RESOLVED 2026-04-24**. Smoke-test passed: `mediapipe==0.10.14` installs cleanly on Win 11 × Py 3.11.0; `mp.solutions.pose.Pose()` instantiates and TFLite XNNPACK delegate initialises. No fallback to 0.10.9 needed. Note: mediapipe 0.10.14 pulls numpy 2.4.4 rather than §11.8's pinned 1.26.4 — version drift logged to L-H-3. |
 | L-F-6              | 15-min reproducibility claim un-tested                              | L × Gate D | Mitigated | Monthly fresh-laptop test · WP1                                                                       |
 | L-F-7              | `make all` referenced but no Makefile yet                         | M × Gate D | Open      | Deliver Makefile in WP1 scaffold · Zuraiz · 2026-05-01                                               |
 | **L-F-8 ★** | Compute budget undisclosed (~10 to 20 GPU-h at N = 30) [v2.2 rescope]                          | L × Gate D | Mitigated | Hetzner spot T4 ~€10 personal OR CPU-only OR Bamberg HPC · Zuraiz · 2026-05-01                      |
@@ -801,6 +801,7 @@ Added from the 2026-04-24 deep-read audit of all 27 primary and secondary source
 | **L-H-6 ★** | P-23 XR-vs-baseline QoE advantage confounded with 70 ms lower latency (144 ms vs 74 ms A2S) | M × H1 | Open | Do not cite P-23 as evidence for H1 without explicit latency-equalisation caveat; paper Methods must acknowledge the confound · Zuraiz · paper draft v1 (2026-07-07) |
 | **L-H-7 ★** | P-11 "100 ms threshold" is a Jamulus design target, not an empirical coordination cliff | L × H1 | Open | Paper and Apr 30 deck must not quote 100 ms as a phase transition; use P-11's measured 83±57 / 47±46 ms inter-chorister timing instead · Zuraiz · 2026-04-30 |
 | **L-H-8 ★** | P-18 / P-19 false vocal-to-limb causal analogy | L × Gate A | Mitigated | V(t) pipeline does not use voice as a pose prior; stated explicitly in §11.1 and [[entanglement_index]] — confirms Project 8 is not affected · Zuraiz · 2026-04-24 |
+| **L-H-9 ★** | `py-feat==0.6.2` deferred from scaffold: transitive `nltools>=0.5.1 → numpy<1.24` conflicts with §11.8 `numpy==1.26.4` pin | L × H3 | Mitigated | V5 FFI-proxy is a §11.2 secondary feature; WP2 sub-plan adds py-feat with a resolved numpy strategy (likely a dedicated `wp2-face` extra with a relaxed numpy range) · Zuraiz · WP2 kick-off (≈ 2026-05-22) |
 
 ---
 
@@ -818,7 +819,7 @@ The five items that **must** land before the 2026-04-30 14:00 CET Hacker + Gloor
 
 - **Owner**: Zuraiz
 - **Deadline**: 2026-04-25
-- **Acceptance**: §11.5 Test 3 (`uv pip install mediapipe==0.10.14 && python -c "import mediapipe as mp; print(mp.solutions.pose.Pose())"`) completes without error on a Windows 11 laptop. If it fails, §11.8 is updated to mediapipe 0.10.9 and re-tested.
+- **Acceptance**: **RESOLVED 2026-04-24** (one day early). §11.5 Test 3 (`uv pip install mediapipe==0.10.14 && python -c "import mediapipe as mp; print(mp.solutions.pose.Pose())"`) completed without error on Windows 11 × Python 3.11.0 × uv 0.10.10. Pose object instantiated; TensorFlow Lite XNNPACK delegate loaded for CPU inference. Side-finding: mediapipe 0.10.14 forces numpy 2.4.4 (§11.8 pins 1.26.4) — tracked as L-H-3 version-skew; real pyproject.toml will need to resolve.
 
 #### W3 · L-G-2 — Apr 30 joint-deck draft
 

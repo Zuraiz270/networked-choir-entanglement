@@ -831,3 +831,32 @@ Semantic propagation of the 2026-04-24 deep-read audit corrections from the Nigr
 - P-04 Pentland *Honest Signals* acquisition (still TO-ACQUIRE).
 - P-09 / S-04 full consolidation (cross-links added on both pages, but separate digests retained).
 - [[conductor_perceptual_bottleneck]] concept page not updated this round — claimed in plan scope but no Nigredo correction directly affects it. Deferred to next cascade.
+
+---
+
+## [2026-04-25] schema | Python repo scaffold landed on `scaffold` branch
+
+Full Python repo scaffold executed inline from plan `C:\Users\zurai\.claude\plans\2026-04-24-repo-scaffold.md`. Twelve atomic commits on branch `scaffold`, merged to `main` after this entry lands.
+
+**Delivered**:
+
+- `pyproject.toml` with WP-scoped optional deps (`wp1-audio`, `wp2-video`, `wp3-network`, `wp4-dashboard`, `dev`, `all`).
+- `uv.lock` with 166 resolved packages; numpy resolved to 1.26.4 per Decision A evidence trail; restricted to Win32 + Linux x86_64 Python 3.11.
+- Multi-stage `Dockerfile` on `python:3.11.9-slim-bookworm`; local build deferred (Docker Desktop not installed); CI will verify.
+- GitHub Actions CI on `ubuntu-22.04` only (lint + typecheck + test + docker-build jobs).
+- Three canary smoke tests passing locally (package imports, librosa pyin on trumpet, mediapipe pose instantiation). 8.12 s warm.
+- `Makefile` with 10 targets; `README.md` documenting the < 15-min Docker quickstart.
+- `.pre-commit-config.yaml` with ruff + mypy + YAML/TOML + large-file checks.
+- `.env.example` template for runtime config.
+
+**Scope deviations from plan**:
+
+1. YAGNI fix: dropped `pydantic-settings` + `python-dotenv` from core deps (not used by scaffold; WP1 sub-plan will add when config loader lands).
+2. `py-feat==0.6.2` deferred from scaffold: transitive `nltools>=0.5.1 → numpy<1.24` conflicts with §11.8 numpy pin. V5 FFI-proxy is §11.2 secondary; WP2 sub-plan resolves. Logged as L-H-9 in PROJECT_GUIDE.md §12.10.
+3. `tool.uv.environments` added (not originally in plan) to restrict resolution to Win32 + Linux x86_64. Prevents macOS-only resolution failures on platforms we do not ship.
+4. Task 7 local Docker build + run skipped (Docker Desktop not installed on dev machine). CI `docker-build` job covers verification.
+
+**Verification passed (local)**: `uv lock --check`, `ruff format --check`, `ruff check`, `mypy` (0 issues on 7 files), `pytest` (3 passed).
+**Verification pending (CI)**: green run on `main` after merge.
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
