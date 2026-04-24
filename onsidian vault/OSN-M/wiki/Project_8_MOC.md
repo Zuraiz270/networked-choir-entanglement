@@ -23,8 +23,8 @@ This page serves as the entry point for technical and conceptual deep-dives into
 
 ## 📈 Research Dimensions
 ### 1. Synchronization Metrics
-- [[Entanglement_Metric]]
-- [[Latency_Thresholds]]
+- [[entanglement_index]]
+- [[latency_thresholds]]
 
 ### 2. Multi-modal Data
 - [[Audio_Sync_Streams]]
@@ -38,5 +38,5 @@ This page serves as the entry point for technical and conceptual deep-dives into
 ---
 
 ## 🔗 Traceability
-- **[[literature]]** — Raw source repository index.
-- **[[concepts]]** — Emerging research concepts.
+- **[[index]]** — Full wiki navigation, including every Nigredo source digest.
+- **[[deep_read_audit]]** — Provenance for every source claim (2026-04-24 campaign).

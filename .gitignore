@@ -7,3 +7,8 @@ Claude_Code_Project_8_Context.md
 # OS
 .DS_Store
 Thumbs.db
+
+# PDF-extract scratch (not reproducibility artifacts; the raw PDFs + extract_pdf.py are)
+.cache/
+/p-*-text.txt
+/s-*-text.txt

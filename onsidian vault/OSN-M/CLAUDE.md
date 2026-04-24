@@ -31,14 +31,14 @@ Do not touch `.obsidian/` (tool config) or `Welcome.md` (default placeholder, no
 
 Every wiki page is tagged with one of four alchemical stages, inspired by Gloor's *Cybernetic Alchemy*. Required in YAML frontmatter as `alchemy_stage: <stage>`.
 
-| Stage | Color | Directory | Meaning |
+| Stage | Color | Example Folders | Meaning |
 |:---|:---|:---|:---|
-| **Nigredo** | black | `wiki/sources/` | Prima materia · raw digest · one page per source file |
-| **Albedo** | white | `wiki/entities/` | Purification · named entities (people, orgs, places, artifacts) |
-| **Citrinitas** | yellow | `wiki/concepts/` (*) | Illumination · cross-source concepts, frameworks, themes |
-| **Rubedo** | red | `wiki/` root | Magnum opus · top-level synthesis (project overviews, final wisdom) |
+| **Nigredo** | black | `01_primary_sources/` / `02_secondary_sources/` | Prima materia · raw digest · one page per source file |
+| **Albedo** | white | `00_overview/` / `01_project/` | Purification · named entities (people, orgs, places, artifacts) |
+| **Citrinitas** | yellow | `02_research_questions/` / `03_models/` | Illumination · cross-source concepts, frameworks, themes |
+| **Rubedo** | red | `05_metrics/` / `06_failure_modes/` | Magnum opus · top-level synthesis (project overviews, final wisdom) |
 
-(*) `wiki/concepts/` materializes only when the first concept page is needed — YAGNI until then.
+(*) Note: `wiki/` now uses numbered physical folders (`00_overview/` to `06_failure_modes/`) rather than strictly stage-based physical folders. The alchemical stage remains the primary metaphysical tracker in YAML frontmatter.
 
 A page's stage is not permanent — you may promote pages (Nigredo→Albedo→Citrinitas→Rubedo) as synthesis deepens. Log promotions in `log.md` with a `promote` verb entry.
 
@@ -75,7 +75,7 @@ Bringing a new source into the wiki.
 2. Read the source in full. PDFs: use Read with `pages=...` for >10 pages. pptx/xlsx: extract text with the appropriate tool (anthropic-skills:pptx / anthropic-skills:xlsx).
 3. Briefly summarize key takeaways to Zuraiz **in chat** before touching files.
 4. **Write or update**, in order:
-   1. `wiki/sources/<source_name>.md` — the digest (Nigredo).
+   1. The source digest (Nigredo) in the appropriate numbered folder (e.g. `03_models/` or `05_metrics/`).
    2. All affected entity pages — create new / update existing (Albedo).
    3. All affected concept pages (Citrinitas) — create only if a genuine concept emerges across ≥2 sources.
    4. All affected synthesis pages (Rubedo) — usually `Project_Overview.md`, sometimes `Team_Profile.md`.
@@ -118,7 +118,7 @@ Append `## [YYYY-MM-DD] lint` entry to `log.md` with findings and actions.
 - **Source digests**: `snake_case.md` (lowercase, mirrors raw filename stem — `info.txt` → `info_txt.md`).
 - **Intra-wiki references**: `[[Wikilinks]]` (bare name — Obsidian resolves across subfolders). Do **not** use markdown `[text](path)` for internal refs (the graph view misses these).
 - **External refs**: markdown links with explicit URLs.
-- **Folders**: `sources/`, `entities/`, (later) `concepts/`, (later) `assets/` for downloaded images.
+- **Folders**: numbered folders `00_overview/` to `06_failure_modes/`. Primary and secondary raw sources go in `raw/01_primary_sources/` and `raw/02_secondary_sources/`.
 
 ---
 

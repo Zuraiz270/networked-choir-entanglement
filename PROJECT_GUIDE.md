@@ -1,8 +1,10 @@
 # Project 8 — Networked Choir Entanglement Platform
 
-**The team guide · v1.0 · drafted 2026-04-18**
+**The team guide · v1.1 · drafted 2026-04-18 · last-updated 2026-04-24**
 
 > Team-facing master document. If you are on the team, read sections 1–10 before anything else. Section 11 is a technical reference — skim only if you need a formula or a library decision.
+
+> **v1.1 changelog (2026-04-24):** 27/27 primary and secondary sources deep-read re-ingested against PDFs; Citrinitas and Rubedo concept pages cascaded; Rule-2 LINT applied. Full audit log at `onsidian vault/OSN-M/wiki/00_overview/deep_read_audit.md`. Surgical edits in §4, §11.1, §11.4, §12.
 
 ---
 
@@ -35,6 +37,15 @@ Either finding is publishable. Either finding reshapes a real field.
 
 - **Gloor's lens (COINs / Honest Signals):** online choirs *are* Collaborative Innovation Networks expressing themselves through voice. We must produce one "alchemical-stage" diagram showing raw → refined signal.
 - **Hacker's lens (virtual-team trust):** latency and leader-follower visibility either enable or inhibit engagement. We must produce one publication-quality **directed influence graph** showing who-leads-whom in a choir.
+
+## 2.5 The Meta-Level: COINs Methodology Integration
+
+The seminar requires us to treat our own team as a COIN (Collaborative Innovation Network). We are not just observing entanglement in choirs; we are measuring our own entanglement as a team to achieve "groupflow." 
+
+**What this means for our workflow:**
+- **Virtual Mirror (May 21)**: We will export our team's WhatsApp group chat and run it through the SocialCompass tool.
+- **Five Archetypes**: We will analyze whether our team consists of Bees, Ants, Butterflies, Capybaras, or Leeches.
+- **Scope Exclusion Acknowledgment**: While the official project description allows for "qualitative interviews," we have explicitly scoped this out (see §8) due to ethical and logistical constraints, focusing purely on objective audio-visual indicators.
 
 ---
 
@@ -77,27 +88,41 @@ Every technical word used in sections 1–10 is explained once here. Keep this o
 
 ---
 
-## 4. Where We Are Today (2026-04-18)
+## 4. Where We Are Today (2026-04-24)
 
 **Concrete status**, no spin:
 
 - **Team**: confirmed 4 members — Zuraiz, Hammad Anwar, Hassan Ahmed, Kumaran Vasu. All at Uni Bamberg.
-- **Seminar progress**: Block course (April 15–16) attended. Chapter 14 presentation delivered Apr 16, 12:30 CET. Iteration 1 status meeting held Apr 16.
+- **Seminar progress**: Block course (April 15–16) attended. Chapter 14 presentation delivered Apr 16. Iteration 1 status meeting held Apr 16.
 - **Code**: **zero lines written**. The repo has planning documents only.
 - **Data**: **zero data collected**. No YouTube videos downloaded. No academic datasets fetched. No features extracted.
-- **Planning artefacts**: this guide. An Obsidian vault with 17 wiki pages (Map-of-Content, concept pages, entity profiles, source digests). Vault has passed one LINT cycle; currently at 1/5 in the current ingest cycle.
-- **Blockers today**:
-  1. **Prof. Hacker's YouTube URL list is not yet received.** She mentioned a curated set of choir recordings during the Apr 17 session — we need these before we can seriously start data work. Email drafted (see `drafts/email_hacker_tier0_request.md`).
-  2. The Cybernetic Alchemy PDF by Prof. Gloor is in `raw/` but not yet ingested into the vault.
+- **Planning artefacts**: this guide. Vault restructured into numbered directories. 26 papers migrated into `01_primary_sources/` and `02_secondary_sources/`.
+- **Evidence layer (new, 2026-04-24)**: 27 primary + secondary sources re-ingested full-text against the original PDFs, replacing the prior shallow Gemini Flash digests. Audit log at `onsidian vault/OSN-M/wiki/00_overview/deep_read_audit.md`. Concept pages ([[entanglement_index]], [[latency_thresholds]], [[limitations_register]]) cascaded to match. Rule-2 LINT applied. P-04 Pentland *Honest Signals* remains TO-ACQUIRE.
+- **Blockers today**: None.
+  1. Prof. Hacker's YouTube URL list is received (5 URLs from Jamulus).
+  2. The Cybernetic Alchemy PDF by Prof. Gloor is in `raw/`.
 - **Upcoming deadlines**:
 
 | Date                        | What                                                                                                                                                            |
 | :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Apr 22, 09:00 CET** | Go/no-go on Tier-0 URL list from Prof. Hacker. If silent, escalate + proceed on self-sourced Tier 1.                                                            |
-| **Apr 24**            | Iteration 2 status report to Prof. Hacker.                                                                                                                      |
-| **Apr 30, 14:00 CET** | **Hacker + Gloor joint status meeting.** We present team, goals, plan, way-of-working. 5–10 minute deck. This guide is the source material for the deck. |
-| **May 8**             | First audio-pipeline milestone (see roadmap below).                                                                                                             |
-| **Jul 17**            | Final 20-minute presentation. End of project.                                                                                                                   |
+| **Apr 30, 14:00 CET** | **Hacker + Gloor joint status meeting.** We present team, goals, plan, way-of-working. 5–10 minute deck. |
+| **May 8**             | First audio-pipeline milestone (internal engineering target).                                                                                                             |
+| **May 21**            | Status #3 & Virtual Mirror (Team WhatsApp analysis due).                                                                                                                      |
+| **Jul 23**            | **Final 20-minute presentation.** End of project.                                                                                                                   |
+| **Jul 31, 23:59**     | **Final Paper due.**                                                                                                                   |
+
+---
+
+## 4.5 Evidence Execution Matrix
+
+Our 26 migrated papers must be ingested into the vault and mapped to deliverables. We triage ingestion based on the seminar timeline:
+
+| Phase | Target Date | Papers | Focus |
+|:--|:--|:--|:--|
+| **1 — Scope & Method** | Apr 30 | S-02, P-11, P-14, P-12, P-09, S-03 | Define E(t), establish NMP landscape, latency thresholds |
+| **2 — Data & Legal** | May 21 | P-01, P-13, P-07, P-17, S-04, P-15, P-08 | Dataset acquisition, legal framework, multimodal methods |
+| **3 — Implementation** | Jun 25 | P-16, P-18, P-05, P-06, P-19, P-20, P-21, P-22, P-23, P-02, P-03 | Technique-specific papers as we code each WP |
+| **4 — Paper & Final** | Jul 23 | P-10, S-01 | Discussion framing, alchemical diagram |
 
 ---
 
@@ -130,22 +155,24 @@ Every deadline, in order, with the engineering-jargon stripped out.
 
 | Date                       | What happens                                                                                             | Plain English                                                                                                                       |
 | :------------------------- | :------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
-| **Apr 17 (done)**    | Iteration 1 status meeting                                                                               | First weekly check-in with Prof. Hacker                                                                                             |
-| **Apr 18 (today)**   | Send email to Hacker + ingest Cybernetic Alchemy PDF → 4 new wiki pages                                 | Ask for her YouTube list; summarise Gloor's book chapter-by-chapter into the vault                                                  |
-| **Apr 21**           | Decide: did we get the URL list?                                                                         | If yes, start downloading. If no, escalate and switch to self-sourced YouTube search                                                |
-| **Apr 24**           | Iteration 2 status report                                                                                | Second check-in with Hacker. One-page PDF summary                                                                                   |
-| **Apr 30 14:00 CET** | **Hacker + Gloor status meeting**                                                                  | **5–10 minute presentation of team, goals, plan, way-of-working, next iteration.** The most important near-term milestone.   |
-| **May 1**            | Academic multitrack datasets downloaded, fingerprints verified; latency-injection script first prototype | The "Tier 2" data is on disk; we can fake Zoom-vs-SoundJack conditions programmatically                                             |
+| **Apr 16 (done)**    | Virtual status #1                                                                               | First check-in at block course                                                                                             |
+| **Apr 23 (today)**   | Vault restructuring + Core Papers Ingest                                 | Aligning with COINs 2026 official dates and method                                                  |
+| **Apr 30 14:00 CET** | **Virtual status #2 (Hacker + Gloor)**                                                                  | **5–10 minute presentation of team, goals, plan, way-of-working, next iteration.**    |
+| **May 1**            | Academic multitrack datasets downloaded                                | The "Tier 2" data is on disk                                             |
 | **May 8**            | Audio pipeline first milestone                                                                           | We can run the audio feature extractor end-to-end on the Dagstuhl dataset. Output: a table of features per video                    |
-| **May 15**           | YouTube corpus fully curated at 20 to 30 videos, no post-produced content                                                         | Enough data to do preliminary visual analysis, v2.2 scope cut                                                                                       |
-| **May 22**           | Video pipeline first milestone                                                                           | WP2 code extracts body/face coordinates for 10 videos. Accompanied by a validity note (head-sway is approximate for webcam footage) |
+| **May 15**           | YouTube corpus fully curated at 20 to 30 videos                                                         | Enough data to do preliminary visual analysis, v2.2 scope cut                                                                                       |
+| **May 21**           | **Virtual status #3 + Virtual Mirror**                                                                           | **WhatsApp analysis due for our own team.** |
+| **May 22**           | Video pipeline first milestone                                                                           | WP2 code extracts body/face coordinates for 10 videos. |
 | **May 31**           | Network pipeline first milestone                                                                         | WP3 code produces a directed influence graph for 5 videos                                                                           |
+| **Jun 11**           | **Virtual status #4**                                                          | Progress check-in                                                                                        |
 | **Jun 14**           | E(t) computed on 80+ videos; null-model running                                                          | The full Entanglement Index works end-to-end                                                                                        |
 | **Jun 21**           | Dashboard alpha version                                                                                  | WP4 web UI shows a video + overlays + network graph side-by-side                                                                    |
-| **Jun 30**           | Full pipeline on Tier 1 (20 to 30 videos) plus Tier 2 plus Tier 3 regime test bed; ablations complete                                                    | We have numbers for the paper                                                                                                       |
+| **Jun 25**           | **Virtual status #5**                                                    | Progress check-in                                                                                                       |
+| **Jun 30**           | Full pipeline on Tier 1 + Tier 2 + Tier 3 completed                                                    | We have numbers for the paper                                                                                                       |
 | **Jul 7**            | Paper draft v1                                                                                           | First complete draft circulated                                                                                                     |
-| **Jul 14**           | Paper draft v2 + slides + rehearsal                                                                      | Nearly final                                                                                                                        |
-| **Jul 17**           | **Final 20-minute presentation**                                                                   | End of project                                                                                                                      |
+| **Jul 9**            | **Virtual status #6**                                                                      | Last check-in before final                                                                                                                        |
+| **Jul 23**           | **Final 20-minute presentation**                                                                   | 10-12 min presentation + Q&A                                                                                                                      |
+| **Jul 31, 23:59**    | **Final paper due**                                                                   | 10 to 20 pages                                                                                                                      |
 
 ---
 
@@ -298,6 +325,8 @@ The rest of this document is dense, jargon-heavy, and **not required reading** f
 E(t) = (1/3)·A(t) + (1/3)·V(t) + (1/3)·N(t)    # equal-weight baseline; ablated
 ```
 
+> **Provenance caveat (2026-04-24 deep-read):** Gloor's Entanglement formula (S-02) was **validated on email data with 7-day windows**, n=111-113 per case, Pearson r = .522-.707 where significant. Adaptation to continuous music-domain streams is a **novel domain transfer with no prior validation**. H1-H3 are the first empirical test of E(t) on music. See `onsidian vault/OSN-M/wiki/05_metrics/entanglement_index.md` and §12 L-H-5.
+
 **A(t) — Acoustic coupling**:
 
 ```
@@ -418,15 +447,16 @@ Conventional Commits for all git work. Atomic branches. BagIt validation at each
 
 **Decision**: librosa pyin primary; CREPE ablation only if we have GPU time.
 
-#### Decision 4 — Granger causality primary (transfer entropy fallback)
+#### Decision 4 — Granger causality primary (COP-GC secondary, transfer entropy fallback)
 
-| # | Source                           | Level | Year | Conf | Appl | Status   |
-| - | -------------------------------- | ----- | ---- | ---- | ---- | -------- |
-| 1 | statsmodels docs                 | L1    | 2024 | HIGH | HIGH | ACCEPTED |
-| 2 | Pentland*Honest Signals* ch. 3 | L2    | 2008 | HIGH | HIGH | ACCEPTED |
-| 3 | IDTxl transfer entropy           | L1    | 2023 | HIGH | MED  | FALLBACK |
+| # | Source                                                   | Level | Year | Conf | Appl | Status                               |
+| - | -------------------------------------------------------- | ----- | ---- | ---- | ---- | ------------------------------------ |
+| 1 | statsmodels docs                                         | L1    | 2024 | HIGH | HIGH | ACCEPTED                             |
+| 2 | Pentland *Honest Signals* ch. 3                          | L2    | 2008 | HIGH | HIGH | ACCEPTED                             |
+| 3 | Zanin 2022 (P-22) Augmented Granger via Ordinal Patterns | L2    | 2022 | HIGH | MED  | ACCEPTED (run alongside standard GC) |
+| 4 | IDTxl transfer entropy                                   | L1    | 2023 | HIGH | MED  | FALLBACK                             |
 
-**Decision**: Granger primary; IDTxl if stationarity tests fail on > 30 % of windows.
+**Decision**: Granger primary + P-22 COP-GC secondary (run both and compare, per Zanin's explicit recommendation since ordinal-pattern GC captures non-linear coupling that standard GC misses); IDTxl if stationarity tests fail on > 30 % of windows.
 
 #### Decision 5 — `uv` (not poetry / conda)
 
@@ -470,13 +500,15 @@ Forcing H1 to Tier 3 gives falsifiability no natural YouTube corpus could — we
 
 ### §11.7 — Obsidian Vault Integration
 
-Project-specific wiki pages (rooted at `onsidian vault/OSN-M/wiki/`):
+Project-specific wiki pages (rooted at `onsidian vault/OSN-M/wiki/`) are structured into numbered physical folders to align with the OSN-M master architecture, while retaining alchemical stages in frontmatter metadata:
 
-- `Project_8_MOC.md` (Rubedo) — map-of-content and entry point
-- `concepts/entanglement_index.md` (Citrinitas) — E(t) definition
-- `concepts/data_sourcing_policy.md` (Citrinitas) — three-tier policy + legal basis
-- `entities/Janine_Hacker.md`, `entities/Peter_Gloor.md`, `entities/Kumaran_Vasu.md` (Albedo)
-- `sources/*.md` (Nigredo) — one page per raw source ingested
+- `00_overview/` — Maps of Content (e.g. `Project_8_MOC.md`) and high-level synthesis
+- `01_project/` — Core definitions, constraints, team profiles
+- `02_research_questions/` — Citrinitas-level abstractions
+- `03_models/` — Architecture, landscape, conceptual boundaries
+- `04_datasets/` — Source inventories and dataset specifications
+- `05_metrics/` — E(t) definition, tool specifics (e.g. huSync)
+- `06_failure_modes/` — Latency thresholds, legal policies (e.g. data sourcing)
 
 Full vault operating protocol in `onsidian vault/OSN-M/CLAUDE.md`. Rules: Rule 1 (≥ 3 pages touched per ingest), Rule 2 (LINT every 5 ingests). Maintained by the LLM against the `raw/` source repository.
 
@@ -495,7 +527,7 @@ Full vault operating protocol in `onsidian vault/OSN-M/CLAUDE.md`. Rules: Rule 1
 
 Auditable EBSE inventory of everything that can undermine H1–H3 or Gates A–D (§10). Each entry is **specified** (what breaks), **rated** for severity, and either **mitigated** (concrete action + owner + date) or **escalated** (context + verbatim search queries Zuraiz can paste into Google Scholar / arXiv / SSRN). Supersedes §9 Risks for technical/statistical/legal concerns; §9 remains the team-facing risk-prose.
 
-**Totals**: 59 limitations across 8 categories · 43 Mitigated · 6 Escalated · 4 Open · 1 Accepted · 5 Resolved · 17 newly-introduced beyond v1.0 (flagged `★`).
+**Totals**: 63 limitations across 9 categories · 43 Mitigated · 6 Escalated · 8 Open · 1 Accepted · 5 Resolved · 21 newly-introduced beyond v1.0 (flagged `★`). v1.1 adds 4 deep-read cascade entries (L-H-5..L-H-8) under a new category §12.10.
 
 ### §12.0 Executive Heat-Map
 
@@ -503,11 +535,11 @@ Legend — **Likelihood** (L / M / H) × **Impact** (H1 / H2 / H3, or Gate A / B
 
 | Impact ↓ · Likelihood →            | LOW                                                           | MED                               | HIGH                |
 | :------------------------------------ | :------------------------------------------------------------ | :-------------------------------- | :------------------ |
-| **H1 — regime discrimination** | L-C-10                                                        | L-A-4, L-B-7, L-C-4               | L-C-5, L-C-7, L-C-8 |
+| **H1 — regime discrimination** | L-C-10, L-H-7 ★                                              | L-A-4, L-B-7, L-C-4, L-H-6 ★      | L-C-5, L-C-7, L-C-8 |
 | **H2 — network topology**      | L-C-2, L-C-9                                                  | L-A-10, L-C-1, L-D-5              | L-C-6               |
 | **H3 — Honest-Signals ΔR²**  | L-B-5, L-B-8, L-B-9                                           | L-A-3, L-B-4, L-D-4               | L-B-3               |
-| **Gate A — Methodology**       | L-A-5, L-A-6, L-A-7, L-A-8                                    | L-H-3                             | L-E-3, L-F-5        |
-| **Gate B — Science**           | —                                                            | L-D-7, L-D-8, L-B-10              | L-E-1               |
+| **Gate A — Methodology**       | L-A-5, L-A-6, L-A-7, L-A-8, L-H-8 ★                          | L-H-3                             | L-E-3, L-F-5        |
+| **Gate B — Science**           | —                                                            | L-D-7, L-D-8, L-B-10, L-H-5 ★     | L-E-1               |
 | **Gate C — Stakeholders**      | L-G-1, L-G-3, L-G-4                                           | L-D-1, L-E-2                      | L-G-2               |
 | **Gate D — Polish**            | L-A-9, L-B-1, L-B-2, L-B-6, L-D-2, L-D-3, L-D-6, L-F-6, L-H-4 | L-F-4, L-F-7, L-F-8, L-H-1, L-H-2 | —                  |
 
@@ -756,6 +788,19 @@ Empirical literature (Kortli et al. 2020; Xu et al. 2022) shows 3D-face landmark
 | **L-H-2 ★** | Dashboard live-demo feasibility (60 s)           | M × Gate D | Mitigated | Pre-baked results for 3 videos; "live" = animate pre-computed · Zuraiz · 2026-06-21 |
 | L-H-3              | Version skew (mediapipe × opencv × tensorflow) | L × Gate A | Mitigated | Pin all via `uv.lock`; Docker fresh-build per commit                                |
 | L-H-4              | Vault merge conflicts (4 concurrent editors)     | L × Gate D | Mitigated | One-owner-per-page + Obsidian merge plugin                                            |
+
+---
+
+### §12.10 Deep-Read Cascade Findings (4, all `★`, added v1.1 · 2026-04-24)
+
+Added from the 2026-04-24 deep-read audit of all 27 primary and secondary sources. Each entry corrects a claim that prior shallow digests projected onto the source where the source itself does not support it. Full per-paper evidence at `onsidian vault/OSN-M/wiki/00_overview/deep_read_audit.md`.
+
+| ID | Title | Severity | Status | Action · Owner · Date |
+| :--- | :--- | :--- | :--- | :--- |
+| **L-H-5 ★** | S-02 entanglement formula validated on email, not music | M × Gate B | Open | Paper must explicitly frame E(t) as a novel domain transfer; do not cite S-02 as prior validation of an acoustic entanglement metric · Zuraiz · paper draft v1 (2026-07-07) |
+| **L-H-6 ★** | P-23 XR-vs-baseline QoE advantage confounded with 70 ms lower latency (144 ms vs 74 ms A2S) | M × H1 | Open | Do not cite P-23 as evidence for H1 without explicit latency-equalisation caveat; paper Methods must acknowledge the confound · Zuraiz · paper draft v1 (2026-07-07) |
+| **L-H-7 ★** | P-11 "100 ms threshold" is a Jamulus design target, not an empirical coordination cliff | L × H1 | Open | Paper and Apr 30 deck must not quote 100 ms as a phase transition; use P-11's measured 83±57 / 47±46 ms inter-chorister timing instead · Zuraiz · 2026-04-30 |
+| **L-H-8 ★** | P-18 / P-19 false vocal-to-limb causal analogy | L × Gate A | Mitigated | V(t) pipeline does not use voice as a pose prior; stated explicitly in §11.1 and [[entanglement_index]] — confirms Project 8 is not affected · Zuraiz · 2026-04-24 |
 
 ---
 

@@ -1,0 +1,54 @@
+Source: https://sites.google.com/view/coinseminar23-24/evaluation
+Captured: 2026-04-23
+Note: Evaluation page is from coinseminar23-24 but linked from coinseminar26 Dates page as active rubric.
+
+---
+
+## Evaluation
+
+Your evaluation depends on:
+
+- 10% participation intro block course
+- 20% participation virtual status meetings
+- 30% final presentation
+- 40% final paper
+
+## Final Paper & Presentation
+
+### Final Paper
+
+The final paper should be 10 to 20 pages, plus references, coolhunting results, and code snippets when appropriate. The total number of pages also depends on the type of project, for a coolhunting project, the paper is typically longer, for a system development project, it can be shorter and basically just describe the system, for a statistics project it should document the main insights.
+
+- Word template for final paper: https://drive.google.com/file/d/1PjUYziOng_QTYjJig6sY9Vpxq_jW6a5x/view
+
+Final Paper Structure:
+
+1. introduction - what is the problem
+2. related work - what have others done so far
+3. hypotheses - what are we trying to prove or disprove
+4. method - how are we doing it
+5. results - what have we found
+6. discussion - how does it compare to what others have already found
+7. weaknesses of the research, and possible future work
+
+### Final Presentation
+
+Each team prepare a presentation on 15-20 slides with the following structure and present it in 10-12 minutes (plus 3 minutes Q&A):
+
+- Goals of the project
+- Related work (what others have done in the same area)
+- Work process (how did you organize your work)
+- Results
+- Possible extensions
+- What worked well/ what could have been done better (both from the team perspective, and for the instructors)
+
+## FAQs
+
+1. Will I receive an individual grade or a group grade?
+   The evaluation is largely based on team performance.
+
+2. Do I have to register for an exam?
+   This depends on local specifications. Please contact the local instructor.
+
+3. When will I receive my final grade?
+   We will try our best with a quick evaluation after the final paper submission deadline.

@@ -6,12 +6,12 @@ tags: [roster, projects, coins-26, post-block-course, iteration-schedule, entang
 ingested_date: 2026-04-16
 source_count: 1
 team_take: "Our chapter team survived the block course intact — with one addition. Choosing Entanglement in Online Choir is the first Rubedo moment after the presentation."
-related: ["[[Project_Overview]]", "[[Team_Profile]]", "[[signup_sheet_projects]]", "[[Kumaran_Vasu]]", "[[seminar_signup]]"]
+related: ["[[Project_Overview]]", "[[Team_Profile]]", "[[Kumaran_Vasu]]", "[[seminar_logistics]]"]
 ---
 
 # Project Phase Roster — COINs 2026
 
-Rubedo-level map of the **post-block-course project phase** of SNA-OSN-M. Complements the earlier chapter-presentation phase captured in [[seminar_signup]]. Data source: [[signup_sheet_projects]].
+Rubedo-level map of the **post-block-course project phase** of SNA-OSN-M. Complements the earlier chapter-presentation phase. Data source: the project signup sheet (raw document, not mirrored in the vault).
 
 ---
 
@@ -64,7 +64,7 @@ Team sizes: 4 or 5 per team, with one team (Plant Circadian Rhythm Analyzer) act
 - Pets as Coworkers — 0 members.
 - Plant Circadian Rhythm Analyzer — 1 open slot (4/5 filled; actively recruiting).
 
-Sheet 2 waitlist (17 emails, see [[signup_sheet_projects]]) may be redistributed into these topics.
+Sheet 2 waitlist (17 emails, per the project signup sheet) may be redistributed into these topics.
 
 ---
 
@@ -95,6 +95,5 @@ Per [[Project_Overview]] / [[tips_groupwork]] — the project team above works t
 
 - [[Project_Overview]] — seminar-wide context and timeline.
 - [[Team_Profile]] — Tree Huggers detail (chapter + project members).
-- [[signup_sheet_projects]] — raw sign-up source.
 - [[Kumaran_Vasu]] — 4th project member.
-- [[seminar_signup]] — chapter-phase sign-up (predecessor).
+- [[seminar_logistics]] — admin reference hub for the COINs seminar.
