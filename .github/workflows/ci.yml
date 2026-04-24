@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "0.10.10"
+          enable-cache: true
+
+      - name: Pin Python
+        run: uv python install 3.11.9
+
+      - name: Verify lock matches pyproject
+        run: uv lock --check
+
+      - name: Sync (all extras, frozen)
+        run: uv sync --frozen --all-extras
+
+      - name: Ruff format check
+        run: uv run ruff format --check .
+
+      - name: Ruff lint
+        run: uv run ruff check .
+
+      - name: Mypy
+        run: uv run mypy src tests
+
+      - name: Pytest
+        run: uv run pytest tests/ -v --cov=src/choir_entanglement --cov-report=term-missing
+
+  docker:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    needs: checks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: choir-entanglement:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          load: true
+      - name: Run smoke inside image
+        run: docker run --rm choir-entanglement:ci
