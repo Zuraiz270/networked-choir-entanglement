@@ -12,3 +12,43 @@ Thumbs.db
 .cache/
 /p-*-text.txt
 /s-*-text.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Test / coverage
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Project runtime artefacts (created at runtime, not committed)
+processed/
+features/
+results/
+
+# Dataset caches (raw/ is tracked for metadata only; dataset binaries use volumes)
+raw/youtube/*/
+!raw/youtube/.gitkeep
+
+# Local env
+.env
+.env.*
+!.env.example
