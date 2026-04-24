@@ -1,0 +1,23 @@
+.git/
+.venv/
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+p-*-text.txt
+s-*-text.txt
+raw/
+processed/
+features/
+results/
+onsidian vault/
+docs/
+*.md
+!README.md
+.env
+.env.*
+!.env.example
