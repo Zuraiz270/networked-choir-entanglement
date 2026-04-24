@@ -9,32 +9,35 @@ Networked choir entanglement measurement platform for SNA-OSN-M Project 8
 
 ## Quickstart (target: < 15 minutes on a fresh Win 11 laptop)
 
-### Prerequisites
+### One-time host setup
 
-- **Docker Desktop** ≥ 4.30 (Win 11 or Linux)
-- **git** (any recent version)
+```powershell
+winget install astral-sh.uv ezwinports.make Gyan.FFmpeg
+```
 
-That is the entire prerequisite list for reproducibility. No Python install required on the host.
+(`uv` for the Python toolchain, `make` for the canonical entry points, `ffmpeg` for librosa audio I/O.) On Linux: `apt install make ffmpeg libgl1 libglib2.0-0` and install `uv` per the [official installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 
 ### Clone and run
 
 ```bash
 git clone https://github.com/Zuraiz270/networked-choir-entanglement.git choir-entanglement
 cd choir-entanglement
-docker build -t choir-entanglement:dev .   # ~8 min cold cache, ~30 s warm
-docker run --rm choir-entanglement:dev     # runs `make smoke`; expect 3 passing tests
+uv sync --frozen --all-extras   # ~8 min cold cache, ~30 s warm
+make smoke                      # 3 canary tests, ~8 s warm
 ```
 
-Total elapsed time on a fresh clone with warm Docker layer cache: **under 10 minutes**. Cold cache: **under 15 minutes**.
+Total elapsed time on a fresh clone (warm uv cache): **under 5 minutes**. Cold cache: **under 12 minutes**.
 
-### Local Python development (optional, not required for reproducibility)
+### If you do not want `make` on Windows
 
-If you want to iterate on code without rebuilding the Docker image each time:
+Direct equivalents:
 
-1. Install `uv`: <https://docs.astral.sh/uv/getting-started/installation/> (one command).
-2. Install `make`: Win 11 → `winget install ezwinports.make`. Linux → `apt install make`.
-3. `uv sync --frozen --all-extras` (installs the full stack into `.venv/`).
-4. `make smoke` to verify (or `uv run --all-extras pytest tests/test_smoke.py -v` without make).
+```bash
+uv run --all-extras pytest tests/test_smoke.py -v       # = make smoke
+uv run --all-extras ruff format --check .               # = make lint (check)
+uv run --all-extras mypy src tests                      # = make typecheck
+uv run --all-extras pytest tests/ -v                    # = make test
+```
 
 ---
 
@@ -49,19 +52,17 @@ features/                   # Citrinitas: parquet feature tables (gitignored)
 results/                    # Rubedo: E(t) tables, graphs, figures (gitignored)
 onsidian vault/             # LLM-maintained project wiki (Obsidian)
 PROJECT_GUIDE.md            # team-facing master document (v1.1)
-Dockerfile                  # multi-stage, python:3.11.9-slim-bookworm
 Makefile                    # canonical entry points
 pyproject.toml              # dependency truth (WP-scoped optional deps)
 uv.lock                     # frozen resolution (Win+Linux, Python 3.11)
-.github/workflows/ci.yml    # lint + typecheck + test + docker-build on ubuntu-22.04
+.github/workflows/ci.yml    # lint + typecheck + test on ubuntu-22.04
 ```
 
 ## Make targets
 
 - `make sync` — install deps from lockfile (all groups + dev).
-- `make smoke` — three canary tests (< 90 s).
+- `make smoke` — three canary tests (< 90 s warm).
 - `make lint` / `make typecheck` / `make test` — quality gates.
-- `make docker-build` / `make docker-smoke` — container round-trip.
 - `make all` — full pipeline (stub today; lands with WP1).
 - `make reproduce` — rebuild results from committed features (stub today).
 
@@ -81,6 +82,10 @@ Example WP-focused install:
 ```bash
 uv sync --frozen --extra wp1-audio --extra dev
 ```
+
+## Reproducibility
+
+This is an academic semester project, not a production deployment. Reproducibility is handled by `uv.lock` (which pins every Python wheel exactly across Win 11 and Linux x86_64) plus the documented host prerequisites (`uv`, `make`, `ffmpeg`). No container required. The same `uv sync --frozen` command runs on your laptop and on CI; if it works in one place it works in the other.
 
 ## Licence
 

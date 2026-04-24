@@ -1,4 +1,4 @@
-.PHONY: help sync smoke all reproduce lint typecheck test docker-build docker-smoke clean
+.PHONY: help sync smoke all reproduce lint typecheck test clean
 
 UV_RUN := uv run --all-extras
 
@@ -11,8 +11,6 @@ help:
 	@echo "  lint           ruff format + check"
 	@echo "  typecheck      mypy strict"
 	@echo "  test           pytest with coverage"
-	@echo "  docker-build   build the project image"
-	@echo "  docker-smoke   run 'make smoke' inside the container"
 	@echo "  clean          remove caches, venvs, build artefacts"
 
 sync:
@@ -38,12 +36,6 @@ typecheck:
 
 test:
 	$(UV_RUN) pytest tests/ -v --cov=src/choir_entanglement --cov-report=term-missing
-
-docker-build:
-	docker build -t choir-entanglement:dev .
-
-docker-smoke: docker-build
-	docker run --rm choir-entanglement:dev make smoke
 
 clean:
 	rm -rf .venv .pytest_cache .mypy_cache .ruff_cache

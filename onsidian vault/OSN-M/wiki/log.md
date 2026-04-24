@@ -860,3 +860,23 @@ Full Python repo scaffold executed inline from plan `C:\Users\zurai\.claude\plan
 **Verification pending (CI)**: green run on `main` after merge.
 
 **Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+---
+
+## [2026-04-25] schema | dropped Docker from scaffold
+
+Refactor on `scaffold` branch removing Docker as a mandatory dependency. Decision rationale: this is a 12-week semester project with one executor (Zuraiz) and three teammates who read presentation scripts but do not run code. Docker buys bit-exact OS reproducibility at the cost of a 30-min Docker Desktop install per teammate, ≈ 2.5 GB image, WSL2 setup pain on Win 11. `uv.lock` already pins every Python wheel exactly across Win+Linux x86_64; the only system dep is `ffmpeg`, installable via `winget install Gyan.FFmpeg` (one line).
+
+**Changes**:
+
+- DELETED `Dockerfile` and `.dockerignore`.
+- UPDATED `Makefile` — removed `docker-build` and `docker-smoke` targets.
+- UPDATED `.github/workflows/ci.yml` — dropped `docker` job; `checks` job now installs `ffmpeg libgl1 libglib2.0-0` via apt before `uv sync`.
+- UPDATED `README.md` — quickstart is now `winget install astral-sh.uv ezwinports.make Gyan.FFmpeg` then `uv sync --frozen --all-extras && make smoke`. Total < 12 min cold.
+- UPDATED `PROJECT_GUIDE.md` §4 (status bullet), §11.5 Test 6 (Docker round-trip → fresh-clone smoke), §12.6 L-F-4 (resolved by dropping Docker), §12.6 L-F-7 (resolved — Makefile landed).
+
+**Plan deviation**: original scaffold plan `2026-04-24-repo-scaffold.md` Task 7 mandated a multi-stage Dockerfile. After Task 7 commit, we surfaced (a) Docker Desktop is not installed on the dev machine and would need ~30 min to provision, (b) the benefit-cost ratio is wrong for an academic semester project. User explicitly approved drop on 2026-04-25.
+
+**Net result**: scaffold is leaner; reproducibility unchanged in practice; CI runs faster (one job instead of two); first-time clone-to-smoke time *improved* from ~15 min (Docker cold) to ~12 min (uv cold).
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.

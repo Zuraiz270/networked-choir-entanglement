@@ -94,7 +94,7 @@ Every technical word used in sections 1–10 is explained once here. Keep this o
 
 - **Team**: confirmed 4 members — Zuraiz, Hammad Anwar, Hassan Ahmed, Kumaran Vasu. All at Uni Bamberg.
 - **Seminar progress**: Block course (April 15–16) attended. Chapter 14 presentation delivered Apr 16. Iteration 1 status meeting held Apr 16.
-- **Code**: scaffold landed 2026-04-25 on the `scaffold` branch (12 atomic commits). `pyproject.toml` with WP-scoped deps, `uv.lock` (166 packages, numpy 1.26.4), multi-stage `Dockerfile` on `python:3.11.9-slim-bookworm`, GitHub Actions CI on `ubuntu-22.04`, 3 canary smoke tests, `Makefile`, pre-commit hooks. `py-feat==0.6.2` deferred to WP2 sub-plan (nltools/numpy conflict — tracked as L-H-9). Zero feature code yet; WP1 lands on May 8.
+- **Code**: scaffold landed 2026-04-25 on the `scaffold` branch. `pyproject.toml` with WP-scoped deps, `uv.lock` (166 packages, numpy 1.26.4 across Win+Linux), GitHub Actions CI on `ubuntu-22.04` (apt-installed ffmpeg + libgl + libglib), 3 canary smoke tests, `Makefile`, pre-commit hooks. **Docker dropped from scaffold** (over-engineered for a semester project; uv.lock + winget host setup gives the same reproducibility). `py-feat==0.6.2` deferred to WP2 sub-plan (nltools/numpy conflict, tracked as L-H-9). Zero feature code yet; WP1 lands on May 8.
 - **Data**: **zero data collected**. No YouTube videos downloaded. No academic datasets fetched. No features extracted.
 - **Planning artefacts**: this guide. Vault restructured into numbered directories. 26 papers migrated into `01_primary_sources/` and `02_secondary_sources/`.
 - **Evidence layer (new, 2026-04-24)**: 27 primary + secondary sources re-ingested full-text against the original PDFs, replacing the prior shallow Gemini Flash digests. Audit log at `onsidian vault/OSN-M/wiki/00_overview/deep_read_audit.md`. Concept pages ([[entanglement_index]], [[latency_thresholds]], [[limitations_register]]) cascaded to match. Rule-2 LINT applied. P-04 Pentland *Honest Signals* remains TO-ACQUIRE.
@@ -475,8 +475,8 @@ Conventional Commits for all git work. Atomic branches. BagIt validation at each
 3. **MediaPipe Win11 install**: `uv pip install mediapipe==0.10.14 && python -c "import mediapipe as mp; print(mp.solutions.pose.Pose())"`.
 4. **Granger smoke**: `python -c "from statsmodels.tsa.stattools import grangercausalitytests; import numpy as np; grangercausalitytests(np.random.randn(100,2), maxlag=3, verbose=False)"`.
 5. **Vault graph**: Obsidian graph view → `Project_8_MOC` has ≥ 8 edges after Apr 24.
-6. **Docker**: `docker build -t choir . && docker run --rm choir make smoke` < 5 min.
-7. **CI**: push to `main` triggers lint + pytest + mypy.
+6. **Fresh-clone smoke (replaces former Docker round-trip, 2026-04-25)**: from a fresh clone, `uv sync --frozen --all-extras && make smoke` completes < 12 min cold cache, < 90 s warm. No container required for this academic semester project; reproducibility lives in `uv.lock` plus the documented host prerequisites (`uv` + `make` + `ffmpeg`).
+7. **CI**: push to `main` triggers lint + pytest + mypy on `ubuntu-22.04` with system `ffmpeg`/`libgl1` installed via apt.
 8. **BagIt**: `bagit.py --validate results/` passes at each tag.
 
 ### §11.6 — DSP Reality Correction (v2.1 transparency)
@@ -761,10 +761,10 @@ Empirical literature (Kortli et al. 2020; Xu et al. 2022) shows 3D-face landmark
 | L-F-1              | WP2 video-pipeline milestone slip                                   | L × Gate D | Mitigated | R5 — single-video prototype + OpenPose fallback                                                       |
 | L-F-2              | Paper starts too late                                               | L × Gate D | Mitigated | R6 — skeleton by 2026-05-15                                                                           |
 | L-F-3              | Scope creep into self-recording                                     | L × Gate D | Mitigated | R7 — firm no                                                                                          |
-| **L-F-4 ★** | Docker Desktop WSL2 GPU passthrough fragile on Win 11               | M × Gate D | Mitigated | CPU-only `make reproduce` canonical; Linux-only `make reproduce-gpu` optional · WP1 · 2026-05-08 |
+| **L-F-4 ★** | ~~Docker Desktop WSL2 GPU passthrough fragile on Win 11~~ | M × Gate D | **Resolved 2026-04-25** | **Resolved by dropping Docker entirely from scaffold** (semester project does not need containerization; `uv.lock` + host `ffmpeg` is sufficient reproducibility). CPU-only execution remains canonical; GPU optional via `torch` runtime detection if a member has CUDA available. |
 | **L-F-5 ★** | MediaPipe 0.10.14 × Py 3.11 × Win 11 wheel                  | H × Gate A | Resolved  | **RESOLVED 2026-04-24**. Smoke-test passed: `mediapipe==0.10.14` installs cleanly on Win 11 × Py 3.11.0; `mp.solutions.pose.Pose()` instantiates and TFLite XNNPACK delegate initialises. No fallback to 0.10.9 needed. Note: mediapipe 0.10.14 pulls numpy 2.4.4 rather than §11.8's pinned 1.26.4 — version drift logged to L-H-3. |
 | L-F-6              | 15-min reproducibility claim un-tested                              | L × Gate D | Mitigated | Monthly fresh-laptop test · WP1                                                                       |
-| L-F-7              | `make all` referenced but no Makefile yet                         | M × Gate D | Open      | Deliver Makefile in WP1 scaffold · Zuraiz · 2026-05-01                                               |
+| L-F-7              | `make all` referenced but no Makefile yet                         | M × Gate D | Resolved  | **RESOLVED 2026-04-25**. Makefile landed on `scaffold` branch with sync / smoke / all (stub) / reproduce (stub) / lint / typecheck / test / clean targets.                                               |
 | **L-F-8 ★** | Compute budget undisclosed (~10 to 20 GPU-h at N = 30) [v2.2 rescope]                          | L × Gate D | Mitigated | Hetzner spot T4 ~€10 personal OR CPU-only OR Bamberg HPC · Zuraiz · 2026-05-01                      |
 
 ---
