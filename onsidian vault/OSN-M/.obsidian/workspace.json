@@ -11,10 +11,14 @@
             "id": "3f8cf40f03a28faa",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "2026-04-25.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "2026-04-25"
             }
           }
         ]
@@ -108,11 +112,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "2026-04-25.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from 2026-04-25"
             }
           },
           {
@@ -178,6 +183,7 @@
   },
   "active": "3f8cf40f03a28faa",
   "lastOpenFiles": [
+    "2026-04-25.md",
     "raw/apr30_deck_script.md",
     "PAPER_LINKS.md",
     "2026-04-20.md",
