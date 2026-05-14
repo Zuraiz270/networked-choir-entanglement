@@ -1,169 +1,153 @@
-# Apr 30 Status Meeting — Deck
+
+# Apr 30 Status Meeting II, Deck
 
 **Project 8 · Entanglement in Online Choir · 2026-04-30 · 14:00 CET**
 
-> Format: 10 slides. Aim for 7-8 minutes of speaking, leave 7-8 minutes for Q&A. The companion file [apr30_script.md](apr30_script.md) carries the speaker notes, three pacing variants, and the full Q&A bank.
+> Format: 8 slides for a 5 to 10 minute presentation (target 8 minutes spoken), per the Apr 14 email from Prof. Peter Gloor. Email rubric covered: Team (slide 2), Goals/Scope (slide 3), Dataset Strategy (slide 4), Overall Project Plan (slide 5), Plan for Next Iteration (slide 6), Way of Working (slide 7). Speaker notes live in [apr30_script.md](apr30_script.md). The Q&A prep bank is in [apr30_qa_prep.md](apr30_qa_prep.md).
 
 ---
 
-## Slide 1 — Title and team
+## Slide 1: Title
 
-**Title**: Entanglement in Online Choir — Measuring Coordination When You Can't See the Conductor
+**Status Meeting II**
 
-**Status meeting #2** · Project 8 · SNA-OSN-M Summer 2026 · Uni Bamberg × Uni Köln × HSLU
+Project 8: Entanglement in Online Choir
 
-**Team (all Uni Bamberg)**:
+SNA-OSN-M Summer 2026 · Uni Bamberg × Uni Köln × HSLU
 
-| Member           | Lead area                                                        | Primary deliverable                                                                                        |
-| :--------------- | :--------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------- |
-| **Zuraiz** | Project lead · Audio (WP1) · Integration · Paper first author | `choir_entanglement` end-to-end pipeline, E(t) timeline, paper, today's and Jul 23 presentations         |
-| Hammad Anwar     | Computer vision (WP2)                                            | Per-singer pose parquet + MediaPipe calibration study (due May 22)                                         |
-| Hassan Ahmed     | Network science (WP3)                                            | **Directed influence graph for Prof. Hacker** (slide 7) — due May 31, publication-polished by Jul 7 |
-| Kumaran Vasu     | Dashboard and figures (WP4)                                      | **Alchemical-stage diagram for Prof. Gloor** (slide 8) + 60-second live demo on Jul 23               |
+Presented by Zuraiz, on behalf of the team
 
-**Supervisors**: Prof. Janine Hacker (Uni Bamberg). Prof. Peter Gloor (Uni Köln).
-
-> *Full role definitions and onboarding for each teammate: `TEAM_BRIEF.md` in the repo root.*
+Supervisors: Prof. Janine Hacker (Uni Bamberg), Prof. Peter Gloor (MIT, COIN seminar lead)
 
 ---
 
-## Slide 2 — The problem
+## Slide 2: The Team
 
-**Visual**: side-by-side photo. Left: an in-person choir in a hall. Right: a Zoom-grid of singers. Big red question mark between them.
+**Visual**: 4 portrait circles in a row. Below each portrait, a horizontal bar showing the SC Chat archetype (mirrors the COIN sibling team's slide 2).
 
-Millions of people sang together over the internet during COVID. Every one of them felt the difference between "this feels like the same room" and "this is fighting the network."
+| Member       | SC Chat archetype     | Symbiont archetype     |
+| :----------- | :-------------------- | :--------------------- |
+| Zuraiz       | Tree Hugger (73% Ant) | Ant 38% / Capybara 38% |
+| Hammad Anwar | Tree Hugger (64% Ant) | Capybara 49%           |
+| Hassan Ahmed | Tree Hugger (63% Ant) | Ant 40%                |
+| Kumaran Vasu | Tree Hugger (75% Ant) | Ant 80%                |
 
-**There is no number that captures that difference.** NMP tool developers (SoundJack, Jamulus, JackTrip) design by intuition. Music educators plan remote programs by anecdote. Researchers cannot compare one setup against another.
-
-**Why choirs?** Because coordination is acoustically measurable. Two singers either hit the same note at the same moment, or they did not. Choirs are the *Drosophila* of coordination science: clean, high-signal, and available on YouTube at scale.
-
-**The binary we are testing**: is latency a hard ceiling on human coordination, or do bodies compensate through visual cues?
-
----
-
-
-
-## Slide 3 — E(t), the proposed metric
-
-**Visual**: the formula in large type, three colour-coded components.
-
-```text
-E(t) = (1/3) · A(t)  +  (1/3) · V(t)  +  (1/3) · N(t)
-        Audio              Visual            Network
-```
-
-- **A(t)** — onset synchronisation, pitch (F0) alignment, tempo stability.
-- **V(t)** — trunk sway cross-correlation, breath-envelope sync, mouth-aperture sync (the Honest Signals operationalisation).
-- **N(t)** — Granger-causal influence graph on per-singer note onsets; density, modularity, centrality.
-
-**Provenance caveat (we want to be upfront about this)**: Gloor's entanglement formula in the original paper was validated on email patterns over 7-day windows, n = 111 to 113 per case, modest effect sizes. **Our application to choir audio is a novel domain transfer.** H1, H2, H3 below are the first empirical test of this metric on music. We are not claiming pre-existing validation we do not have.
-
-**Three falsifiable hypotheses**:
-
-1. **H1** — E(t) distinguishes Zoom-class from SoundJack-class with Cohen's d ≥ 0.5.
-2. **H2** — Network topology differs between the two regimes at p < 0.05 vs. a 200-permutation circular-shift null.
-3. **H3** — Visual Honest Signals features add ΔR² ≥ 0.10 over audio-alone models.
-
-**Either outcome is publishable.** Hard ceiling reshapes NMP-tool architecture priorities. Body compensation gives Honest Signals theory its cleanest external test.
+All four members are M.Sc. students at Uni Bamberg. Three members continued from the chapter team; Kumaran joined at the project signup. The archetype results are included because the May 21 Virtual Mirror requires us to analyse our own team communication, not because they are the scientific contribution today.
 
 ---
 
-## Slide 4 — Three data tiers
+## Slide 3: Goals (Scope)
 
-**Visual**: a pyramid. Wide base (Tier 1) → narrow top (Tier 3). Annotation: rigour increases as we ascend.
+**Visual**: side by side image. Left: an in-person choir in a hall. Right: a Zoom-grid choir. A question mark in the gap.
 
-| Tier             | What                                                            | N           | Used for                                                 |
-| :--------------- | :-------------------------------------------------------------- | :---------- | :------------------------------------------------------- |
-| **Tier 0** | Prof. Hacker's 5 curated YouTube URLs (Jamulus live recordings) | 5           | Seed corpus, already received                            |
-| **Tier 1** | Hand-curated YouTube virtual choirs, no post-produced content   | 20-30       | Visual analysis (H3), ensemble-acoustic descriptive only |
-| **Tier 2** | Academic multitrack: Dagstuhl ChoirSet, ESMUC, ChoralSynth      | ~10 pieces  | Audio ground truth (H1, H2), per-singer features         |
-| **Tier 3** | Controlled latency injection on Tier 2 (4 regimes, 20-500 ms)   | 12× Tier 2 | Clean H1 test, perfect ground truth                      |
+**Research question**: When a choir sings together over the internet, can we put a number on how well coordinated they are?
 
-**Key design choice**: Tier 1 mixed-stereo YouTube cannot yield per-singer audio (Demucs separates instruments not voices; pyin is monophonic). H1 therefore runs on Tier 3 controlled injection, **better science than natural YouTube comparisons** because the latency profile is known exactly.
+We are building a proposed coordination index, called E(t), that combines three measurable signals: audio synchrony, body movement, and a network of who influences whom.
 
-**Legal basis**: §60d UrhG (German TDM research exception) + EU DSM Directive Art. 3. Raw mp4s deleted after feature extraction. GDPR DPIA in progress (FaceMesh landmarks are Art. 9 biometric).
+**Where this comes from**
 
----
+- **Research question**: from the gap between NMP tool studies, which focus on latency/tool quality, and coordination research, which rarely has an objective acoustic outcome.
+- **E(t) formula**: inspired by Gloor's entanglement work on team communication and Pentland's Honest Signals, but adapted by us for choir audio/video. The original entanglement formula was validated on email rhythms, not music, so H1-H3 are our validation tests.
 
-## Slide 5 — Where we are today
+**Three falsifiable hypotheses**
 
-**Visual**: green/yellow/red status bars across four tracks.
+1. **H1**: low-latency tools (Jamulus, SoundJack) score higher on E(t) than high-latency tools (Zoom).
+2. **H2**: the "who influences whom" network shifts shape between low and high latency, from democratic to leader-dominated.
+3. **H3**: adding body-movement signals on top of audio improves how well E(t) tracks coordination, by at least 10 percentage points of explained variance.
 
-| Track                    | Status                                                                                                                                                                                     |
-| :----------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Evidence layer** | Done. 27 primary and secondary sources deep-read re-ingested against the original PDFs, replacing prior shallow digests. Audit log committed.                                              |
-| **Repo scaffold**  | Done.`pyproject.toml`, `uv.lock` (166 packages, numpy 1.26.4 pinned), Makefile, GitHub Actions CI, three canary smoke tests passing. uv-only, no Docker, < 12 min cold-clone-to-smoke. |
-| **Documentation**  | PROJECT_GUIDE.md v1.1 committed (single source of truth). Obsidian wiki has 27 source digests, a live audit log, and Citrinitas/Rubedo concept cascade.                                    |
-| **Feature code**   | Zero lines yet. WP1 audio pipeline lands May 8 on Dagstuhl ChoirSet.                                                                                                                       |
-
-We are on schedule. No critical blockers.
+Either way the result is publishable. A null finding tells us the latency dichotomy is too crude; a positive finding gives the field its first quantitative coordination meter.
 
 ---
 
-## Slide 6 — What we will deliver
+## Slide 4: Dataset Strategy
 
-**Visual**: two-column layout side by side.
+**Visual**: three-tier data pyramid. Bottom: YouTube video. Middle: academic multitrack. Top: controlled latency injection.
 
-**Left — Directed influence graph** *(CIN / network lens)*
+**Mental model**: Tier 1 is real-world but messy. Tier 2 is clean but academic. Tier 3 is controlled and experimental.
 
-Mock-up directed graph. Eight nodes labelled S1, S2, A1, A2, T1, T2, B1, B2 (SATB). Coloured edges with arrowheads. Edge thickness encodes Granger F-statistic. One node (T1) drawn larger to indicate high eigenvector centrality. Caption: "MOCK — synthetic data. Real graph from Dagstuhl by 2026-05-31."
+| Tier | What it is | What we do with it | What it can prove |
+| :--- | :--------- | :----------------- | :---------------- |
+| **Tier 0: seed URLs** | 5 Jamulus / Choir@Home URLs from Prof. Hacker | Use as examples to guide search terms and inclusion rules | Nothing by itself; it starts the corpus search |
+| **Tier 1: YouTube virtual choirs** | 20 to 30 public videos, hand-curated by May 15 | Extract pose, mouth movement, visible synchrony, and ensemble-level audio | Visual coordination and H3 sanity check |
+| **Tier 2: academic multitrack** | Dagstuhl ChoirSet, ESMUC, ChoralSynth | Use separate singer tracks for pitch, onset timing, and Granger influence | Per-singer audio, A(t), N(t), directed graph |
+| **Tier 3: latency injection** | Artificial Zoom-class / low-latency versions of Tier 2 | Add delay, jitter, and packet loss, then recompute E(t) | Clean H1 test because latency is known |
 
-- **Arrow A → B** means A's note onsets Granger-cause B's onsets (10 s sliding window, AIC-selected lag).
-- **Edge thickness** = Granger F-statistic. **Node size** = eigenvector centrality.
-- We will report density, modularity (Q), centrality Gini — all against a 200-shuffle circular-shift null.
-- If the graph collapses from democratic (low latency) to leader-dominated (high latency), that topology shift is the network signature of H2.
+**Important limitation**: Tier 1 YouTube audio is mixed stereo, so it cannot support per-singer Granger networks. That is why H1 and the influence graph rely on Tier 2 and Tier 3.
 
-**Right — Alchemical pipeline** *(Honest Signals lens)*
-
-Four-stage horizontal flow, colour-coded:
-
-- **Nigredo (black)** — raw inputs: mp4 video, multitrack wav.
-- **Albedo (white)** — extracted: pose keypoints (parquet), Demucs stems, pyin F0, FaceMesh landmarks.
-- **Citrinitas (yellow)** — computed: A(t), V(t), N(t) sub-indices. Pairwise DTW. Granger graphs.
-- **Rubedo (red)** — interpreted: E(t) timeline, influence graph, regime classification, paper figures.
-
-Caption: "MOCK — synthetic example. Real pipeline output by 2026-06-14."
-
-V(t) operationalises three of Pentland's four Honest Signals dimensions (mimicry, activity, consistency); the fourth (influence) lives in N(t).
+**Guardrail**: no self-recording and no third-party choir recruitment in this project phase. We use public videos and published datasets, then keep only derived features after extraction.
 
 ---
 
-## Slide 7 — Roadmap to Jul 17
+## Slide 5: Overall Project Plan
 
-**Visual**: Gantt-style horizontal timeline.
+**Visual**: Gantt-style horizontal timeline with three coloured phase bands and 7 status-meeting markers. Today's marker (VS#2) shown with a red triangle.
 
-| Date                     | Milestone                                                                |
-| :----------------------- | :----------------------------------------------------------------------- |
-| **Apr 30** (today) | Status #2: this meeting                                                  |
-| **May 1**          | Tier 2 datasets on disk (Dagstuhl, ESMUC, ChoralSynth)                   |
-| **May 8**          | WP1 audio pipeline runs end-to-end on Dagstuhl, feature parquet produced |
-| **May 15**         | Tier 1 YouTube corpus curated (20-30 videos), manifest + SHA-256         |
-| **May 21**         | Status #3 + Virtual Mirror (own-team WhatsApp analysis)                  |
-| **May 22**         | WP2 video pipeline produces pose parquet for 10 videos                   |
-| **May 31**         | WP3 directed influence graph for 5 Tier 2 pieces                         |
-| **Jun 14**         | E(t) computed end-to-end on full corpus, null model running              |
-| **Jun 21**         | WP4 dashboard alpha (60-second demo target)                              |
-| **Jul 7**          | Paper draft v1                                                           |
-| **Jul 23**         | Final 20-min presentation + live demo                                    |
-| **Jul 31**         | Final paper due                                                          |
+**Three phases**
 
-Six iterations between Apr 17 and Jul 23. Each ends with a deliverable, not a status update.
+| Phase                                 | Window           | Goal                                             |
+| :------------------------------------ | :--------------- | :----------------------------------------------- |
+| **Phase 1: Scope and Scaffold** | Apr 16 to Apr 30 | Scope, dataset strategy, repo scaffold           |
+| **Phase 2: Build and Analyse**  | May 1 to Jul 7   | Audio, video, network pipelines; E(t) end-to-end |
+| **Phase 3: Synthesise**         | Jul 8 to Jul 31  | Paper, dashboard, final presentation             |
+
+**Status meeting calendar**
+
+VS#1 Apr 16 (kick-off) · **VS#2 Apr 30 (today)** · VS#3 May 21 (Mirror Session) · VS#4 Jun 11 · VS#5 Jun 25 · VS#6 Jul 9 (pre-final review) · Final Jul 23 · Paper due Jul 31.
+
+**Phase-based milestones (status dots: green done, amber in progress, grey not started)**
+
+| Milestone                                            | Phase | Status |
+| :--------------------------------------------------- | :---: | :----: |
+| Research question, hypotheses, and data tiers defined |   1   | green |
+| Repo scaffold ready (package, CI, smoke tests)        |   1   | green |
+| Current data state recorded: seed URLs only           |   1   | green |
+| Tier 2 academic datasets on disk with manifest        |   2   | amber |
+| Tier 1 YouTube corpus curated with inclusion log      |   2   |  grey  |
+| Video pipeline producing per-singer pose data         |   2   |  grey  |
+| Network pipeline producing influence graph            |   2   |  grey  |
+| E(t) computed end-to-end on full corpus               |   2   |  grey  |
+| Dashboard alpha (60-second live demo target)          |   2   |  grey  |
+| Paper draft v1                                        |   3   |  grey  |
+| Final presentation and final paper submitted          |   3   |  grey  |
 
 ---
 
-## Slide 8 — Open items and asks
+## Slide 6: Plan for the Next Iteration
 
-**Visual**: three-row table with status traffic lights.
+**Sprint 2: Apr 30 to May 21 (3 weeks, ending at VS#3 Mirror Session)**
 
-| Item                                                           | Status        | Ask                                                                                                                           |
-| :------------------------------------------------------------- | :------------ | :---------------------------------------------------------------------------------------------------------------------------- |
-| **GDPR DPIA — FaceMesh landmarks are Art. 9 biometric** | In progress   | Who is the right Bamberg DPO contact for our Art. 9(2)(j) + Art. 89 research-exception filing?                                |
-| **DUST dataset access (packet-loss traces)**             | Pending       | Do you have a contact at the host institution? Fallback: synthesise from Carôt and Werner 2007 published distributions.      |
-| **Tier 1 corpus size — 20 to 30 hand-curated videos**   | Open question | Is this calibration appropriate for H3, or would you rather we expand or contract? Quality over quantity is our current bias. |
+**Visual**: 4-row table with phase colour stripe on the left (matches the COIN sibling team's Sprint 2 slide).
 
-**Two specific asks for today**:
+| Work Package                                   | Next Step                                                                                                                                                                                                     | Output                                                                      |
+| :--------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------- |
+| **Audio pipeline**                       | Pull academic multitrack datasets to disk (Dagstuhl ChoirSet, ESMUC, ChoralSynth). Run pitch tracking and onset detection.                                                                                    | Per-singer feature parquet for 5 multitrack pieces, by May 8.               |
+| **Video pipeline**                       | Run MediaPipe Pose and FaceMesh on the first 10 YouTube virtual-choir videos. Calibrate against a published pose ground truth.                                                                                | Per-singer pose parquet plus a 1-page calibration note, by May 22.          |
+| **Curated corpus and GDPR**              | Hand-curate 20 to 30 YouTube virtual-choir videos (no post-production edits). File the GDPR DPIA outline with the Bamberg data-protection officer (face-mesh landmarks are biometric data under Art. 9 GDPR). | Corpus manifest with SHA-256 hashes by May 15. DPIA outline by May 21.      |
+| **Virtual Mirror (seminar requirement)** | Export the team WhatsApp chat. Run it through the SocialCompass tools (SC Chat, Symbiont, Beecome). Classify the team archetype with all 4 members.                                                           | Mirror write-up with archetype classification, presented at VS#3 on May 21. |
 
-1. Any virtual-choir YouTube URLs you would recommend we include or exclude in Tier 1?
-2. Any feedback on the two-lens framing (Hacker COIN + Gloor Honest Signals) before we lock it for the paper?
+Each row ends in a defined deliverable, not a status update.
 
-Thank you. Open to questions.
+Dataset construction in Sprint 2: Tier 2 on disk first, Tier 1 curated second, Tier 3 generated from Tier 2 after the audio pipeline can run.
+
+---
+
+## Slide 7: Way of Working
+
+**Visual**: 3 side-by-side columns, each with a heading icon and 4 bullet pairs (mirrors the COIN sibling team's slide 5).
+
+| **Cadence**                                             | **Sync**                                          | **Toolstack**                                                                    |
+| :------------------------------------------------------------ | :------------------------------------------------------ | :------------------------------------------------------------------------------------- |
+| **Format**: 3-week sprints aligned to status meetings   | **Weekly**: 30-minute team sync                   | **Code and CI**: Python, Git, GitHub Actions  |
+| **Sync**: pre-VS review 1 to 2 days before each meeting | **Daily**: async status post per person           | **Docs**: Markdown source of truth, plus method notes in Obsidian |
+| **Delivery**: each sprint ends in a defined artefact    | **Channels**: WhatsApp group, GitHub Issues       | **Quality**: pre-commit hooks (ruff, mypy), peer review via PR                   |
+| **Meeting**: VS with supervisors per sprint             | **Supervisor**: weekly check-in with Prof. Hacker | **Meetings**: Zoom for VS, screen-share for live demos                           |
+
+The team WhatsApp group, set up per Prof. Gloor's Apr 14 instruction, is also our input data for the Virtual Mirror on May 21.
+
+---
+
+## Slide 8: Thank you
+
+**Visual**: clean closing slide. Project name in large type, presenter name, contact email, a thin red accent line.
+
+Thank you for listening. Open to your questions.

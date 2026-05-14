@@ -52,3 +52,6 @@ raw/youtube/*/
 .env
 .env.*
 !.env.example
+
+# Apr-30 deck preview artifacts (regenerable from scripts/)
+scratch/
