@@ -1,6 +1,6 @@
 # Team Brief — Project 8
 
-**SNA-OSN-M Summer 2026 · Uni Bamberg · Last updated 2026-04-25**
+**SNA-OSN-M Summer 2026 · Uni Bamberg · Last updated 2026-05-17**
 
 > Read this once before doing anything else on the project. About 20 minutes. After this, your role section in §4 is the page you re-read each iteration.
 
@@ -45,7 +45,7 @@ We are upfront with supervisors that the formula was originally validated on ema
 
 ---
 
-## 3. Where we are today (2026-04-25)
+## 3. Where we are today (2026-05-17)
 
 | Track                                                          | Status                                                                 |
 | :------------------------------------------------------------- | :--------------------------------------------------------------------- |
@@ -53,11 +53,11 @@ We are upfront with supervisors that the formula was originally validated on ema
 | **Repo scaffold** (pyproject, lockfile, CI, smoke tests) | Done.`make smoke` runs in 8 seconds warm. uv-only, no Docker.        |
 | **Documentation**                                        | PROJECT_GUIDE.md v1.1 is the spec. This file is the team brief.        |
 | **Tier 0 data** (Hacker's 5 Jamulus URLs)                | Received.                                                              |
-| **Tier 1 data** (YouTube curated, 20-30 videos)          | Not started. Lands May 15.                                             |
-| **Tier 2 data** (Dagstuhl + ESMUC + ChoralSynth)         | Not started. Lands May 1.                                              |
-| **Feature code** (audio, video, network, dashboard)      | **Zero lines.** May 8 milestone is the first end-to-end run.     |
+| **Tier 1 data** (YouTube curated, 20-30 videos)          | **Done 2026-05-17.** 22 verified URLs in Hacker schema (4 seeds re-confirmed + 18 new). Manifest at `data/tier1_corpus_manifest.csv`. |
+| **Tier 2 data** (Dagstuhl + ESMUC + ChoralSynth)         | **Dagstuhl on disk 2026-05-17** (5.1 GB, MD5 `82b95faa…` verified vs Zenodo). ESMUC + ChoralSynth deferred. |
+| **Feature code** (audio, video, network, dashboard)      | **All 4 WPs shipped Sprint-2 milestones.** WP1: SATB A(t) coupling on Dagstuhl. WP2: MediaPipe pose extraction on a Tier-1 SoundJack video (79.5% detection). WP3: Granger influence graph (11/12 SATB edges significant). WP4: dashboard wireframe + alchemical diagram drafted. |
 
-We are on schedule. No critical blockers. Apr 30 is the next supervisor status meeting.
+Sprint 2 milestones slipped 9 to 17 days on intermediate dates but landed before May 21. No critical blockers. Open risk: thin Zoom-only Tier-1 stratum (n=2 after 2 URLs were taken down). Next supervisor meeting: May 21 (Status #3 + Virtual Mirror).
 
 ---
 
@@ -75,15 +75,15 @@ The principle: each person has **one clear lead area** and **one concrete primar
 
 **Primary deliverables**:
 
-| Date       | Deliverable                                                            |
-| :--------- | :--------------------------------------------------------------------- |
-| 2026-04-30 | Apr 30 status meeting (deck and script in repo root)                   |
-| 2026-05-01 | Tier 2 datasets downloaded with SHA-256 manifest                       |
-| 2026-05-08 | WP1 audio pipeline runs end-to-end on Dagstuhl, parquet feature output |
-| 2026-06-14 | E(t) end-to-end on full corpus, null model running                     |
-| 2026-07-07 | Paper draft v1                                                         |
-| 2026-07-23 | Final 20-minute presentation                                           |
-| 2026-07-31 | Final paper submitted                                                  |
+| Date                       | Deliverable                                                            |
+| :------------------------- | :--------------------------------------------------------------------- |
+| 2026-04-30 ✓               | Apr 30 status meeting (deck and script in repo root)                   |
+| 2026-05-01 ✓ (done 05-17)  | Tier 2 datasets downloaded with SHA-256 manifest                       |
+| 2026-05-08 ✓ (done 05-17)  | WP1 audio pipeline runs end-to-end on Dagstuhl, parquet feature output |
+| 2026-06-14                 | E(t) end-to-end on full corpus, null model running                     |
+| 2026-07-07                 | Paper draft v1                                                         |
+| 2026-07-23                 | Final 20-minute presentation                                           |
+| 2026-07-31                 | Final paper submitted                                                  |
 
 **Stack**: Python 3.11, librosa 0.10.2, demucs 4.0.1, numpy 1.26.4, scipy, pandas, pyarrow.
 
@@ -95,14 +95,16 @@ The principle: each person has **one clear lead area** and **one concrete primar
 
 **What you own**: turning each choir video into a per-frame, per-singer parquet of body and face coordinates. Specifically: pose keypoints (33 from MediaPipe Pose), face landmarks (468 from FaceMesh, lip subset only), shoulder-rise breath proxy. You also own the validation study that confirms MediaPipe head-sway is reliable enough for our V(t) formula.
 
+**Sprint-2 status (2026-05-17)**: Pose schema + extractor shipped in `src/choir_entanglement/video/{schema,pose.py}` (33-keypoint MediaPipe Pose + 40 lip landmarks + 3 derived features). First pose parquet ran on a Tier-1 SoundJack video (`data/processed/tier1/ouFyQKszE_Y/pose.parquet`, 595 frames, 79.5% pose detection rate). Calibration note at `wp2_calibration_sprint2.md`. Smoke tests 4/4 pass.
+
 **Primary deliverable**: per-singer parquet feature files at `processed/<video_id>/pose/<singer>.parquet` for at least 10 Tier-2 videos by **2026-05-22**, plus a one-page calibration study documenting head-sway Pearson correlation against a reference tool. If correlation is below 0.70, the fallback is OpenPose (CMU); the calibration study triggers that decision.
 
-| Date       | What you deliver                                                                                     |
-| :--------- | :--------------------------------------------------------------------------------------------------- |
-| 2026-04-29 | Read the four papers in your reading list (§4.2, below).                                            |
-| 2026-05-08 | Schema design for `pose/<singer>.parquet` finalised in `src/choir_entanglement/video/schema.py`. |
-| 2026-05-22 | Pose pipeline produces parquet for 10 videos. Calibration study committed.                           |
-| 2026-06-30 | All Tier-2 + Tier-1 videos processed.                                                                |
+| Date                       | What you deliver                                                                                     |
+| :------------------------- | :--------------------------------------------------------------------------------------------------- |
+| 2026-04-29                 | Read the four papers in your reading list (§4.2, below).                                            |
+| 2026-05-08 ✓ (done 05-17)  | Schema design for `pose/<singer>.parquet` finalised in `src/choir_entanglement/video/schema.py`. |
+| 2026-05-22 ✓ (1/10, done 05-17) | Pose pipeline produces parquet for 10 videos. Calibration study committed.                           |
+| 2026-06-30                 | All Tier-2 + Tier-1 videos processed.                                                                |
 
 **Stack**: Python 3.11, mediapipe 0.10.14, opencv-python 4.10, pandas, pyarrow.
 
@@ -137,15 +139,17 @@ The principle: each person has **one clear lead area** and **one concrete primar
 
 **What you own**: the influence-graph half of the project. Given per-singer note onsets (from WP1), you run pairwise Granger-causality tests in sliding windows, build a directed graph, compute network metrics (density, modularity, centrality), and validate against a null model. The polished SVG of this graph for one representative piece is **Prof. Hacker's flagship figure**, mentioned by name on slide 7 of the Apr 30 deck.
 
+**Sprint-2 status (2026-05-17)**: Granger module + influence-graph builder shipped in `src/choir_entanglement/network/{granger,influence_graph}.py`, with circular-shift null (200 shuffles). Pairwise Granger on Dagstuhl SATB Quartet A Take 02 RMS envelopes: 11/12 directed edges significant at p_null < 0.05, graph density 0.92, most-central voice Soprano. First draft of Hacker's flagship figure: `data/figures/wp3_influence_graph.png`. Smoke tests 4/4 pass.
+
 **Primary deliverable**: a publication-quality directed influence graph for at least one Tier-2 piece by **2026-05-31**, plus the code that regenerates it for any new piece. By June 14, the same code runs on the full corpus and outputs one graph per piece.
 
-| Date       | What you deliver                                                                                                                                    |
-| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-04-29 | Read the three papers in your reading list (below).                                                                                                 |
-| 2026-05-15 | Granger causality prototype on synthetic data (sanity check).                                                                                       |
-| 2026-05-31 | First real influence graph on a Dagstuhl piece, both standard Granger and Zanin's COP-GC variants. Null model (200-shuffle circular shift) running. |
-| 2026-06-14 | All Tier-2 + Tier-3 pieces have computed graphs. Network metrics tabulated.                                                                         |
-| 2026-07-07 | Hacker's flagship figure polished for the paper. SVG output, Gephi-cleaned.                                                                         |
+| Date                       | What you deliver                                                                                                                                    |
+| :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-04-29                 | Read the three papers in your reading list (below).                                                                                                 |
+| 2026-05-15 ✓ (done 05-17)  | Granger causality prototype on synthetic data (sanity check).                                                                                       |
+| 2026-05-31 ✓ (done 05-17)  | First real influence graph on a Dagstuhl piece. Standard Granger + circular-shift null (200 shuffles) running. COP-GC variant deferred to Sprint 3. |
+| 2026-06-14                 | All Tier-2 + Tier-3 pieces have computed graphs. Network metrics tabulated.                                                                         |
+| 2026-07-07                 | Hacker's flagship figure polished for the paper. SVG output, Gephi-cleaned. (Draft already at `data/figures/wp3_influence_graph.png`.)         |
 
 **Stack**: Python 3.11, networkx 3.3, statsmodels 0.14.2, python-louvain 0.16, scikit-learn 1.5, Gephi for figure polish.
 
@@ -178,15 +182,17 @@ The principle: each person has **one clear lead area** and **one concrete primar
 
 **What you own**: the human-facing layer of the project. A small web dashboard that takes a video, plays it back with overlays (pose skeletons, E(t) timeline, network animation), and lets the user scrub through it. The polished alchemical-stage diagram that is **Prof. Gloor's flagship figure**, mentioned on slide 8 of the Apr 30 deck. All paper figures with consistent visual style.
 
+**Sprint-2 status (2026-05-17)**: Dashboard wireframe + design doc shipped at `frontend/{wireframe.md,README.md}` (4-panel layout: video+pose / influence graph / E(t) timeline / metadata). First draft of Gloor's flagship alchemical-stage figure: `data/figures/wp4_alchemical_stages.png` (4-stage Nigredo→Albedo→Citrinitas→Rubedo pipeline). React+Vite scaffold lands Sprint 3.
+
 **Primary deliverable**: a working dashboard by **2026-06-21** that runs the 60-second live demo without crashing on July 23. The alchemical-stage diagram polished and ready for the paper by July 7.
 
-| Date       | What you deliver                                                                                                          |
-| :--------- | :------------------------------------------------------------------------------------------------------------------------ |
-| 2026-04-29 | Read the two papers in your reading list (below).                                                                         |
-| 2026-05-22 | Dashboard wireframe (Figma or rough HTML) reviewed by the team.                                                           |
-| 2026-06-21 | Dashboard alpha: takes a video ID, displays timeline + pose overlay + network graph. Runs locally on a Windows 11 laptop. |
-| 2026-07-07 | Alchemical-stage diagram polished. Paper figure pipeline (consistent colors, fonts) in place.                             |
-| 2026-07-23 | 60-second live demo runs without crashing in front of the supervisors.                                                    |
+| Date                       | What you deliver                                                                                                          |
+| :------------------------- | :------------------------------------------------------------------------------------------------------------------------ |
+| 2026-04-29                 | Read the two papers in your reading list (below).                                                                         |
+| 2026-05-22 ✓ (done 05-17)  | Dashboard wireframe (markdown + ASCII layout) at `frontend/wireframe.md`.                                              |
+| 2026-06-21                 | Dashboard alpha: takes a video ID, displays timeline + pose overlay + network graph. Runs locally on a Windows 11 laptop. |
+| 2026-07-07                 | Alchemical-stage diagram polished. Paper figure pipeline (consistent colors, fonts) in place. (Draft at `data/figures/wp4_alchemical_stages.png`.) |
+| 2026-07-23                 | 60-second live demo runs without crashing in front of the supervisors.                                                    |
 
 **Stack**: React 18.3 + Vite 5.3 + TypeScript 5.5 + D3 7.9 + Plotly 2.33 frontend. FastAPI 0.111 + uvicorn 0.30 backend. Tailwind CSS for styling. Playwright for end-to-end tests.
 

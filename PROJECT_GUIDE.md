@@ -88,14 +88,14 @@ Every technical word used in sections 1–10 is explained once here. Keep this o
 
 ---
 
-## 4. Where We Are Today (2026-04-24)
+## 4. Where We Are Today (2026-05-17)
 
 **Concrete status**, no spin:
 
 - **Team**: confirmed 4 members — Zuraiz, Hammad Anwar, Hassan Ahmed, Kumaran Vasu. All at Uni Bamberg.
 - **Seminar progress**: Block course (April 15–16) attended. Chapter 14 presentation delivered Apr 16. Iteration 1 status meeting held Apr 16.
-- **Code**: scaffold landed 2026-04-25 on the `scaffold` branch. `pyproject.toml` with WP-scoped deps, `uv.lock` (166 packages, numpy 1.26.4 across Win+Linux), GitHub Actions CI on `ubuntu-22.04` (apt-installed ffmpeg + libgl + libglib), 3 canary smoke tests, `Makefile`, pre-commit hooks. **Docker dropped from scaffold** (over-engineered for a semester project; uv.lock + winget host setup gives the same reproducibility). `py-feat==0.6.2` deferred to WP2 sub-plan (nltools/numpy conflict, tracked as L-H-9). Zero feature code yet; WP1 lands on May 8.
-- **Data**: **zero data collected**. No YouTube videos downloaded. No academic datasets fetched. No features extracted.
+- **Code**: scaffold landed 2026-04-25 on the `scaffold` branch. `pyproject.toml` with WP-scoped deps, `uv.lock` (166 packages, numpy 1.26.4 across Win+Linux), GitHub Actions CI on `ubuntu-22.04` (apt-installed ffmpeg + libgl + libglib), 3 canary smoke tests, `Makefile`, pre-commit hooks. **Docker dropped from scaffold** (over-engineered for a semester project; uv.lock + winget host setup gives the same reproducibility). `py-feat==0.6.2` deferred to WP2 sub-plan (nltools/numpy conflict, tracked as L-H-9). **All 4 WPs shipped Sprint-2 milestones (2026-05-17)**: WP1 audio (`src/choir_entanglement/audio/{pipeline,coupling}.py` — pyin F0 + onsets + RMS, pairwise A(t)); WP2 video (`src/choir_entanglement/video/{schema,pose}.py` — MediaPipe Pose + FaceMesh + derived shoulder_rise/head_sway/trunk_lean); WP3 network (`src/choir_entanglement/network/{granger,influence_graph}.py` — circular-shift null, NetworkX DiGraph); WP4 frontend (`frontend/{wireframe.md,README.md}` — dashboard design doc). 15/15 smoke tests pass, ruff clean, mypy strict clean. Demo scripts under `scripts/wp{1,2,3,4}_*.py`.
+- **Data**: **Tier-2 Dagstuhl on disk 2026-05-17** (5.1 GB, MD5 verified vs Zenodo). **Tier-1 corpus manifest** at `data/tier1_corpus_manifest.csv` (22 verified URLs in Hacker schema, 4 seeds re-confirmed + 18 new). First per-singer feature parquets at `data/processed/dagstuhl/LI_QuartetA_Take02/*.parquet`. SHA-256 hashing of Tier-1 binaries deferred to Sprint 3.
 - **Planning artefacts**: this guide. Vault restructured into numbered directories. 26 papers migrated into `01_primary_sources/` and `02_secondary_sources/`.
 - **Evidence layer (new, 2026-04-24)**: 27 primary + secondary sources re-ingested full-text against the original PDFs, replacing the prior shallow Gemini Flash digests. Audit log at `onsidian vault/OSN-M/wiki/00_overview/deep_read_audit.md`. Concept pages ([[entanglement_index]], [[latency_thresholds]], [[limitations_register]]) cascaded to match. Rule-2 LINT applied. P-04 Pentland *Honest Signals* remains TO-ACQUIRE.
 - **Blockers today**: None.
@@ -105,9 +105,9 @@ Every technical word used in sections 1–10 is explained once here. Keep this o
 
 | Date                        | What                                                                                                                                                            |
 | :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Apr 30, 14:00 CET** | **Hacker + Gloor joint status meeting.** We present team, goals, plan, way-of-working. 5–10 minute deck. |
-| **May 8**             | First audio-pipeline milestone (internal engineering target).                                                                                                             |
-| **May 21**            | Status #3 & Virtual Mirror (Team WhatsApp analysis due).                                                                                                                      |
+| **Apr 30, 14:00 CET** ✓ done | **Hacker + Gloor joint status meeting.** Deck/script archived in commit 9f8c677. |
+| **May 8** ✓ done 05-17       | First audio-pipeline milestone (delayed; SATB A(t) figure at `data/figures/wp1_satb_coupling.png`). |
+| **May 21**                   | Status #3 & Virtual Mirror (Team WhatsApp analysis due). |
 | **Jul 23**            | **Final 20-minute presentation.** End of project.                                                                                                                   |
 | **Jul 31, 23:59**     | **Final Paper due.**                                                                                                                   |
 
@@ -157,13 +157,13 @@ Every deadline, in order, with the engineering-jargon stripped out.
 | :------------------------- | :------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
 | **Apr 16 (done)**    | Virtual status #1                                                                               | First check-in at block course                                                                                             |
 | **Apr 23 (today)**   | Vault restructuring + Core Papers Ingest                                 | Aligning with COINs 2026 official dates and method                                                  |
-| **Apr 30 14:00 CET** | **Virtual status #2 (Hacker + Gloor)**                                                                  | **5–10 minute presentation of team, goals, plan, way-of-working, next iteration.**    |
-| **May 1**            | Academic multitrack datasets downloaded                                | The "Tier 2" data is on disk                                             |
-| **May 8**            | Audio pipeline first milestone                                                                           | We can run the audio feature extractor end-to-end on the Dagstuhl dataset. Output: a table of features per video                    |
-| **May 15**           | YouTube corpus fully curated at 20 to 30 videos                                                         | Enough data to do preliminary visual analysis, v2.2 scope cut                                                                                       |
+| **Apr 30 14:00 CET** ✓ done       | **Virtual status #2 (Hacker + Gloor)**                                                                  | **5–10 minute presentation of team, goals, plan, way-of-working, next iteration.**    |
+| **May 1** ✓ (done 05-17)          | Academic multitrack datasets downloaded                                | The "Tier 2" data is on disk (Dagstuhl 5.1 GB, MD5 verified)            |
+| **May 8** ✓ (done 05-17)          | Audio pipeline first milestone                                                                           | WP1 audio pipeline runs end-to-end on Dagstuhl SATB Quartet A Take 02; per-singer parquets + pairwise A(t) figure shipped |
+| **May 15** ✓ (done 05-17, 22 URLs) | YouTube corpus fully curated at 20 to 30 videos                                                         | 22 verified Tier-1 URLs in Hacker schema (4 seeds re-confirmed + 18 new); 2 candidate URLs taken down since scrape |
 | **May 21**           | **Virtual status #3 + Virtual Mirror**                                                                           | **WhatsApp analysis due for our own team.** |
-| **May 22**           | Video pipeline first milestone                                                                           | WP2 code extracts body/face coordinates for 10 videos. |
-| **May 31**           | Network pipeline first milestone                                                                         | WP3 code produces a directed influence graph for 5 videos                                                                           |
+| **May 22** ✓ (1/10, done 05-17) | Video pipeline first milestone                                                                           | WP2 code extracts body/face coordinates from a Tier-1 SoundJack video (595 frames, 79.5% pose detection). Scaling to remaining 21 verified URLs in Sprint 3. |
+| **May 31** ✓ (done 05-17)       | Network pipeline first milestone                                                                         | WP3 produces Hacker's directed influence graph for Dagstuhl SATB Quartet A Take 02 (11/12 significant edges at p_null < 0.05, density 0.92). |
 | **Jun 11**           | **Virtual status #4**                                                          | Progress check-in                                                                                        |
 | **Jun 14**           | E(t) computed on 80+ videos; null-model running                                                          | The full Entanglement Index works end-to-end                                                                                        |
 | **Jun 21**           | Dashboard alpha version                                                                                  | WP4 web UI shows a video + overlays + network graph side-by-side                                                                    |
