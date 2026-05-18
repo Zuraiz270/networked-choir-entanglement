@@ -56,8 +56,9 @@ We are upfront with supervisors that the formula was originally validated on ema
 | **Tier 1 data** (YouTube curated, 20-30 videos)          | **Done 2026-05-17.** 22 verified URLs in Hacker schema (4 seeds re-confirmed + 18 new). Manifest at `data/tier1_corpus_manifest.csv`. |
 | **Tier 2 data** (Dagstuhl + ESMUC + ChoralSynth)         | **Dagstuhl on disk 2026-05-17** (5.1 GB, MD5 `82b95faa…` verified vs Zenodo). ESMUC + ChoralSynth deferred. |
 | **Feature code** (audio, video, network, dashboard)      | **All 4 WPs shipped Sprint-2 milestones.** WP1: SATB A(t) coupling on Dagstuhl. WP2: MediaPipe pose extraction on a Tier-1 SoundJack video (79.5% detection). WP3: Granger influence graph (11/12 SATB edges significant). WP4: dashboard wireframe + alchemical diagram drafted. |
+| **Virtual Mirror** (SC Chat Analyzer on team WhatsApp) | **Done 2026-05-18.** 5 participants. Archetype: Tree Hugger consensus across all 4 humans. Chat character: HIGH-Meaning / LOW-Emotion / MEDIUM-Relationship. Writeup at [virtual_mirror_sprint1.md](virtual_mirror_sprint1.md); raw screenshots at `data/sc chat analyzer/`. |
 
-Sprint 2 milestones slipped 9 to 17 days on intermediate dates but landed before May 21. No critical blockers. Open risk: thin Zoom-only Tier-1 stratum (n=2 after 2 URLs were taken down). Next supervisor meeting: May 21 (Status #3 + Virtual Mirror).
+Sprint 2 milestones slipped 9 to 17 days on intermediate dates but landed before May 21. No critical blockers. Open risk: thin Zoom-only Tier-1 stratum (n=2 after 2 URLs were taken down). Next supervisor meeting: May 21 (Status #3). Virtual Mirror data already captured 2026-05-18.
 
 ---
 
