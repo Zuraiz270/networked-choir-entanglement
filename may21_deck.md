@@ -58,7 +58,7 @@ Coordinators: Janine, Simon, Peter
 | Item | Status |
 |:---|:---|
 | Tier-2 Dagstuhl ChoirSet on disk (5.1 GB, MD5 `82b95faa…` verified against Zenodo) | ✓ done 2026-05-17 |
-| Tier-1 YouTube corpus validated (N=29, includes 4 Hacker Tier-0 seeds re-confirmed; Zoom-only stratum supplemented from 2 to 9 via Perplexity + yt-dlp search) | ✓ done 2026-05-19 |
+| Tier-1 YouTube corpus validated, downloaded, and SHA-256 hashed (N=29, 1.3 GB on disk, all 29 hashes in `data/tier1_corpus_manifest.csv`; mp4s kept for WP2 Sprint-3 pose extraction then deleted per data sourcing policy) | ✓ done 2026-05-19 |
 | WP1 audio: pipeline end-to-end on Quartet A Take 02 (SATB, 143 s, 4 singers); pairwise A(t) coupling 0.72-0.77 between adjacent voices | ✓ done 2026-05-17 |
 | WP2 video: MediaPipe Pose + FaceMesh + derived features extracted from a Tier-1 SoundJack rehearsal (595 frames, 79.5% pose detection); calibration note at `wp2_calibration_sprint2.md` | ✓ done 2026-05-17 |
 | WP3 network: Granger influence graph on Dagstuhl SATB; 11/12 directed edges significant at p_null < 0.05, density 0.92, Soprano most-central. First draft of Hacker's flagship figure | ✓ done 2026-05-17 |
