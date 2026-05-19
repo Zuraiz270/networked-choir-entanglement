@@ -58,7 +58,7 @@ Coordinators: Janine, Simon, Peter
 | Item | Status |
 |:---|:---|
 | Tier-2 Dagstuhl ChoirSet on disk (5.1 GB, MD5 `82b95faa…` verified against Zenodo) | ✓ done 2026-05-17 |
-| Tier-1 YouTube corpus validated (N=22, includes 4 Hacker Tier-0 seeds re-confirmed; 2 candidate URLs taken down since scrape) | ✓ done 2026-05-17 |
+| Tier-1 YouTube corpus validated (N=29, includes 4 Hacker Tier-0 seeds re-confirmed; Zoom-only stratum supplemented from 2 to 9 via Perplexity + yt-dlp search) | ✓ done 2026-05-19 |
 | WP1 audio: pipeline end-to-end on Quartet A Take 02 (SATB, 143 s, 4 singers); pairwise A(t) coupling 0.72-0.77 between adjacent voices | ✓ done 2026-05-17 |
 | WP2 video: MediaPipe Pose + FaceMesh + derived features extracted from a Tier-1 SoundJack rehearsal (595 frames, 79.5% pose detection); calibration note at `wp2_calibration_sprint2.md` | ✓ done 2026-05-17 |
 | WP3 network: Granger influence graph on Dagstuhl SATB; 11/12 directed edges significant at p_null < 0.05, density 0.92, Soprano most-central. First draft of Hacker's flagship figure | ✓ done 2026-05-17 |
@@ -146,7 +146,7 @@ Coordinators: Janine, Simon, Peter
 1. **GDPR / DPIA turnaround**: DPO sign-off needed before Jun-14 large-scale extraction. Outline filed today.
 2. **arXiv jurisdiction question**: §60d UrhG TDM right is DE-statutory; arXiv deposit is US-jurisdiction. Pending Bamberg legal-desk clarification.
 3. **MediaPipe pose accuracy on micro-sway**: Apr-17 audit flagged this as unvalidated for choir use case. Calibration note (May 22, Sprint 3) will quantify error.
-4. **Zoom-only stratum is thin**: Tier-1 has only 2 verified Zoom-only videos (target was 3-5) after 2 candidates were taken down. May need supplementary curation in Sprint 3 to balance the H1 contrast.
+4. **Zoom-only stratum supplemented** (closed 2026-05-19): Originally thin at 2 verified videos; supplementary curation via Perplexity + yt-dlp search added 7 more, bringing the stratum to 9 (above the 3-5 target). H1 contrast now has adequate statistical power.
 
 **Questions for the room**:
 

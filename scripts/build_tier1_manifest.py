@@ -52,7 +52,11 @@ OUTPUT_COLUMNS = [
 def fetch_metadata(url: str) -> dict:
     """Run yt-dlp --simulate -j to get YouTube metadata as JSON."""
     result = subprocess.run(
-        [YT_DLP, "--simulate", "--no-warnings", "-j", url],
+        [
+            YT_DLP, "--simulate", "--no-warnings",
+            "--extractor-args", "youtube:player_client=web,android",
+            "-j", url,
+        ],
         capture_output=True,
         text=True,
         timeout=60,

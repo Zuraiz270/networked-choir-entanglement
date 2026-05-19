@@ -30,7 +30,7 @@ Now the honest part: what we got done in the last three weeks, and what we did n
 
 **What shipped, across all four work packages**:
 
-The Dagstuhl ChoirSet is on disk. That is our Tier-2 ground-truth dataset, 5 gigabytes of multitrack choir recordings, MD5-verified against Zenodo. The Tier-1 YouTube corpus is curated to 22 verified videos, including 4 of Prof. Hacker's 5 seed URLs re-confirmed plus 18 new ones matching the same criteria.
+The Dagstuhl ChoirSet is on disk. That is our Tier-2 ground-truth dataset, 5 gigabytes of multitrack choir recordings, MD5-verified against Zenodo. The Tier-1 YouTube corpus is curated to 29 verified videos: 4 of Prof. Hacker's 5 Tier-0 seed URLs re-confirmed plus 25 new ones. The breakdown by network regime came out balanced (11 Jamulus, 5 Jamulus+Zoom, 4 SoundJack, 9 Zoom-only); the Zoom-only stratum started thin at 2 videos but we ran a supplementary search this week and brought it up to 9, which gives us the statistical power we need for the H1 latency-contrast hypothesis.
 
 WP1 audio: pipeline running end-to-end on the Locus Iste Quartet A Take 02 recording, all four SATB singers, 143 seconds. Pitch extraction puts each voice in its expected range. Pairwise audio coupling between adjacent voices comes in between 0.72 and 0.77, which is what you would expect from singers in the same room. Figure on the slide.
 
