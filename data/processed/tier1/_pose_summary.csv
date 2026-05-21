@@ -1,0 +1,11 @@
+video_id,regime,duration_s,singer_count_est,n_frames_processed,pose_detection_rate,face_detection_rate,shoulder_rise_std,head_sway_std,quality_pass,reused_parquet
+VlOB9_-08pw,NMP-Jamulus,141,20,600,0.0,0.0,0.0,0.0,False,False
+ZDZ98tl2wAQ,NMP-Jamulus,144,60,600,0.1783,0.0,0.086444,0.007188,False,False
+ZKthfLPWBCQ,NMP-Jamulus,208,6,600,0.985,0.0,0.062021,0.007738,True,False
+w0ywMP8mOc4,NMP-Jamulus,278,24,600,0.7817,0.0,0.027365,0.016641,True,False
+bT6B5hjk34M,NMP-Jamulus+Zoom,210,20,600,0.3417,0.1067,0.010633,0.00306,False,False
+NCXnQAMq0pY,NMP-SoundJack,45,16,1357,0.0,0.0,0.0,0.0,False,True
+ouFyQKszE_Y,NMP-SoundJack,71,12,595,0.795,0.0,0.137369,0.029237,True,True
+VsnvueTan4I,Zoom-only,255,30,600,0.6667,0.0,0.140193,0.010864,True,False
+Z-cH7j5iB3k,Zoom-only,45,15,370,0.9405,0.4351,0.140698,0.011981,True,False
+m0B7eYw7oEk,Zoom-only,497,20,600,0.4067,0.0,0.16857,0.004595,False,False
