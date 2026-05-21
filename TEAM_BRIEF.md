@@ -1,6 +1,6 @@
 # Team Brief — Project 8
 
-**SNA-OSN-M Summer 2026 · Uni Bamberg · Last updated 2026-05-21**
+**SNA-OSN-M Summer 2026 · Uni Bamberg · Last updated 2026-05-22**
 
 > Read this once before doing anything else on the project. About 20 minutes. After this, your role section in §4 is the page you re-read each iteration.
 
@@ -55,7 +55,7 @@ We are upfront with supervisors that the formula was originally validated on ema
 | **Tier 0 data** (Hacker's 5 Jamulus URLs)                | Received.                                                              |
 | **Tier 1 data** (YouTube curated, 20-30 videos)          | **Done 2026-05-19.** 29 verified + downloaded + SHA-256 hashed URLs in Hacker schema (4 Hacker seeds re-confirmed + 25 new). Stratification: 11 Jamulus, 5 Jamulus+Zoom, 4 SoundJack, 9 Zoom-only. 1.3 GB of mp4s under `data/raw/tier1/` (gitignored), held for Sprint-3 WP2 pose extraction. Manifest with hashes at `data/tier1_corpus_manifest.csv`. |
 | **Tier 2 data** (Dagstuhl + ESMUC + ChoralSynth)         | **Dagstuhl on disk 2026-05-17** (5.1 GB, MD5 `82b95faa…` verified vs Zenodo). ESMUC + ChoralSynth deferred. |
-| **Feature code** (audio, video, network, dashboard)      | **All 4 WPs shipped Sprint-2 milestones.** WP1: SATB A(t) coupling on Dagstuhl. WP2: MediaPipe pose extraction on a Tier-1 SoundJack video (79.5% detection). WP3: Granger influence graph (11/12 SATB edges significant). WP4: dashboard wireframe + alchemical diagram drafted. |
+| **Feature code** (audio, video, network, dashboard)      | **All 4 WPs shipped Sprint-2 milestones.** WP1: SATB A(t) coupling on Dagstuhl. WP2: MediaPipe pose extraction on a Tier-1 SoundJack video (79.5% detection). WP3: Granger influence graph (11/12 SATB edges significant). WP4: dashboard wireframe + alchemical diagram drafted. **Sprint-3 Phase A (2026-05-22):** WP1 scaled to all 25 Dagstuhl musical takes (LI + TP), 130 newly-extracted singer parquets + 288 pairwise A(t) couplings; corpus summary at `data/processed/dagstuhl/_summary.csv`. |
 | **Virtual Mirror** (SC Chat Analyzer on team WhatsApp) | **Done 2026-05-18.** 5 participants. Archetype: Tree Hugger consensus across all 4 humans. Chat character: HIGH-Meaning / LOW-Emotion / MEDIUM-Relationship. Writeup at [virtual_mirror_sprint1.md](virtual_mirror_sprint1.md); raw screenshots at `data/sc chat analyzer/`. |
 
 Sprint 2 milestones slipped 9 to 17 days on intermediate dates but all landed before May 21. Tier-1 corpus downloaded + SHA-256 hashed 2026-05-19 (1.3 GB, mp4s held for Sprint-3 WP2). Virtual Mirror data captured + analyzed 2026-05-18. May-21 deliverables shipped 2026-05-20: `OSN.pptx` deck, `may21_script.md` (Hammad presenting), `may21_qa_prep.md` (21 Q&A entries). **Status Meeting III complete (2026-05-21): both supervisors satisfied; DPIA NOT required (semester-project scope, no paper); MediaPipe calibration downgrades to "try and iterate". See `onsidian vault/OSN-M/wiki/01_project/status_meeting_3_outcome.md` for the decision record.**

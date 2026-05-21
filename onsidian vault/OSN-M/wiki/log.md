@@ -893,3 +893,25 @@ Verbal post-meeting status update (Status Meeting III, 2026-05-21 14:00 CET) cap
 
 **Rule 1**: 4 pages ✓
 **Ingest counter**: bump prior counter by 1 (this is a project-decision ingest, not a paper ingest)
+
+---
+
+## [2026-05-22] schema | Sprint-3 Phase A — WP1 audio scaled to all 25 Dagstuhl musical takes
+
+Sprint-3 Phase A executed inline from plan `C:\Users\zurai\.claude\plans\dear-coin-course-participants-peaceful-snowflake.md`. New batch script `scripts/wp1_dagstuhl_batch.py` walks the Dagstuhl audio dir, groups per-singer wavs by `(piece, section, take)`, picks the canonical mic per singer (DYN > HSM > LRX preference), reuses any existing per-singer parquets, computes per-take pairwise A(t) cross-correlation over RMS envelopes, and writes a corpus-level summary.
+
+**Run output**: 25 musical takes processed (LI Basses ×5, LI FullChoir ×3, LI QuartetA ×6, LI QuartetB ×5, TP FullChoir ×4, TP QuartetA ×2). 130 newly-extracted per-singer parquets + 2 reused (from Sprint-2 demo); 288 pairwise couplings. Mean pairwise coupling ranges 0.40 (TP_FullChoir_Take01, full-choir polyphonic) to 0.87 (LI_Basses_Take05, single-section). Total runtime 78 min.
+
+**Engineering changes** (committed in `feat(wp1-scale)` 15244fb):
+- CREATED `scripts/wp1_dagstuhl_batch.py` (resumable batch driver)
+- CREATED `data/processed/dagstuhl/_summary.csv` (25-row corpus summary, tracked)
+- UPDATED `.gitignore` (`data/processed/` subtree now exposes only `_*.csv` + `*.gexf`; parquets stay ignored)
+
+**Doc sync** (committed in `docs(sprint3-phaseA)`):
+- UPDATED `TEAM_BRIEF.md` §3 Feature code row + last-updated date
+- UPDATED `PROJECT_GUIDE.md` §4 Code/Data status bullets + §6 Roadmap (added Jun-4 row, marked done 05-22)
+- UPDATED `wiki/log.md` (this entry)
+
+Tests still 15/15. No vault wiki pages created (engineering work; no new sources or concepts surfaced).
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
