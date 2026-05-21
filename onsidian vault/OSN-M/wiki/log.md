@@ -942,3 +942,30 @@ Sprint-3 Phase B per the same Sprint-3 plan. The Zanin-2021 COP-GC variant (long
 Tests 18/18 (15 baseline + 3 new). No vault wiki pages created (engineering work; the L-C-1 Granger-stationarity concept page already documents Zanin's COP-GC as the planned method).
 
 **Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+---
+
+## [2026-05-22] schema | Sprint-3 Phase C — WP2 pose extraction batched across 10 Tier-1 videos
+
+Sprint-3 Phase C of the same plan. `scripts/wp2_tier1_batch.py` picks a stratified set of 10 mp4s already on disk under `data/raw/tier1/` (Sprint-2 hashing run; no re-download): 4 NMP-Jamulus, 3 Zoom-only, 2 NMP-SoundJack, 1 NMP-Jamulus+Zoom. Per-video extraction uses the same `extract_pose_to_parquet` from Sprint 2 with `frame_skip=3` and `max_frames=600` (~ first 60s of source @ 30fps; ~ 1 min runtime per video). The batch is resumable: any existing `pose.parquet` is reused without re-running MediaPipe (the Sprint-2 pilot `ouFyQKszE_Y` and a stray `NCXnQAMq0pY` parquet were both reused). The script ends by auto-rendering a V(t) figure for the highest pose-detection video in the batch.
+
+**Run output** (2.3 min):
+- 5/10 pass the 50% pose-detection floor: ZKthfLPWBCQ 98.5%, Z-cH7j5iB3k 94.0%, ouFyQKszE_Y 79.5%, w0ywMP8mOc4 78.2%, VsnvueTan4I 66.7%
+- 5/10 below: VlOB9_-08pw 0%, NCXnQAMq0pY 0% (likely software-UI screen captures with no body), ZDZ98tl2wAQ 17.8%, bT6B5hjk34M 34.2%, m0B7eYw7oEk 40.7% (dense low-resolution tile grids).
+
+The plan's soft gate was "≥ 7 of 10 pass 50%"; the actual 5/10 is the documented "try and iterate" outcome from Status Meeting III. The 5 passing videos define the WP2 inclusion set for downstream H1 testing. Per `PROJECT_GUIDE.md` §9 R3 mitigation, this does not block the Jun-11 milestone.
+
+**Engineering changes** (committed in `feat(wp2-scale)` ff31a51):
+- CREATED `scripts/wp2_tier1_batch.py`
+- CREATED `data/processed/tier1/_pose_summary.csv` (10 rows)
+- CREATED `data/processed/tier1/{8 new}/pose.parquet` (gitignored; 2 reused)
+- CREATED `data/figures/wp2_visual_features_v2.png` (ZKthfLPWBCQ, 6 singers, 98.5% detection)
+
+**Doc sync** (committed in `docs(sprint3-phaseC)`):
+- UPDATED `TEAM_BRIEF.md` §3 Feature code row
+- UPDATED `PROJECT_GUIDE.md` §4 Code bullet; §6 Roadmap May-22 row (now 10/10 done, gate documented)
+- UPDATED `wiki/log.md` (this entry)
+
+Tests 18/18 (no change). No vault wiki pages created (engineering work; risk register R3 already covers the calibration uncertainty).
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
