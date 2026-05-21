@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf xmlns="http://www.gexf.net/1.2draft" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd" version="1.2">
+  <meta lastmodifieddate="2026-05-21">
+    <creator>NetworkX 3.3</creator>
+  </meta>
+  <graph defaultedgetype="directed" mode="static" name="">
+    <attributes mode="static" class="edge">
+      <attribute id="0" title="p_null" type="double" />
+      <attribute id="1" title="lag" type="long" />
+    </attributes>
+    <nodes>
+      <node id="A1" label="A1" />
+      <node id="B1" label="B1" />
+      <node id="S2" label="S2" />
+      <node id="T1" label="T1" />
+    </nodes>
+    <edges>
+      <edge source="A1" target="T1" id="0" weight="8.720875975716535">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="B1" target="A1" id="1" weight="17.544646428281133">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="B1" target="S2" id="2" weight="9.527032501198894">
+        <attvalues>
+          <attvalue for="0" value="0.005" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="B1" target="T1" id="3" weight="5.460887667475211">
+        <attvalues>
+          <attvalue for="0" value="0.025" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="S2" target="A1" id="4" weight="24.012602226059606">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="S2" target="B1" id="5" weight="14.285697288305377">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="S2" target="T1" id="6" weight="10.128102348245429">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="T1" target="A1" id="7" weight="13.948678115256191">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="T1" target="B1" id="8" weight="6.946697939044226">
+        <attvalues>
+          <attvalue for="0" value="0.005" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="T1" target="S2" id="9" weight="13.979551699606324">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+    </edges>
+  </graph>
+</gexf>

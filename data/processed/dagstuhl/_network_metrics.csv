@@ -1,0 +1,11 @@
+take_id,method,n_singers,n_tested_pairs,n_significant_edges,density,avg_in_degree,avg_out_degree,modularity,n_communities,most_central,most_central_score
+LI_FullChoir_Take01,cop_gc,8,56,50,0.8929,6.25,6.25,0.0167,2,A2,0.3858
+LI_FullChoir_Take01,standard,8,56,55,0.9821,6.875,6.875,0.0625,3,S1,0.3589
+LI_QuartetA_Take02,cop_gc,4,12,12,1.0,3.0,3.0,0.0,1,A1,0.5
+LI_QuartetA_Take02,standard,4,12,11,0.9167,2.75,2.75,-0.0,1,A1,0.5318
+LI_QuartetB_Take01,cop_gc,4,12,10,0.8333,2.5,2.5,0.0,1,A2,0.5638
+LI_QuartetB_Take01,standard,4,12,12,1.0,3.0,3.0,0.0,1,B2,0.5
+TP_FullChoir_Take01,cop_gc,8,56,25,0.4464,3.125,3.125,0.1773,2,A1,0.6221
+TP_FullChoir_Take01,standard,8,56,42,0.75,5.25,5.25,0.1345,2,T1,0.3975
+TP_QuartetA_Take01,cop_gc,4,12,10,0.8333,2.5,2.5,0.0,1,A1,0.5774
+TP_QuartetA_Take01,standard,4,12,11,0.9167,2.75,2.75,0.0,1,S2,0.5318

@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf xmlns="http://www.gexf.net/1.2draft" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd" version="1.2">
+  <meta lastmodifieddate="2026-05-22">
+    <creator>NetworkX 3.3</creator>
+  </meta>
+  <graph defaultedgetype="directed" mode="static" name="">
+    <attributes mode="static" class="edge">
+      <attribute id="0" title="p_null" type="double" />
+      <attribute id="1" title="lag" type="long" />
+    </attributes>
+    <nodes>
+      <node id="A1" label="A1" />
+      <node id="A2" label="A2" />
+      <node id="B1" label="B1" />
+      <node id="B2" label="B2" />
+      <node id="S1" label="S1" />
+      <node id="S2" label="S2" />
+      <node id="T1" label="T1" />
+      <node id="T2" label="T2" />
+    </nodes>
+    <edges>
+      <edge source="A2" target="A1" id="0" weight="11.95187769406359">
+        <attvalues>
+          <attvalue for="0" value="0.01" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="A2" target="B1" id="1" weight="14.588925863239584">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="A2" target="B2" id="2" weight="11.542893986961655">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="A2" target="S1" id="3" weight="12.706116811037822">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="A2" target="T1" id="4" weight="9.36306732118218">
+        <attvalues>
+          <attvalue for="0" value="0.025" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="B1" target="A2" id="5" weight="6.599557206242794">
+        <attvalues>
+          <attvalue for="0" value="0.01" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="B1" target="B2" id="6" weight="7.214874249575585">
+        <attvalues>
+          <attvalue for="0" value="0.01" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="B1" target="S1" id="7" weight="17.42400418385265">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="B1" target="T1" id="8" weight="6.171360457166497">
+        <attvalues>
+          <attvalue for="0" value="0.025" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="B2" target="A1" id="9" weight="8.538425738360749">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="B2" target="B1" id="10" weight="7.3096059254804215">
+        <attvalues>
+          <attvalue for="0" value="0.015" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="B2" target="S2" id="11" weight="7.628105269032705">
+        <attvalues>
+          <attvalue for="0" value="0.01" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="S1" target="A1" id="12" weight="7.217574999429621">
+        <attvalues>
+          <attvalue for="0" value="0.02" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="S1" target="A2" id="13" weight="6.824413514558855">
+        <attvalues>
+          <attvalue for="0" value="0.005" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="S1" target="B2" id="14" weight="16.85352193334419">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="S1" target="S2" id="15" weight="7.591547246245489">
+        <attvalues>
+          <attvalue for="0" value="0.015" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="S2" target="A1" id="16" weight="19.03755214560546">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="S2" target="S1" id="17" weight="8.153999427847372">
+        <attvalues>
+          <attvalue for="0" value="0.01" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="T1" target="A1" id="18" weight="11.791485562920336">
+        <attvalues>
+          <attvalue for="0" value="0.005" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="T1" target="A2" id="19" weight="5.788719852539107">
+        <attvalues>
+          <attvalue for="0" value="0.04" />
+          <attvalue for="1" value="2" />
+        </attvalues>
+      </edge>
+      <edge source="T1" target="S2" id="20" weight="10.443715694029464">
+        <attvalues>
+          <attvalue for="0" value="0.005" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="T2" target="A2" id="21" weight="14.174372725026755">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="T2" target="B1" id="22" weight="13.334877327276402">
+        <attvalues>
+          <attvalue for="0" value="0.0" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="T2" target="B2" id="23" weight="13.195147091775912">
+        <attvalues>
+          <attvalue for="0" value="0.005" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+      <edge source="T2" target="S1" id="24" weight="6.961281366768689">
+        <attvalues>
+          <attvalue for="0" value="0.045" />
+          <attvalue for="1" value="1" />
+        </attvalues>
+      </edge>
+    </edges>
+  </graph>
+</gexf>

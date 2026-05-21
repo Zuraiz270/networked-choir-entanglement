@@ -5,21 +5,31 @@ time-series to construct a directed influence graph (who-leads-whom). The null
 model is circular-shift (Stevens 2013) which preserves within-stream
 autocorrelation, unlike i.i.d. shuffle.
 
+Two methods:
+- ``"standard"``: parametric VAR-based Granger (statsmodels). Linear couplings.
+- ``"cop_gc"``: COP-GC (Zanin 2021, P-22). Each series is first mapped to its
+  ordinal-pattern sequence (Lehmer code of each consecutive `order`-window),
+  then the same parametric Granger machinery is applied. Captures non-linear
+  couplings that the standard test misses.
+
 Reference:
 - Granger 1969 (foundational); statsmodels `grangercausalitytests`
-- Zanin 2021 (P-22) for COP-GC variant; this module implements standard
-  parametric Granger as the primary method.
+- Zanin 2021 (P-22) "Augmenting Granger Causality through Ordinal Patterns"
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Literal
 
 import numpy as np
 import numpy.typing as npt
 from statsmodels.tsa.stattools import grangercausalitytests
 
 FloatArray = npt.NDArray[np.float64]
+GrangerMethod = Literal["standard", "cop_gc"]
+
+_FACTORIALS = np.array([1, 1, 2, 6, 24, 120, 720], dtype=np.int64)
 
 
 @dataclass(frozen=True)
@@ -33,6 +43,7 @@ class GrangerResult:
     p_value_null: float  # empirical p vs circular-shift null
     lag: int
     n_samples: int
+    method: GrangerMethod = "standard"
 
 
 def pairwise_granger(
@@ -43,20 +54,28 @@ def pairwise_granger(
     maxlag: int = 10,
     n_shuffles: int = 200,
     seed: int = 0,
+    method: GrangerMethod = "standard",
+    ordinal_order: int = 3,
 ) -> GrangerResult:
     """Run Granger(cause -> effect) and a circular-shift null model.
 
     Returns the F-statistic, the parametric p-value, and the empirical p-value
     against `n_shuffles` circular-shift permutations of the cause series.
+
+    ``method="cop_gc"`` first maps both series to ordinal-pattern integers of
+    the given ``ordinal_order`` (default 3 → 6 patterns; Zanin 2021), then
+    applies the same parametric Granger test on the transformed series.
     """
     if cause_series.shape != effect_series.shape:
         raise ValueError("cause and effect series must have equal length")
-    n = cause_series.size
-    if n <= maxlag + 1:
-        raise ValueError(f"need > {maxlag + 1} samples, got {n}")
 
-    f_stat, p_value, best_lag = _run_granger(cause_series, effect_series, maxlag)
-    null_f_stats = _shuffle_null(cause_series, effect_series, maxlag, n_shuffles, seed)
+    cause_t, effect_t = _maybe_transform(cause_series, effect_series, method, ordinal_order)
+    n = cause_t.size
+    if n <= maxlag + 1:
+        raise ValueError(f"need > {maxlag + 1} samples after transform, got {n}")
+
+    f_stat, p_value, best_lag = _run_granger(cause_t, effect_t, maxlag)
+    null_f_stats = _shuffle_null(cause_t, effect_t, maxlag, n_shuffles, seed)
     p_null = float((null_f_stats >= f_stat).mean())
 
     return GrangerResult(
@@ -67,7 +86,46 @@ def pairwise_granger(
         p_value_null=p_null,
         lag=best_lag,
         n_samples=n,
+        method=method,
     )
+
+
+def _maybe_transform(
+    cause: FloatArray, effect: FloatArray, method: GrangerMethod, order: int
+) -> tuple[FloatArray, FloatArray]:
+    if method == "standard":
+        return cause, effect
+    if method == "cop_gc":
+        return ordinal_pattern_indices(cause, order), ordinal_pattern_indices(effect, order)
+    raise ValueError(f"unknown method: {method!r}")
+
+
+def ordinal_pattern_indices(series: FloatArray, order: int = 3) -> FloatArray:
+    """Map each consecutive length-``order`` window to its Lehmer-code permutation index.
+
+    Returns a float array of length ``n - order + 1`` with values in
+    ``[0, order! - 1]``. The mapping is deterministic: identical windows
+    in different series get the same code, which is required for cross-series
+    Granger comparisons.
+    """
+    if order < 2 or order >= _FACTORIALS.size:
+        raise ValueError(f"order must be in [2, {_FACTORIALS.size - 1}], got {order}")
+    n = series.size
+    if n < order:
+        raise ValueError(f"need >= {order} samples, got {n}")
+
+    n_patterns = n - order + 1
+    out = np.zeros(n_patterns, dtype=np.float64)
+    for i in range(n_patterns):
+        window = series[i : i + order]
+        perm = np.argsort(window, kind="stable")
+        code = 0
+        remaining = perm.tolist()
+        for j in range(order):
+            v = remaining.pop(0)
+            code += sum(1 for r in remaining if r < v) * int(_FACTORIALS[order - 1 - j])
+        out[i] = float(code)
+    return out
 
 
 def _run_granger(cause: FloatArray, effect: FloatArray, maxlag: int) -> tuple[float, float, int]:
