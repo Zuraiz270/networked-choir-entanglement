@@ -915,3 +915,30 @@ Sprint-3 Phase A executed inline from plan `C:\Users\zurai\.claude\plans\dear-co
 Tests still 15/15. No vault wiki pages created (engineering work; no new sources or concepts surfaced).
 
 **Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+---
+
+## [2026-05-22] schema | Sprint-3 Phase B — WP3 Granger scaled to 5 Dagstuhl pieces + COP-GC variant
+
+Sprint-3 Phase B per the same Sprint-3 plan. The Zanin-2021 COP-GC variant (long-promised in `PROJECT_GUIDE.md` §11.4 Decision 4 since Sprint-1) is now implemented as `method="cop_gc"` in `src/choir_entanglement/network/granger.py`. The new public `ordinal_pattern_indices(series, order=3)` helper maps each consecutive `order`-window to its Lehmer-code permutation index (deterministic, so identical windows in different series get the same code, which the cross-series Granger test requires).
+
+`scripts/wp3_dagstuhl_batch.py` walks 5 Dagstuhl pieces (LI_QuartetA_Take02, LI_QuartetB_Take01, LI_FullChoir_Take01, TP_QuartetA_Take01, TP_FullChoir_Take01 — substituted for the plan's SE_QuartetA_Take01 since SE has no `Take##` recordings) and runs both methods per piece, persisting per-piece per-method GEXFs plus a flat metrics row to `data/processed/dagstuhl/_network_metrics.csv` (10 rows). The `--figure-only` flag re-renders the 2x3 grid figure from cached GEXFs without re-running Granger (re-render in <1s vs the 69-min Granger pass).
+
+**Run output**: 5 pieces × 2 methods = 10 method-runs. Sprint-2 reference LI_QuartetA_Take02 standard reproduces exactly (11/12 edges, density 0.917, central voice A1). Largest method-divergence is on TP_FullChoir_Take01 (standard 42/56 vs COP-GC 25/56), which is now the 6th panel of the grid figure as a method-comparison anchor. Modularity is meaningfully positive only on full-choir pieces (4-singer quartets are too small to partition); communities range 1–3.
+
+**Engineering changes** (committed in `feat(wp3-scale)` 14864f9):
+- UPDATED `src/choir_entanglement/network/granger.py` (+~60 lines; `method` parameter, `ordinal_order`, `ordinal_pattern_indices` exported)
+- CREATED `scripts/wp3_dagstuhl_batch.py`
+- UPDATED `tests/test_network_granger.py` (+3 tests: Lehmer-encoding sanity, COP-GC detection on cubic-monotone coupling, COP-GC null on independent series)
+- CREATED `data/processed/dagstuhl/_network_metrics.csv` (10 rows)
+- CREATED `data/processed/dagstuhl/{5 pieces}/influence_graph_{standard,cop_gc}.gexf` (10 GEXFs)
+- CREATED `data/figures/wp3_influence_graphs_5pieces.png`
+
+**Doc sync** (committed in `docs(sprint3-phaseB)`):
+- UPDATED `TEAM_BRIEF.md` §3 Feature code row (Phase B note)
+- UPDATED `PROJECT_GUIDE.md` §4 Code/Data status bullets; §6 Roadmap (Jun-11 row, marked partial done 05-22); §11.4 Decision 4 status (COP-GC now IMPLEMENTED)
+- UPDATED `wiki/log.md` (this entry)
+
+Tests 18/18 (15 baseline + 3 new). No vault wiki pages created (engineering work; the L-C-1 Granger-stationarity concept page already documents Zanin's COP-GC as the planned method).
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
