@@ -40,9 +40,14 @@ env/
 htmlcov/
 
 # Project runtime artefacts (created at runtime, not committed)
-processed/
+/processed/
 features/
 results/
+# data/processed/ subtree: ignore everything except summary CSVs (_*.csv) + network GEXFs
+data/processed/**
+!data/processed/**/
+!data/processed/**/_*.csv
+!data/processed/**/*.gexf
 
 # Dataset caches (raw/ is tracked for metadata only; dataset binaries use volumes)
 raw/youtube/*/
