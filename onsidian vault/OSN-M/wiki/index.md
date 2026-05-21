@@ -10,6 +10,7 @@ Welcome to the **SNA-OSN-M** research wiki (Summer 2026). This vault focuses on 
 - **[[Project_8_MOC]]** — The technical and conceptual Map of Content.
 - **[[Team_Profile]]** — Identity and lens of the "Tree Huggers" team.
 - **[[Project_Phase_Roster]]** — Post-block-course project phase team roster.
+- **[[status_meeting_3_outcome]]** — Status Meeting III (2026-05-21): DPIA not required, paper scope dropped, MediaPipe lightweight calibration.
 - **[[seminar_logistics]]** — Admin reference hub for the COINs seminar (targets, groupwork tips).
 - **[[deep_read_audit]]** — Rigorous full-text re-ingestion audit (supersedes Gemini Flash placeholders).
 

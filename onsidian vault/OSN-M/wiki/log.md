@@ -880,3 +880,16 @@ Refactor on `scaffold` branch removing Docker as a mandatory dependency. Decisio
 **Net result**: scaffold is leaner; reproducibility unchanged in practice; CI runs faster (one job instead of two); first-time clone-to-smoke time *improved* from ~15 min (Docker cold) to ~12 min (uv cold).
 
 **Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+## [2026-05-21] ingest | status_meeting_3_notes.txt
+
+Verbal post-meeting status update (Status Meeting III, 2026-05-21 14:00 CET) captured from Kate. Two consequential decisions: DPIA / DPO sign-off NOT required because scope is a semester report (not a peer-reviewed paper); MediaPipe calibration downgrades from formal OpenPose study to lightweight "try and iterate". Both professors satisfied with the presentation. Publication scope confirmed as internal seminar report only.
+
+**Pages touched** (4):
+- CREATED `raw/status_meeting_3_notes.txt` (Nigredo, raw verbal report)
+- CREATED [[status_meeting_3_outcome]] (Rubedo, decision synthesis)
+- UPDATED [[data_sourcing_policy]] §2 (DPIA no longer required)
+- UPDATED [[index]] (added status_meeting_3_outcome to nav)
+
+**Rule 1**: 4 pages ✓
+**Ingest counter**: bump prior counter by 1 (this is a project-decision ingest, not a paper ingest)

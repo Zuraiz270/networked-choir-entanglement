@@ -1,0 +1,65 @@
+Status Meeting III verbal outcome
+=================================
+
+Date: 2026-05-21, 14:00-16:00 CET (Zoom, uni-koeln.zoom.us/j/92315621632)
+Reporter: Kate (relayed by Zuraiz, post-meeting)
+Project order: third on the agenda
+Presenter: Hammad Anwar (on behalf of Project 8 team)
+
+KEY OUTCOMES
+------------
+
+1. Presentation feedback
+   Both professors (Janine Hacker, Peter Gloor) satisfied with the
+   presentation. Specific positive feedback from Kate: cross-WP coverage
+   (Sprint 2 milestones across all 4 WPs) and the inclusion of both
+   flagship figures (Hacker's directed influence graph, Gloor's
+   alchemical-stage diagram) were noted as strong.
+
+2. DPIA / DPO sign-off decision
+   Question from slide 10: "DPO sign-off pending; following up weekly
+   until Jun-14 extraction deadline."
+   Professor response: We do NOT need a DPO sign-off because we are
+   using YouTube videos that are already publicly available. The legal
+   status is a "gray area" but is acceptable for our scope, which is a
+   semester project with internal seminar report, not an externally
+   published research paper.
+   Conditional clause: if at some later point we decide to publish a
+   peer-reviewed paper, the DPIA / DPO sign-off becomes required.
+   Implication: WP4 "DPIA sign-off" can be removed from Sprint 3
+   critical path. The Jun-14 extraction can proceed without it.
+
+3. MediaPipe calibration question
+   Question from slide 10: "MediaPipe pose accuracy unvalidated;
+   Sprint-3 OpenPose comparison planned."
+   Professor response: Just try it. If it does not work, ask AI.
+   Implication: the formal calibration study against OpenPose
+   (originally planned for Sprint 3) downgrades to a lightweight
+   "try-and-iterate" approach. We can run MediaPipe on the 10 Tier-1
+   videos in Sprint 3 and assess output quality empirically. If it
+   produces noisy or visibly wrong results, we troubleshoot or
+   substitute. Formal Pearson-r threshold no longer load-bearing.
+
+4. Paper / publication scope
+   Confirmed: this is a semester project. Output is the internal
+   seminar report. No peer-reviewed paper submission. This means:
+   - DPIA not required (see point 2)
+   - arXiv jurisdiction question is moot (no deposit planned)
+   - Publication-venue decisions (IEEE / LNCS / COINs / ISMIR /
+     ACM CHI) are out of scope
+   - Reproducibility-for-paper requirements (DOI deposit, artifact
+     evaluation) are out of scope
+   - The semester report still benefits from reproducibility hygiene
+     we have already built (SHA-256 manifest, uv.lock, parquet schema)
+
+5. Final presentation logistics
+   Not explicitly answered in the meeting. Will need to be re-asked at
+   status meeting 4 (Jun 11) or later.
+
+ITEMS NOT DISCUSSED OR DEFERRED
+-------------------------------
+
+- Specific Sprint-3 progress expectations
+- Tier-3 latency-injection technical details
+- Granger vs COP-GC choice
+- Team rotation for next presenter

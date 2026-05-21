@@ -58,7 +58,7 @@ We are upfront with supervisors that the formula was originally validated on ema
 | **Feature code** (audio, video, network, dashboard)      | **All 4 WPs shipped Sprint-2 milestones.** WP1: SATB A(t) coupling on Dagstuhl. WP2: MediaPipe pose extraction on a Tier-1 SoundJack video (79.5% detection). WP3: Granger influence graph (11/12 SATB edges significant). WP4: dashboard wireframe + alchemical diagram drafted. |
 | **Virtual Mirror** (SC Chat Analyzer on team WhatsApp) | **Done 2026-05-18.** 5 participants. Archetype: Tree Hugger consensus across all 4 humans. Chat character: HIGH-Meaning / LOW-Emotion / MEDIUM-Relationship. Writeup at [virtual_mirror_sprint1.md](virtual_mirror_sprint1.md); raw screenshots at `data/sc chat analyzer/`. |
 
-Sprint 2 milestones slipped 9 to 17 days on intermediate dates but all landed before May 21. No critical blockers. Tier-1 corpus downloaded + SHA-256 hashed 2026-05-19 (1.3 GB, mp4s held for Sprint-3 WP2). Virtual Mirror data captured + analyzed 2026-05-18. May-21 deliverables ready 2026-05-20: `OSN.pptx` deck, `may21_script.md` (Hammad presenting), `may21_qa_prep.md` (21 Q&A entries). Status meeting #3 today at 14:00 CET.
+Sprint 2 milestones slipped 9 to 17 days on intermediate dates but all landed before May 21. Tier-1 corpus downloaded + SHA-256 hashed 2026-05-19 (1.3 GB, mp4s held for Sprint-3 WP2). Virtual Mirror data captured + analyzed 2026-05-18. May-21 deliverables shipped 2026-05-20: `OSN.pptx` deck, `may21_script.md` (Hammad presenting), `may21_qa_prep.md` (21 Q&A entries). **Status Meeting III complete (2026-05-21): both supervisors satisfied; DPIA NOT required (semester-project scope, no paper); MediaPipe calibration downgrades to "try and iterate". See `onsidian vault/OSN-M/wiki/01_project/status_meeting_3_outcome.md` for the decision record.**
 
 ---
 
@@ -81,6 +81,7 @@ The principle: each person has **one clear lead area** and **one concrete primar
 | 2026-04-30 ✓               | Apr 30 status meeting (deck and script in repo root)                   |
 | 2026-05-01 ✓ (done 05-17)  | Tier 2 datasets downloaded with SHA-256 manifest                       |
 | 2026-05-08 ✓ (done 05-17)  | WP1 audio pipeline runs end-to-end on Dagstuhl, parquet feature output |
+| 2026-05-21 ✓               | May 21 status meeting (Hammad presented; both supervisors satisfied)   |
 | 2026-06-14                 | E(t) end-to-end on full corpus, null model running                     |
 | 2026-07-07                 | Paper draft v1                                                         |
 | 2026-07-23                 | Final 20-minute presentation                                           |

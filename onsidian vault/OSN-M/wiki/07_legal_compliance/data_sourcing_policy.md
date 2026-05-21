@@ -21,7 +21,7 @@ Under German Law (§60d UrhG) and EU Directive 2019/790 (Art. 3), we have the ri
 ## 2. Privacy & GDPR (Art. 9)
 Biometric data (FaceMesh landmarks) is processed under the **Research Exception (Art. 9(2)(j) GDPR)** and **Art. 89 safeguards**.
 - **Anonymization**: Extracted landmarks are pseudonymized and aggregate.
-- **DPIA**: A Data Protection Impact Assessment (L-E-3) is mandatory before large-scale extraction.
+- **DPIA**: A Data Protection Impact Assessment was originally planned. Per Status Meeting III (2026-05-21, see [[status_meeting_3_outcome]]), supervisors confirmed that DPIA / DPO sign-off is NOT required for the semester-project scope (publicly accessible YouTube videos, internal seminar report, no peer-reviewed paper). If publication scope changes later, DPIA becomes required again.
 
 ## 3. Tiered Data Strategy
 - **Tier 1**: Public YouTube (Descriptive visual).
