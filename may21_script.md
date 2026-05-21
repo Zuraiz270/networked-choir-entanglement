@@ -151,3 +151,84 @@ Target spoken time: 9:15. Hard ceiling: 10:00.
 - If anyone asks "did you build this yourselves or use a library", the answer is: we built the pipeline code; we use librosa, MediaPipe, statsmodels, and networkx as standard scientific Python libraries.
 - If you blank on a number, the cheat sheet is in `may21_qa_prep.md` at the bottom.
 - If you do not know an answer, say "I will check with the team and get back to you" rather than guessing.
+
+---
+
+## Project context for Hammad (read this before the meeting)
+
+This section is your background pack. Read it once before the meeting so you understand the *story* behind the slides, not just the words.
+
+### The big picture in one paragraph
+
+We are building a metric that puts a number on how well a choir is coordinated when they sing together over the internet. During COVID, choirs tried to sing together over Zoom, Jamulus, SoundJack, JackTrip, and other tools. Everyone *felt* the difference between "this feels like the same room" and "this is fighting the network", but nobody had a number for it. We are building that number. We call it the Entanglement Index, E(t). The eventual paper claims that this metric meaningfully distinguishes low-latency tools (Jamulus, SoundJack) from high-latency Zoom, and that body movement signals add real information on top of audio alone.
+
+### Why supervisors care
+
+Two angles:
+
+- **Prof. Hacker (Uni Bamberg, network science)**: she cares about the *who-leads-whom* topology in a coordinating group. Her flagship figure is the directed influence graph on slide 4. The visible Granger arrows are the deliverable she wants to see.
+- **Prof. Gloor (MIT / Uni Köln)**: he cares about the *alchemical pipeline* and Pentland's Honest Signals theory. His flagship figure is the 4-stage diagram on slide 5 (Nigredo, Albedo, Citrinitas, Rubedo). It shows how raw video becomes quantified meaning.
+
+Both flagship figures are on the deck. That is intentional. Each supervisor sees their own research language reflected back.
+
+### The 4 work packages, one sentence each
+
+- **WP1 audio**: extract pitch, onsets, and amplitude per singer; compute audio coupling A(t) between singer pairs
+- **WP2 video**: extract body pose and face landmarks from each singer; compute visual coupling V(t) (breathing, head sway, mouth opening)
+- **WP3 network**: run Granger causality on per-singer onsets; build a directed influence graph; compute network metrics (density, modularity, centrality)
+- **WP4 dashboard + figures**: web UI that visualizes the whole pipeline on a video; plus all paper figures with consistent visual style
+
+### The 3 hypotheses, one sentence each
+
+- **H1**: E(t) is higher for low-latency tools (Jamulus, SoundJack) than for high-latency Zoom. Tested on the Tier-3 controlled-latency-injection experiment.
+- **H2**: Network topology shifts from dense+democratic to sparse+leader-dominated as latency rises. Same test bed.
+- **H3**: Adding visual signals on top of audio improves prediction by at least 10 percentage points of explained variance. Tested on Tier-1 visual + Tier-2 audio ground truth.
+
+If any of these come up in Q&A, point at the relevant test bed.
+
+### The 3 data tiers and why
+
+- **Tier 1 (YouTube, 29 videos curated this sprint)**: large quantity, real-world choirs, but mixed-stereo audio so we cannot separate per-singer voices. Used for *visual* analysis and as descriptive ensemble-audio context.
+- **Tier 2 (Dagstuhl ChoirSet, 5.1 GB)**: each singer on a separate microphone, so we get per-singer audio. This is our *audio* ground truth.
+- **Tier 3 (controlled latency injection, Sprint 3)**: we take Tier-2 multitrack and *programmatically* add network delays/jitter/packet loss to simulate Jamulus, SoundJack, and Zoom conditions. This gives us the cleanest test of H1 because we know exactly what latency we injected.
+
+If a supervisor asks "why three tiers", the answer is: each one fills a different scientific role.
+
+### Why the May 21 meeting matters (and what supervisors are scoring)
+
+The seminar's rubric for today is the email from Janine, Simon, Peter. They want six things on the deck:
+
+1. Goals + plan recap (slide 2)
+2. Progress in the last iteration (slides 3, 4, 5, 6)
+3. Plan for the next iteration (slide 7)
+4. Output from retrospective (slide 8)
+5. Virtual Mirror results (slide 9)
+6. Problems and questions (slide 10)
+
+Supervisors are checking whether we are on track for the July 23 final presentation and July 31 paper. The strongest signal we send today is that *all four work packages shipped Sprint-2 milestones* (slides 3-5) and that we already have draft flagship figures for both supervisors.
+
+### Why each "Active risk" on slide 10 matters
+
+**1. DPO sign-off on the DPIA.** GDPR Art. 9 puts biometric data (face landmarks, body pose) in the "special category" tier that needs extra protections. We have to file a Data Protection Impact Assessment (DPIA) with Uni Bamberg's Data Protection Officer (DPO) before we run the pipeline at scale on 29 videos worth of identifiable people. We filed the DPIA *outline* this morning; the formal sign-off depends on the DPO's review queue. If we don't have the sign-off by June 14, we can't do the Sprint-3 large-scale extraction, which puts the paper timeline at risk. Mitigation: weekly follow-up email until sign-off arrives.
+
+**2. MediaPipe pose accuracy on micro-sway.** MediaPipe was designed for fitness apps (big motions). Our choir singers stand mostly still and only show *small* motion (subtle leaning, breathing). We haven't proven MediaPipe is accurate enough for these tiny movements. If it's too noisy, the V(t) part of E(t) becomes garbage and H3 fails. The Sprint-3 calibration study compares MediaPipe head-sway against OpenPose on 3 randomly sampled videos. If Pearson r is at least 0.70 we keep MediaPipe (faster, simpler). If r is below 0.70 we fall back to OpenPose for the full corpus. The fallback is documented as Risk R3 in the project plan, so we are not making it up on the spot.
+
+### Two things you do NOT need to apologize for
+
+- **The Sprint-2 date slips**: yes, intermediate dates slipped 9-17 days, but all milestones landed before today, AND we actually expanded scope (WP2/3/4 deliverables originally due May 22 and May 31 were pulled forward). The story is "we slipped on dates and over-delivered on content", which is the honest framing.
+- **The Zoom-only stratum being thin**: it was thin (n=2) last week. We ran a supplementary curation and brought it to n=9. The problem is closed and the deck reflects that.
+
+### One thing that IS a real ask of the supervisors
+
+The single open question on slide 10 ("Jul 23 final presentation: in-person at Bamberg or remote on Zoom?") is the one piece of info only the seminar organizers can give us. If that doesn't come up naturally during Q&A, you can flag it as the last line of the closing.
+
+---
+
+## If you only have 3 minutes before the meeting
+
+Skim these in order:
+1. Slide 2 of the script (the recap) — that's the elevator pitch
+2. The "Open Problems" Q&A section in `may21_qa_prep.md`
+3. The Hacker-flavored Q&A section in `may21_qa_prep.md` (because she will ask the most technical questions)
+
+Everything else can be improvised from the slide content itself.

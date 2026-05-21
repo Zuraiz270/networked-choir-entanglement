@@ -1,6 +1,6 @@
 # Team Brief — Project 8
 
-**SNA-OSN-M Summer 2026 · Uni Bamberg · Last updated 2026-05-17**
+**SNA-OSN-M Summer 2026 · Uni Bamberg · Last updated 2026-05-21**
 
 > Read this once before doing anything else on the project. About 20 minutes. After this, your role section in §4 is the page you re-read each iteration.
 
@@ -45,7 +45,7 @@ We are upfront with supervisors that the formula was originally validated on ema
 
 ---
 
-## 3. Where we are today (2026-05-17)
+## 3. Where we are today (2026-05-21)
 
 | Track                                                          | Status                                                                 |
 | :------------------------------------------------------------- | :--------------------------------------------------------------------- |
@@ -58,7 +58,7 @@ We are upfront with supervisors that the formula was originally validated on ema
 | **Feature code** (audio, video, network, dashboard)      | **All 4 WPs shipped Sprint-2 milestones.** WP1: SATB A(t) coupling on Dagstuhl. WP2: MediaPipe pose extraction on a Tier-1 SoundJack video (79.5% detection). WP3: Granger influence graph (11/12 SATB edges significant). WP4: dashboard wireframe + alchemical diagram drafted. |
 | **Virtual Mirror** (SC Chat Analyzer on team WhatsApp) | **Done 2026-05-18.** 5 participants. Archetype: Tree Hugger consensus across all 4 humans. Chat character: HIGH-Meaning / LOW-Emotion / MEDIUM-Relationship. Writeup at [virtual_mirror_sprint1.md](virtual_mirror_sprint1.md); raw screenshots at `data/sc chat analyzer/`. |
 
-Sprint 2 milestones slipped 9 to 17 days on intermediate dates but landed before May 21. No critical blockers. Next supervisor meeting: May 21 (Status #3). Virtual Mirror data captured 2026-05-18. Zoom-only Tier-1 stratum supplemented 2026-05-19 (n=9, above target).
+Sprint 2 milestones slipped 9 to 17 days on intermediate dates but all landed before May 21. No critical blockers. Tier-1 corpus downloaded + SHA-256 hashed 2026-05-19 (1.3 GB, mp4s held for Sprint-3 WP2). Virtual Mirror data captured + analyzed 2026-05-18. May-21 deliverables ready 2026-05-20: `OSN.pptx` deck, `may21_script.md` (Hammad presenting), `may21_qa_prep.md` (21 Q&A entries). Status meeting #3 today at 14:00 CET.
 
 ---
 
