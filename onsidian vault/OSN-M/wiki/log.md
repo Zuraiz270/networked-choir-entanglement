@@ -1006,3 +1006,35 @@ Sprint-3 Phase D of the same plan. Two parallel deliverables shipped as two `fea
 Tests 23/23 (18 baseline + 5 entanglement). No new vault wiki pages (engineering work; the E(t) formula and limitations are already documented in §11.1).
 
 **Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+---
+
+## [2026-05-22] schema | Sprint-3 Phase E — E(t) on full Dagstuhl WP3 corpus + results narrative
+
+Sprint-3 Phase E of the same plan. Pulls forward the brief's Jun-14 deliverables (items 5+6 from the Sprint-3 scope table). `scripts/et_full_corpus.py` discovers every Dagstuhl take dir that has both per-singer parquets and a standard-Granger GEXF (5 hits, matching the Phase B selection), runs `compute_entanglement` + `compute_entanglement_null` (200 circular shuffles) at 10s windows @ 2 Hz (step = 0.5s keeps the null pass under 4 minutes for the 5-piece batch).
+
+**Run output** (4.4 min total, all p_null < 0.001):
+- LI_QuartetB_Take01   4 singers, mean E = 0.8039, null 0.6145 ± 0.0088
+- LI_FullChoir_Take01  8 singers, mean E = 0.7718, null 0.6095 ± 0.0036
+- LI_QuartetA_Take02   4 singers, mean E = 0.7443, null 0.5730 ± 0.0080
+- TP_QuartetA_Take01   4 singers, mean E = 0.6814, null 0.5548 ± 0.0087
+- TP_FullChoir_Take01  8 singers, mean E = 0.5666, null 0.4842 ± 0.0049
+
+Piece-level clustering: Locus Iste sits at 0.74-0.80; Tu Pauper Es sits at 0.57-0.68. This mirrors the Phase A pattern (LI tightly coupled, TP more dispersed), confirming the E(t) composite captures the same coordination signal as raw audio coupling does. Ensemble size (quartet vs full choir) is *not* the dominant factor; piece identity is.
+
+`sprint3_results.md` (1 page) is the deck-source-of-truth for Phase F. Covers the four-signal coverage (A/V/N/E), per-hypothesis state (H1 not yet testable, H2 partially, H3 not yet testable), what changed since May 21, and four honest limitations to surface in the Jun-11 deck: V missing across the board, WP3 corpus biased toward Dagstuhl, WP2 50% detection rate, p_null = 0.0000 is "< 1/200" not literal zero.
+
+**Engineering changes** (committed in `feat(integration)` a0713c5):
+- CREATED `scripts/et_full_corpus.py`
+- CREATED `data/processed/dagstuhl/_et_corpus.csv` (5 rows)
+- CREATED `data/figures/et_corpus_comparison.png`
+- CREATED `sprint3_results.md`
+
+**Doc sync** (committed in `docs(sprint3-phaseE)`):
+- UPDATED `TEAM_BRIEF.md` §3 Feature code row
+- UPDATED `PROJECT_GUIDE.md` §4 Code bullet (Phase E summary); §6 Roadmap (second Jun-14 row marked done 05-22 5-piece-corpus)
+- UPDATED `wiki/log.md` (this entry)
+
+Tests 23/23 (no change). No new vault wiki pages.
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
