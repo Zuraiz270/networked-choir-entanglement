@@ -969,3 +969,40 @@ The plan's soft gate was "≥ 7 of 10 pass 50%"; the actual 5/10 is the document
 Tests 18/18 (no change). No vault wiki pages created (engineering work; risk register R3 already covers the calibration uncertainty).
 
 **Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+---
+
+## [2026-05-22] schema | Sprint-3 Phase D — E(t) integration + WP4 dashboard scaffold
+
+Sprint-3 Phase D of the same plan. Two parallel deliverables shipped as two `feat:` commits.
+
+**D2. E(t) integration module** (`feat(integration)` bd88242):
+- New `src/choir_entanglement/entanglement.py`. `compute_entanglement()` emits a time-aligned `[time_sec, A, V, N, E, n_available]` DataFrame at a configurable grid (default 10 Hz). Each row's E is `np.nanmean(available)`, so the published `E = (A + V + N) / 3` formula reallocates weight when sub-signals are missing. This is the realistic case in our corpus: Dagstuhl is audio + network only, Tier-1 is video only, no single piece has all three natively. The plan's "Run on LI_QuartetA_Take02 which has all 3 signals" was incorrect; the NaN-aware design handles it cleanly.
+- `compute_entanglement_null()` returns the mean-E(t) distribution under N independent circular-shift permutations of each singer's RMS (Stevens 2013).
+- Audio coupling per window uses windowed Pearson r on RMS, not `audio.coupling.compute_pairwise_coupling`. The latter computes a full lag-aware cross-correlation curve which is overkill for E(t)'s scalar A(t); the Pearson reduction is ~2 orders of magnitude faster (the 200-shuffle null on LI_QuartetA_Take02 runs in <30 s instead of ~13 min).
+- 5 new tests at `tests/test_entanglement.py` covering coupled-yields-high-E, coupled-exceeds-independent, missing-signal-reallocates-E-to-A, null-distribution-brackets-observed, short-duration-raises.
+- `scripts/et_demo.py` ran on LI_QuartetA_Take02 (4 singers, A from `data/processed/dagstuhl/LI_QuartetA_Take02/*.parquet`, N from the standard-Granger GEXF, V=NaN): **mean E = 0.7444, null mean 0.5729 ± 0.0080, p_null = 0.0000**. Figure at `data/figures/et_timeline_LI_QA_Take02.png` shows the four-trace timeline plus the null-distribution histogram.
+
+**D1. WP4 dashboard scaffold** (`feat(wp4)` b6de0ab):
+- FastAPI mock backend at `src/choir_entanglement/dashboard/app.py` exposes `/api/videos`, `/api/entanglement/{id}`, `/api/influence_graph/{id}` with synthetic JSON responses shaped to match the real API contract documented in `frontend/wireframe.md`. Pinned to `fastapi==0.111` / `uvicorn==0.30` from the existing `wp4-dashboard` extras (no new deps).
+- React + Vite + TypeScript-strict frontend at `frontend/`. Pinned versions per the wireframe: React 18.3.1, Vite 5.3.3, TypeScript 5.5.3, D3 7.9.0, Plotly 2.33.0, Tailwind 3.4.6. 208 npm packages installed.
+- Four panel components (`VideoPanel`, `GraphPanel`, `TimelinePanel`, `MetadataPanel`) implement the wireframe layout. `GraphPanel` runs a D3 force simulation against the FastAPI graph payload; `TimelinePanel` renders A/V/N/E as Plotly traces; `MetadataPanel` is a 4-column strip from the manifest payload.
+- Vite proxies `/api` to `127.0.0.1:8000` (forced IPv4; the default `localhost` resolves to `::1` and uvicorn binds IPv4 only — fixed after seeing ECONNREFUSED in the dev log).
+- Verified end-to-end via Playwright screenshot at `data/figures/wp4_dashboard_scaffold.png`. All four panels render with mock JSON; tsc strict passes.
+
+**Engineering changes** (both `feat:` commits):
+- CREATED `src/choir_entanglement/entanglement.py`, `src/choir_entanglement/dashboard/app.py`
+- CREATED `tests/test_entanglement.py` (5 tests)
+- CREATED `scripts/et_demo.py`
+- CREATED `frontend/{package.json,package-lock.json,vite.config.ts,tsconfig*.json,index.html,postcss.config.js,tailwind.config.js,.gitignore}`
+- CREATED `frontend/src/{main.tsx,App.tsx,index.css,types.ts,plotly-shim.d.ts}` and `frontend/src/components/{Video,Graph,Timeline,Metadata}Panel.tsx`
+- CREATED `data/figures/et_timeline_LI_QA_Take02.png`, `data/figures/wp4_dashboard_scaffold.png`
+
+**Doc sync** (committed in `docs(sprint3-phaseD)`):
+- UPDATED `TEAM_BRIEF.md` §3 Feature code row
+- UPDATED `PROJECT_GUIDE.md` §4 Code bullet; §6 Roadmap (added Jun-14 row marked done 05-22 one-piece)
+- UPDATED `wiki/log.md` (this entry)
+
+Tests 23/23 (18 baseline + 5 entanglement). No new vault wiki pages (engineering work; the E(t) formula and limitations are already documented in §11.1).
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
