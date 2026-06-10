@@ -106,15 +106,22 @@ Two questions for the room.
 
 Professor Hacker: do you have institutional access to the ESMUC multitrack dataset? ChoralSynth we can download ourselves, so ESMUC is the only dataset where we need help.
 
-To the coordinators: is there a path to CPU time on a Bamberg or HSLU cluster? Per-window Granger across the corpus is our compute bottleneck for next iteration. On our laptops it's hundreds of hours; on a thirty-two to sixty-four core node it's about a day.
+To the coordinators: is CPU time available on a Bamberg or HSLU cluster? To be clear, this is not a blocker; the planned scope runs overnight on our laptops. Cluster access would let us run a denser jitter grid and finer analysis windows, which strengthens the robustness checks on hypothesis one.
 
 Thank you. Open for questions.
 
 ---
 
-# Appendix: Project context for Hassan (read once before the meeting)
+# Appendix: Project context for Hassan and Hammad (read once before the meeting)
 
-This appendix is private prep for Hassan, not part of the spoken script. Read it once and you will have enough context to handle the live Q&A confidently.
+This appendix is private prep, not part of the spoken script. Read it once and you will have enough context to handle the live Q&A confidently. **Both of you read everything**: Zuraiz is not in this meeting, so between the two of you, you cover the whole project.
+
+## Role split for the meeting (Zuraiz absent)
+
+- **Hassan presents** all 8 slides and owns every network/Granger/influence-graph question (that is your WP3 area).
+- **Hammad is in the room as second voice.** You own every video/pose/MediaPipe question (your WP2 area), and you have the continuity: you presented at Status Meeting III, so anything referencing "what was said last time" (the DPIA decision, "try and iterate", the Virtual Mirror) is yours to confirm.
+- E(t) integration, audio pipeline, and dashboard questions: answer from this appendix and the Q&A bank as far as they go. Anything deeper: *"Zuraiz built that part; we will follow up by email with the exact detail."* That is the agreed escape hatch, use it without hesitation.
+- Logistics (ESMUC follow-up, cluster follow-up): note down whatever the supervisors answer; Zuraiz executes after the meeting.
 
 ## What the project actually is
 

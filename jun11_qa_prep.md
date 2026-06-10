@@ -144,11 +144,11 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 ### Q-T6: Do you need university cluster compute?
 
-**Short answer**: Yes, for Sprint 4 the per-window Granger on the full corpus is our biggest compute bottleneck and a cluster would unblock it. We are asking the coordinators about access.
+**Short answer**: It is a nice-to-have, not a requirement. The planned Sprint-4 scope runs overnight on our laptops; cluster access would let us run denser jitter grids and finer analysis windows for robustness.
 
-**Backup detail**: Standard Granger on one piece took 69 minutes on a Windows laptop in Sprint 3. Per-window Granger means re-running that on each 10-second window, so on a 143-second piece you multiply by roughly 30. That is about 35 hours per piece on the laptop. Tier-3 latency injection requires running this on 5 to 10 piece-times-jitter-level combinations. We are looking at hundreds of laptop-hours. A small SLURM allocation on Bamberg or HSLU would compress that to a day or two.
+**Backup detail**: The Sprint-3 full-piece Granger pass (5 pieces, 2 methods, 200-shuffle null each) took 69 minutes on one Windows laptop. The planned Tier-3 grid (4 jitter levels, 3 seeds, 5 pieces, full-piece Granger) is roughly 60 runs, about 12 to 15 laptop-hours, one overnight run. Nothing in the committed Sprint-4 scope is blocked by compute.
 
-**If pressed**: We are not asking for GPU time. CPU multi-core is enough because statsmodels' grangercausalitytests is single-threaded but embarrassingly parallel across windows and pieces. A 32-core or 64-core node would be ideal. If neither cluster is available we will manually parallelise across our four laptops and accept a slower turn-around.
+**If pressed**: Where a cluster genuinely helps is the stretch configuration: per-window Granger at fine step sizes with a full null per window scales the cost by an order of magnitude or more, which is where laptop runtimes become days. If cluster time is cheap to grant we would use it for those robustness sweeps; CPU multi-core only, no GPU needed, and the work parallelises trivially across windows and pieces. If not, we constrain the sweep density and the science still happens.
 
 ### Q-T7: What if a supervisor asks something only Zuraiz/Hammad/Kumaran would know?
 

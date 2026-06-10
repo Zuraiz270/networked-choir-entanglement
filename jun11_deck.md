@@ -148,6 +148,6 @@ Supervisors: Prof. Janine Hacker (Uni Bamberg), Prof. Peter Gloor (MIT/Köln)
 **Visual**: two question cards, large type, nothing else.
 
 1. **To Prof. Hacker, ESMUC dataset access**: do you have institutional access to the ESMUC multitrack dataset? ChoralSynth is openly licensed on Zenodo and we will download it ourselves; ESMUC is the only dataset where we need support.
-2. **To the coordinators, compute for the next iteration**: is there a path to CPU time on a Bamberg or HSLU cluster? Per-window Granger across the corpus is the compute bottleneck for the latency-injection runs (hundreds of laptop-hours; roughly one day on a 32-64 core node).
+2. **To the coordinators, cluster access (nice-to-have, not a blocker)**: is CPU time available on a Bamberg or HSLU cluster? The planned next-iteration scope runs overnight on our laptops. Cluster access would let us run denser jitter grids and finer analysis windows, strengthening the H1 robustness checks.
 
 Thank you.

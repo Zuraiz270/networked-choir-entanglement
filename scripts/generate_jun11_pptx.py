@@ -491,10 +491,10 @@ def slide_8_questions(prs):
          "Do you have institutional access to the ESMUC multitrack dataset? "
          "ChoralSynth is openly licensed on Zenodo and we will download it ourselves; "
          "ESMUC is the only dataset where we need support."),
-        ("2 · Coordinators: compute for the next iteration",
-         "Is there a path to CPU time on a Bamberg or HSLU cluster? Per-window Granger "
-         "across the corpus is the compute bottleneck for the latency-injection runs: "
-         "hundreds of hours on our laptops, roughly one day on a 32-64 core node."),
+        ("2 · Coordinators: cluster access (nice-to-have, not a blocker)",
+         "Is CPU time available on a Bamberg or HSLU cluster? The planned next-iteration "
+         "scope runs overnight on our laptops. Cluster access would let us run denser "
+         "jitter grids and finer analysis windows, which strengthens the H1 robustness checks."),
     ]
     y = Inches(1.8)
     for title, body in items:
