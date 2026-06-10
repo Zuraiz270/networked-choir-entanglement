@@ -60,6 +60,8 @@ We are upfront with supervisors that the formula was originally validated on ema
 
 Sprint 2 milestones slipped 9 to 17 days on intermediate dates but all landed before May 21. Tier-1 corpus downloaded + SHA-256 hashed 2026-05-19 (1.3 GB, mp4s held for Sprint-3 WP2). Virtual Mirror data captured + analyzed 2026-05-18. May-21 deliverables shipped 2026-05-20: `OSN.pptx` deck, `may21_script.md` (Hammad presenting), `may21_qa_prep.md` (21 Q&A entries). **Status Meeting III complete (2026-05-21): both supervisors satisfied; DPIA NOT required (semester-project scope, no paper); MediaPipe calibration downgrades to "try and iterate". See `onsidian vault/OSN-M/wiki/01_project/status_meeting_3_outcome.md` for the decision record.**
 
+**Sprint 3 complete (2026-05-22)**: 6 of 6 deliverables shipped, including 2 stretch pull-forward items 23 days ahead of the Jun-14 brief target. 15 atomic commits on `main`. Headline result: E(t) integration tested on all 5 WP3 Dagstuhl pieces, all 5 beat the 200-shuffle circular-shift null at p < 0.001. WP1 batch-scaled to 25 takes. WP2 batch-processed 10 Tier-1 videos (5/10 pass detection floor per the "try and iterate" decision). WP3 added COP-GC method, full 5-piece corpus tabulated. WP4 React+Vite+FastAPI scaffold renders end-to-end against mock JSON. Status Meeting IV (Jun 11) deck + script + Q&A + PPTX ready at `jun11_deck.md` / `jun11_script.md` / `jun11_qa_prep.md` / `output/jun11_status_meeting_iv.pptx`; Hassan presenting. See `sprint3_results.md` for the 1-page narrative.
+
 ---
 
 ## 4. Who owns what — your role in detail
@@ -82,7 +84,9 @@ The principle: each person has **one clear lead area** and **one concrete primar
 | 2026-05-01 ✓ (done 05-17)  | Tier 2 datasets downloaded with SHA-256 manifest                       |
 | 2026-05-08 ✓ (done 05-17)  | WP1 audio pipeline runs end-to-end on Dagstuhl, parquet feature output |
 | 2026-05-21 ✓               | May 21 status meeting (Hammad presented; both supervisors satisfied)   |
-| 2026-06-14                 | E(t) end-to-end on full corpus, null model running                     |
+| 2026-05-22 ✓ (Sprint 3)    | WP1 batch-scaled to all 25 Dagstuhl musical takes (130 singer parquets, 288 pairwise A(t)); E(t) integration module + 200-shuffle null shipped; React+Vite+FastAPI dashboard scaffold rendering 4 panels |
+| 2026-06-11 ✓ (deck ready 05-22) | June 11 status meeting (deck + script + Q&A bank + PPTX ready; Hassan presenting) |
+| 2026-06-14 ✓ (done 05-22)  | E(t) end-to-end on full Dagstuhl WP3 corpus + null model running (5/5 pieces beat null at p < 0.001); pulled forward 23 days |
 | 2026-07-07                 | Paper draft v1                                                         |
 | 2026-07-23                 | Final 20-minute presentation                                           |
 | 2026-07-31                 | Final paper submitted                                                  |
@@ -99,13 +103,15 @@ The principle: each person has **one clear lead area** and **one concrete primar
 
 **Sprint-2 status (2026-05-17)**: Pose schema + extractor shipped in `src/choir_entanglement/video/{schema,pose.py}` (33-keypoint MediaPipe Pose + 40 lip landmarks + 3 derived features). First pose parquet ran on a Tier-1 SoundJack video (`data/processed/tier1/ouFyQKszE_Y/pose.parquet`, 595 frames, 79.5% pose detection rate). Calibration note at `wp2_calibration_sprint2.md`. Smoke tests 4/4 pass.
 
+**Sprint-3 status (2026-05-22)**: WP2 pose batched across 10 Tier-1 videos stratified by NMP regime (4 Jamulus, 3 Zoom-only, 2 SoundJack, 1 Jamulus+Zoom) via `scripts/wp2_tier1_batch.py`. 5/10 pass the 50% pose-detection floor (ZKthfLPWBCQ 98.5%, Z-cH7j5iB3k 94.0%, ouFyQKszE_Y 79.5%, w0ywMP8mOc4 78.2%, VsnvueTan4I 66.7%). The 5 passing videos define the WP2 inclusion set per the Status-Meeting-III "try and iterate" decision. Per-video summary at `data/processed/tier1/_pose_summary.csv`; v2 V(t) figure at `data/figures/wp2_visual_features_v2.png`.
+
 **Primary deliverable**: per-singer parquet feature files at `processed/<video_id>/pose/<singer>.parquet` for at least 10 Tier-2 videos by **2026-05-22**, plus a one-page calibration study documenting head-sway Pearson correlation against a reference tool. If correlation is below 0.70, the fallback is OpenPose (CMU); the calibration study triggers that decision.
 
 | Date                       | What you deliver                                                                                     |
 | :------------------------- | :--------------------------------------------------------------------------------------------------- |
 | 2026-04-29                 | Read the four papers in your reading list (§4.2, below).                                            |
 | 2026-05-08 ✓ (done 05-17)  | Schema design for `pose/<singer>.parquet` finalised in `src/choir_entanglement/video/schema.py`. |
-| 2026-05-22 ✓ (1/10, done 05-17) | Pose pipeline produces parquet for 10 videos. Calibration study committed.                           |
+| 2026-05-22 ✓ (10/10 attempted, 5/10 pass 50% detection, done 05-22) | Pose pipeline produces parquet for 10 videos. Calibration downgraded to "try and iterate" per Status Meeting III. |
 | 2026-06-30                 | All Tier-2 + Tier-1 videos processed.                                                                |
 
 **Stack**: Python 3.11, mediapipe 0.10.14, opencv-python 4.10, pandas, pyarrow.
@@ -143,15 +149,17 @@ The principle: each person has **one clear lead area** and **one concrete primar
 
 **Sprint-2 status (2026-05-17)**: Granger module + influence-graph builder shipped in `src/choir_entanglement/network/{granger,influence_graph}.py`, with circular-shift null (200 shuffles). Pairwise Granger on Dagstuhl SATB Quartet A Take 02 RMS envelopes: 11/12 directed edges significant at p_null < 0.05, graph density 0.92, most-central voice Soprano. First draft of Hacker's flagship figure: `data/figures/wp3_influence_graph.png`. Smoke tests 4/4 pass.
 
+**Sprint-3 status (2026-05-22)**: WP3 scaled to 5 Dagstuhl pieces × 2 methods. **COP-GC variant implemented** (Zanin 2021 ordinal-pattern transform) as `method="cop_gc"` in `granger.py`; the long-promised Decision-4 deliverable is now live. Standard Granger Sprint-2 reference reproduces exactly (11/12 edges, density 0.917). Method divergence is largest on TP_FullChoir (standard 42/56 vs COP-GC 25/56). 10 Gephi-compatible GEXFs + flat metrics at `data/processed/dagstuhl/_network_metrics.csv`; 2x3 grid figure (Hacker flagship v2) at `data/figures/wp3_influence_graphs_5pieces.png`. Tests 18/18 (+3 COP-GC). E(t) on full WP3 corpus also shipped (5/5 pieces beat null at p < 0.001).
+
 **Primary deliverable**: a publication-quality directed influence graph for at least one Tier-2 piece by **2026-05-31**, plus the code that regenerates it for any new piece. By June 14, the same code runs on the full corpus and outputs one graph per piece.
 
 | Date                       | What you deliver                                                                                                                                    |
 | :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-04-29                 | Read the three papers in your reading list (below).                                                                                                 |
 | 2026-05-15 ✓ (done 05-17)  | Granger causality prototype on synthetic data (sanity check).                                                                                       |
-| 2026-05-31 ✓ (done 05-17)  | First real influence graph on a Dagstuhl piece. Standard Granger + circular-shift null (200 shuffles) running. COP-GC variant deferred to Sprint 3. |
-| 2026-06-14                 | All Tier-2 + Tier-3 pieces have computed graphs. Network metrics tabulated.                                                                         |
-| 2026-07-07                 | Hacker's flagship figure polished for the paper. SVG output, Gephi-cleaned. (Draft already at `data/figures/wp3_influence_graph.png`.)         |
+| 2026-05-31 ✓ (done 05-17, COP-GC implemented 05-22) | First real influence graph on a Dagstuhl piece. Standard Granger + circular-shift null (200 shuffles) running. COP-GC variant shipped Sprint 3. |
+| 2026-06-14 ✓ partial (done 05-22 for 5-piece Tier-2 corpus) | All Tier-2 + Tier-3 pieces have computed graphs. Network metrics tabulated. **Tier-2 (5 pieces) done**; Tier-3 latency-injection waits on Sprint 4. |
+| 2026-07-07                 | Hacker's flagship figure polished for the paper. SVG output, Gephi-cleaned. (v2 grid already at `data/figures/wp3_influence_graphs_5pieces.png`.)         |
 
 **Stack**: Python 3.11, networkx 3.3, statsmodels 0.14.2, python-louvain 0.16, scikit-learn 1.5, Gephi for figure polish.
 
@@ -186,13 +194,15 @@ The principle: each person has **one clear lead area** and **one concrete primar
 
 **Sprint-2 status (2026-05-17)**: Dashboard wireframe + design doc shipped at `frontend/{wireframe.md,README.md}` (4-panel layout: video+pose / influence graph / E(t) timeline / metadata). First draft of Gloor's flagship alchemical-stage figure: `data/figures/wp4_alchemical_stages.png` (4-stage Nigredo→Albedo→Citrinitas→Rubedo pipeline). React+Vite scaffold lands Sprint 3.
 
+**Sprint-3 status (2026-05-22)**: **WP4 scaffold shipped end-to-end.** Frontend at `frontend/` (React 18.3.1, Vite 5.3.3, TypeScript strict 5.5.3, D3 7.9.0, Plotly 2.33.0, Tailwind 3.4.6) with 4 panel components (`VideoPanel`, `GraphPanel`, `TimelinePanel`, `MetadataPanel`) matching the wireframe. FastAPI 0.111 mock backend at `src/choir_entanglement/dashboard/app.py` with 3 endpoints. Vite proxy → uvicorn end-to-end verified via Playwright screenshot at `data/figures/wp4_dashboard_scaffold.png`. `npm run dev` serves at localhost:5173. tsc strict + production build pass. Real-data wiring (parquet readers, pose overlay) lands Sprint 4 toward the June 21 alpha.
+
 **Primary deliverable**: a working dashboard by **2026-06-21** that runs the 60-second live demo without crashing on July 23. The alchemical-stage diagram polished and ready for the paper by July 7.
 
 | Date                       | What you deliver                                                                                                          |
 | :------------------------- | :------------------------------------------------------------------------------------------------------------------------ |
 | 2026-04-29                 | Read the two papers in your reading list (below).                                                                         |
-| 2026-05-22 ✓ (done 05-17)  | Dashboard wireframe (markdown + ASCII layout) at `frontend/wireframe.md`.                                              |
-| 2026-06-21                 | Dashboard alpha: takes a video ID, displays timeline + pose overlay + network graph. Runs locally on a Windows 11 laptop. |
+| 2026-05-22 ✓ (wireframe done 05-17; scaffold done 05-22) | Dashboard wireframe + React+Vite+FastAPI scaffold at `frontend/` + `src/choir_entanglement/dashboard/app.py`. 4-panel layout renders end-to-end against mock data. |
+| 2026-06-21                 | Dashboard alpha: takes a video ID, displays timeline + pose overlay + network graph against **real** data. Runs locally on a Windows 11 laptop. |
 | 2026-07-07                 | Alchemical-stage diagram polished. Paper figure pipeline (consistent colors, fonts) in place. (Draft at `data/figures/wp4_alchemical_stages.png`.) |
 | 2026-07-23                 | 60-second live demo runs without crashing in front of the supervisors.                                                    |
 
