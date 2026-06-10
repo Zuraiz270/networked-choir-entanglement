@@ -18,7 +18,7 @@ WP3 ran on 5 representative pieces under two methods: standard parametric Grange
 
 ### V(t) visual signals
 
-WP2 pose extraction ran across 10 stratified Tier-1 videos (4 Jamulus, 3 Zoom-only, 2 SoundJack, 1 Jamulus+Zoom). 5 of 10 pass the 50% pose-detection floor. The failing five are software-UI screen captures or dense low-resolution tile grids where MediaPipe finds no body — this is the documented "try and iterate" outcome from Status Meeting III, not a Phase C failure. The 5 passing videos (ZKthfLPWBCQ 98.5%, Z-cH7j5iB3k 94.0%, ouFyQKszE_Y 79.5%, w0ywMP8mOc4 78.2%, VsnvueTan4I 66.7%) define the WP2 inclusion set going forward. Summary at `data/processed/tier1/_pose_summary.csv`.
+WP2 pose extraction ran across 10 stratified Tier-1 videos (4 Jamulus, 3 Zoom-only, 2 SoundJack, 1 Jamulus+Zoom). 5 of 10 pass the 50% pose-detection floor. The failing five are software-UI screen captures or dense low-resolution tile grids where MediaPipe finds no body. This is the documented "try and iterate" outcome from Status Meeting III, not a Phase C failure. The 5 passing videos (ZKthfLPWBCQ 98.5%, Z-cH7j5iB3k 94.0%, ouFyQKszE_Y 79.5%, w0ywMP8mOc4 78.2%, VsnvueTan4I 66.7%) define the WP2 inclusion set going forward. Summary at `data/processed/tier1/_pose_summary.csv`.
 
 ### E(t) composite
 

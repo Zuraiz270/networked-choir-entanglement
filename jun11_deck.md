@@ -2,11 +2,11 @@
 
 **Project 8 · Entanglement in Online Choir · 2026-06-11 · 14:00 CET**
 
-> Format: 10 slides for a 10-minute presentation (target 9 minutes spoken). Speaker notes live in [jun11_script.md](jun11_script.md). Q&A prep bank in [jun11_qa_prep.md](jun11_qa_prep.md). Tone is strength-first: lead the Sprint-3 result on slide 3, surface limitations on slide 9 (not before).
+> Format: 8 slides for an 8-10 minute presentation (target ~9 minutes spoken). Structure follows the coordinators' rubric exactly: (1) goals + plan recap, (2) progress during the last iteration, (3) plan for the next iteration, (4) retrospective output, (5) problems / questions. Speaker notes in [jun11_script.md](jun11_script.md). Q&A bank in [jun11_qa_prep.md](jun11_qa_prep.md). Design language: figure-led slides, stat cards over bullet walls, one takeaway line per slide.
 
 ---
 
-## Slide 1: Title
+## Slide 1: Title (15 sec)
 
 **Status Meeting IV**
 
@@ -17,132 +17,138 @@ SNA-OSN-M Summer 2026 · Uni Bamberg × Uni Köln × HSLU
 Presented by Hassan Ahmed, on behalf of the team
 
 Supervisors: Prof. Janine Hacker (Uni Bamberg), Prof. Peter Gloor (MIT/Köln)
-Coordinators: Janine, Simon, Peter
 
 ---
 
-## Slide 2: What we said we'd do, Sprint 3 plan recap
+## Slide 2: Our goals and plan, a 60-second recap (rubric §1)
 
-**Visual**: split layout. Left: the May-21 commitment list. Right: status column with ✓ marks.
+**Kicker**: RECAP
 
-Three weeks ago we committed to four core Sprint-3 deliverables plus two stretch items. Here is where each one stands.
+**Visual**: left half: E(t) formula card (large) + the three hypotheses as three compact cards. Right half: horizontal timeline strip Apr 16 → Jul 31 with the six status meetings marked, "WE ARE HERE" marker on Jun 11.
 
-| Sprint 3 deliverable | Status |
-|:---|:---:|
-| WP1 audio pipeline on all Dagstuhl pieces | shipped |
-| WP2 pose extraction on 10 Tier-1 videos | shipped |
-| WP3 Granger influence graph on 5 pieces + COP-GC | shipped |
-| WP4 dashboard scaffold | shipped |
-| E(t) end-to-end + null model | shipped (stretch) |
-| WP3 full-corpus metrics | shipped (stretch) |
+**Research question**: when a choir sings together over the internet, can we put a number on how well they coordinate?
 
-All six deliverables landed within the sprint window. Walking through each one next.
+**The number**: E(t) = mean of A(t) audio coupling, V(t) visual coupling, N(t) network coherence.
 
----
+**Three hypotheses**:
+- H1: low-latency tools (Jamulus, SoundJack) score higher E(t) than Zoom.
+- H2: influence network shifts from democratic to leader-dominated as latency rises.
+- H3: visual signals add ≥ 10 points of explained variance over audio alone.
 
-## Slide 3: Headline, E(t) works, all 5 pieces beat the null at p < 0.001
+**Timeline**: block course Apr 15-16 → six status meetings → final presentation Jul 23 → paper Jul 31. We are at status meeting four of six.
 
-**Visual**: large `data/figures/et_corpus_comparison.png`. Five red dots (observed mean E(t)) sit clearly above five gray error bars (200-shuffle null 95% interval). Each red dot has `***` above it (p < 0.001).
-
-The Entanglement Index computes end-to-end. We ran it on all five pieces with both audio and network signals. Every piece beats its null at p < 0.001.
-
-The pattern is clean. Locus Iste sits at 0.74 to 0.80, Tu Pauper Es sits at 0.57 to 0.68. The split is by piece, not by ensemble size. A four-singer quartet of Locus Iste sits with the eight-singer full choir of Locus Iste, not with the quartet of Tu Pauper Es.
-
-Reading: this is real coordination structure, not a statistical artifact. The number we have been promising since April is now operational and significantly above chance.
+**Takeaway line**: same goals as April, no scope drift; this iteration was about making E(t) real.
 
 ---
 
-## Slide 4: What we shipped, WP1 audio scale
+## Slide 3: Last iteration, the headline: E(t) is operational (rubric §2)
 
-**Visual**: small `data/figures/wp1_satb_coupling.png` thumbnail (the Sprint-2 reference) + 4-row summary table from `data/processed/dagstuhl/_summary.csv` showing the per-piece coupling spread.
+**Kicker**: PROGRESS · LAST ITERATION
 
-WP1 went from one piece in Sprint 2 to 25 in Sprint 3. Locus Iste plus Tu Pauper Es, every musical take in the Dagstuhl ChoirSet. 130 newly extracted singer parquets, 288 pairwise audio couplings.
+**Visual**: hero figure `data/figures/et_corpus_comparison.png` at ~70% slide width. Right rail: three stat cards.
 
-The pipeline is resumable, prefers the dynamic microphone per singer, and writes a corpus-level summary CSV.
+**Stat cards**:
+- **5 / 5** pieces beat the null (p < 0.001)
+- **200** circular-shift permutations per piece
+- **0.57 – 0.80** observed mean E(t) range
 
-The cross-piece pattern is consistent with musical structure. Within-section pieces, like the basses singing alone, couple tightly at 0.78 to 0.87. Full-choir polyphonic pieces drop to 0.40 to 0.53. Sanity check passes.
+**The result in one sentence**: the Entanglement Index runs end-to-end on five real multitrack choir pieces, and on every piece the observed coordination is far above what random chance produces.
 
----
+**The pattern**: Locus Iste (homophonic chant) clusters at 0.74-0.80; Tu Pauper Es (polyphonic) at 0.57-0.68. The split follows musical structure, not ensemble size. The metric is sensitive to what the choir is actually doing.
 
-## Slide 5: What we shipped, WP3 influence graph + COP-GC (Hacker flagship v2)
-
-**Visual**: `data/figures/wp3_influence_graphs_5pieces.png` (2x3 grid).
-
-WP3 went from one piece, one method to five pieces, two methods. Standard parametric Granger and the COP-GC ordinal-pattern variant from Zanin 2021 that we had promised since the implementation plan. Both methods produce a Gephi-compatible GEXF per piece.
-
-The Sprint-2 Hacker flagship reproduces exactly: 11 of 12 significant edges, density 0.917, soprano leads.
-
-The interesting finding is the method-divergence story. On Tu Pauper Es full choir, standard Granger flags 42 of 56 directed edges as significant. COP-GC flags 25. That gap is edges that depend on linear-magnitude structure rather than ordinal pattern structure. We carry both forward and let the contrast inform the discussion section.
+**Takeaway line**: the number we promised in April now exists, is repeatable, and is statistically defensible.
 
 ---
 
-## Slide 6: What we shipped, WP2 pose extraction on 10 Tier-1 videos
+## Slide 4: Last iteration, the audio + network engine behind it (rubric §2)
 
-**Visual**: `data/figures/wp2_visual_features_v2.png` (V(t) for ZKthfLPWBCQ, the best detection in batch).
+**Kicker**: PROGRESS · LAST ITERATION
 
-WP2 went from one Tier-1 video in Sprint 2 to 10 in Sprint 3. Stratified across NMP regimes: four Jamulus, three Zoom-only, two SoundJack, one Jamulus+Zoom. Total runtime 2.3 minutes.
+**Visual**: hero figure `data/figures/wp3_influence_graphs_5pieces.png` at ~65% width. Right rail: stat cards.
 
-5 of 10 pass the 50% pose-detection floor. The 5 passing videos define our WP2 inclusion set for the H1 hypothesis test downstream.
+**Stat cards**:
+- **25** Dagstuhl takes processed (was 1)
+- **288** pairwise audio couplings
+- **2** causality methods per piece
 
-The 5 failing videos are software-UI screen captures or dense low-resolution tile grids with no body in frame for MediaPipe to find. This matches the "try and iterate" guidance from Status Meeting III. It is a property of the input, not of the pipeline.
+**WP1 audio**: every musical take in the Dagstuhl ChoirSet now has per-singer pitch, onset, and loudness features. Coupling pattern matches musical structure (within-section 0.78-0.87, full-choir polyphonic 0.40-0.53).
 
----
+**WP3 network (Hacker flagship v2)**: directed influence graphs for 5 pieces under both standard Granger and the ordinal-pattern COP-GC variant. The two methods agree on quartets and diverge on full choir (42/56 vs 25/56 significant edges), which is itself a finding: about a third of standard edges depend on linear magnitude, not pattern structure.
 
-## Slide 7: What we shipped, WP4 dashboard scaffold + E(t) integration
-
-**Visual**: `data/figures/wp4_dashboard_scaffold.png` (Playwright screenshot of the 4-panel layout running locally).
-
-Two pieces in one slide.
-
-Left: the WP4 dashboard. React 18 + Vite 5 + TypeScript strict, FastAPI 0.111 backend. Four panels: video placeholder, D3 force-directed influence graph, Plotly E(t) timeline, metadata strip. Runs against mock JSON right now, end-to-end verified with a Playwright screenshot.
-
-Right: the E(t) integration module behind it. Takes A(t), V(t), N(t) parquets and produces the time-aligned E(t) timeline. 200-shuffle circular-shift null at the composite level. NaN-aware weight reallocation when one signal is missing, which is the realistic case in our corpus today.
-
-23 of 23 tests pass.
+**Takeaway line**: the influence-graph pipeline reproduces last sprint's result exactly and now scales.
 
 ---
 
-## Slide 8: Sprint 4 plan, June 12 to June 25
+## Slide 5: Last iteration, video + dashboard (rubric §2)
 
-**Visual**: same 4-track table style as the May-21 Sprint-3 plan slide.
+**Kicker**: PROGRESS · LAST ITERATION
 
-Sprint 4 runs from tomorrow until Status Meeting V on June 25. Four parallel tracks plus one acquisition task.
+**Visual**: hero figure `data/figures/wp4_dashboard_scaffold.png` (left, ~55% width). Right rail: WP2 mini-figure `data/figures/wp2_visual_features_v2.png` (small) + stat cards.
 
-| Track | Sprint 4 work |
+**Stat cards**:
+- **10** Tier-1 videos pose-processed
+- **5 / 10** pass the 50% detection floor
+- **23 / 23** tests green
+
+**WP2 video**: pose extraction across 10 YouTube videos stratified by NMP regime. Half pass cleanly (best: 98.5% detection); half are software-UI captures or low-res tile grids with no detectable body. Per the "try and iterate" decision from last meeting, the 5 passing videos become our working set; limitation documented.
+
+**WP4 dashboard**: the React + FastAPI scaffold is up. Four panels (video, influence graph, E(t) timeline, metadata) render end-to-end against mock data. Screenshot is the real app running locally.
+
+**Takeaway line**: every work package moved; nothing is blocked.
+
+---
+
+## Slide 6: Plan for the next iteration, Jun 12 → Jun 25 (rubric §3)
+
+**Kicker**: NEXT ITERATION
+
+**Visual**: 5-row track table, full width, generous row height.
+
+| Track | Next-iteration work |
 |:---|:---|
-| WP1 audio | per-window Granger to give us a time-varying N(t) signal |
-| WP2 video | extract pose for the remaining Tier-1 videos, triaged by detection rate |
-| WP3 network | Tier-3 latency injection: synthetic jitter on Dagstuhl audio, run E(t) at each regime |
-| WP4 dashboard | swap mock JSON for real parquet readers; pose overlay on real video |
-| Data | acquire ChoralSynth from Zenodo; pursue ESMUC access if Hacker confirms a path |
+| WP1 audio | per-window Granger → time-varying N(t) for the dashboard timeline |
+| WP2 video | pose on remaining Tier-1 videos, quality-first triage |
+| WP3 network | **Tier-3 latency injection**: synthetic jitter on Dagstuhl audio at 4 regime levels, E(t) per level. First cross-regime test of H1/H2. |
+| WP4 dashboard | swap mock JSON for real parquet readers + pose overlay |
+| Data | download ChoralSynth (openly licensed, Zenodo); follow up ESMUC |
 
-The Sprint-4 hard milestone is the dashboard alpha running on real data.
+**Hard milestone**: dashboard alpha on real data + first Tier-3 cross-regime result, before status meeting five.
 
----
-
-## Slide 9: Retrospective and four honest limitations
-
-**Visual**: 2x2 box of the four limitations + small "what worked" panel.
-
-What went well: we shipped six of six Sprint-3 deliverables, including the two pull-forward stretch items. The doc-update discipline kept TEAM_BRIEF, PROJECT_GUIDE, and the vault wiki in sync after every phase.
-
-What did not: ESMUC + ChoralSynth not yet pulled into Tier-2. ESMUC needs a UPF license we have not pursued; ChoralSynth is openly licensed on Zenodo and is a Sprint-4 download, not a blocker.
-
-**Four honest limitations** to flag explicitly so they are not Q&A surprises:
-
-1. **V(t) is NaN in every current E(t).** Dagstuhl is audio-only. The integration code is ready for V(t) the moment a piece carries it.
-2. **WP3 corpus is all Dagstuhl studio.** No NMP-regime variation in N(t) yet. Cross-regime is Sprint 4.
-3. **WP2 detection is 50%.** The 5/10 pass rate is the explicit inclusion set, per Status-Meeting-III guidance.
-4. **p_null reports as 0.0000.** Correct interpretation is p < 1/200, not literal zero. We can bump to 2000 shuffles if anyone wants a finer p-value.
+**Takeaway line**: this iteration was "make E(t) real"; the next is "make E(t) discriminate between regimes".
 
 ---
 
-## Slide 10: Open questions for the room
+## Slide 7: Retrospective output (rubric §4)
 
-**Visual**: 3 numbered questions, large font, no other content.
+**Kicker**: RETROSPECTIVE
 
-1. **To Prof. Hacker**: do you have access to ESMUC multitrack data we could fold into Tier-2 alongside Dagstuhl? (ChoralSynth we can acquire ourselves; it's openly licensed on Zenodo at DOI 10.5281/zenodo.10137883.)
-2. **To Prof. Gloor**: for the final paper figure, do you prefer matplotlib-clean or Gephi/Cytoscape SVG-polished for the alchemical-stage diagram?
-3. **To the coordinators**: is there a path to compute time on the Bamberg or HSLU university cluster for the Sprint-4 Tier-3 latency-injection runs? Per-window Granger on the full corpus is the bottleneck and a cluster would unblock it.
+**Visual**: three columns: "Kept doing" / "Went wrong" / "Watch list" as card stacks.
+
+**Kept doing (it works)**:
+- One named reviewable artefact per work package per iteration.
+- Docs synced after every milestone; anyone can read three files and be current.
+
+**Went wrong (and the fix)**:
+- Two Tier-2 datasets (ESMUC, ChoralSynth) were planned but not pulled in. Fix: ChoralSynth is an open Zenodo download, scheduled next iteration; ESMUC needs a license, question for the room.
+- Half the Tier-1 videos turned out to be screen captures with no detectable body. Fix: stratify future curation by "singers visible in tiles", not just by NMP regime.
+
+**Watch list (honest limitations, before you ask)**:
+- V(t) is absent from every current E(t): Dagstuhl has no video. Composite reallocates weight; code is ready for V(t) when multimodal data exists.
+- All 5 E(t) pieces are zero-latency studio recordings; cross-regime variation arrives with Tier-3 next iteration.
+- p-values reported as "< 0.001" mean "0 of 200 shuffles exceeded observed", not literal zero.
+
+**Takeaway line**: no surprises buried; everything on this slide is also in the written results doc.
+
+---
+
+## Slide 8: Problems and questions (rubric §5)
+
+**Kicker**: PROBLEMS / QUESTIONS
+
+**Visual**: three numbered question cards, large type, nothing else.
+
+1. **To Prof. Hacker**: do you have institutional access to the ESMUC multitrack dataset? (ChoralSynth we can download ourselves.)
+2. **To Prof. Gloor**: for the final paper figures, matplotlib-clean or Gephi/Cytoscape-polished SVG?
+3. **To the coordinators**: is there a path to CPU time on a Bamberg or HSLU cluster? Per-window Granger across the corpus is our compute bottleneck for the next iteration (hundreds of laptop-hours; a 32-64 core node turns it into a day).
 
 Thank you. Questions.

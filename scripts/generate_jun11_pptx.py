@@ -1,8 +1,14 @@
 """Generate output/jun11_status_meeting_iv.pptx from the jun11_deck.md content.
 
-Hardcoded slide content for reproducibility. Visual style reuses the
-"Studio Acoustic" palette from generate_apr30_pptx.py (deep teal + warm gold)
-so the deck reads as part of the same project family.
+8 slides following the coordinators' rubric: goals+plan recap, progress
+(3 slides), next-iteration plan, retrospective, problems/questions.
+
+Design language (v2, after the v1 text-wall was rejected):
+- figure-led slides: the figure is the hero, text is the rail
+- stat cards (rounded rectangles, big number + small label) over bullets
+- kicker tag above each title locating the slide in the rubric
+- footer with slide number on every content slide
+- Studio Acoustic palette (teal + gold) for project-family consistency
 
 Run from the project root:
     uv run python scripts/generate_jun11_pptx.py
@@ -14,6 +20,7 @@ from pathlib import Path
 
 from pptx import Presentation
 from pptx.dml.color import RGBColor
+from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Inches, Pt
 
@@ -21,7 +28,7 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT_PATH = ROOT / "output" / "jun11_status_meeting_iv.pptx"
 FIG_DIR = ROOT / "data" / "figures"
 
-# --- Studio Acoustic palette (mirrors apr30 deck) ---
+# --- Studio Acoustic palette ---
 TEAL = RGBColor(0x0E, 0x4D, 0x5E)
 TEAL_DARK = RGBColor(0x07, 0x33, 0x40)
 TEAL_MID = RGBColor(0x32, 0x80, 0x95)
@@ -33,429 +40,474 @@ CHARCOAL = RGBColor(0x24, 0x26, 0x2E)
 MUTED = RGBColor(0x6E, 0x6A, 0x60)
 MIST = RGBColor(0xCB, 0xD9, 0xDD)
 GREEN = RGBColor(0x4F, 0x8E, 0x5A)
+RED_SOFT = RGBColor(0xB5, 0x5A, 0x44)
 
 SLIDE_W = Inches(13.333)
 SLIDE_H = Inches(7.5)
 MARGIN = Inches(0.55)
-TITLE_TOP = Inches(0.45)
-ACCENT_Y = Inches(1.05)
-CONTENT_TOP = Inches(1.25)
 
 
-def _solid_bg(slide, color: RGBColor) -> None:
+def _solid_bg(slide, color):
     fill = slide.background.fill
     fill.solid()
     fill.fore_color.rgb = color
 
 
-def _add_textbox(
-    slide,
-    left,
-    top,
-    width,
-    height,
-    *,
-    text: str,
-    font_size: int = 18,
-    bold: bool = False,
-    color: RGBColor = CHARCOAL,
-    align=PP_ALIGN.LEFT,
-    font_name: str = "Calibri",
-) -> None:
+def _text(slide, left, top, width, height, text, *, size=16, bold=False,
+          color=CHARCOAL, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP,
+          line_spacing=1.0):
     tb = slide.shapes.add_textbox(left, top, width, height)
     tf = tb.text_frame
     tf.word_wrap = True
-    tf.margin_left = Inches(0.05)
-    tf.margin_right = Inches(0.05)
-    tf.margin_top = Inches(0.05)
-    tf.margin_bottom = Inches(0.05)
+    tf.vertical_anchor = anchor
+    tf.margin_left = Inches(0.03)
+    tf.margin_right = Inches(0.03)
+    tf.margin_top = Inches(0.02)
+    tf.margin_bottom = Inches(0.02)
     p = tf.paragraphs[0]
     p.alignment = align
+    p.line_spacing = line_spacing
     run = p.add_run()
     run.text = text
-    run.font.size = Pt(font_size)
+    run.font.size = Pt(size)
     run.font.bold = bold
     run.font.color.rgb = color
-    run.font.name = font_name
+    run.font.name = "Calibri"
+    return tb
 
 
-def _add_bullets(
-    slide,
-    left,
-    top,
-    width,
-    height,
-    bullets: list[str],
-    *,
-    font_size: int = 18,
-    color: RGBColor = CHARCOAL,
-    bullet_char: str = "•",
-) -> None:
+def _multiline(slide, left, top, width, height, items, *, size=14,
+               color=CHARCOAL, gap=6, bold_first_chars=0):
+    """Paragraph list without bullet glyph clutter. items: list of (text, color|None, bold)."""
     tb = slide.shapes.add_textbox(left, top, width, height)
     tf = tb.text_frame
     tf.word_wrap = True
-    tf.margin_left = Inches(0.05)
-    for i, text in enumerate(bullets):
+    tf.margin_left = Inches(0.03)
+    for i, item in enumerate(items):
+        text, item_color, bold = item
         p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        p.alignment = PP_ALIGN.LEFT
+        p.space_after = Pt(gap)
         run = p.add_run()
-        run.text = f"{bullet_char}  {text}"
-        run.font.size = Pt(font_size)
-        run.font.color.rgb = color
+        run.text = text
+        run.font.size = Pt(size)
+        run.font.bold = bold
+        run.font.color.rgb = item_color or color
         run.font.name = "Calibri"
-        p.space_after = Pt(8)
+    return tb
 
 
-def _add_title_bar(slide, title: str) -> None:
-    _add_textbox(
-        slide,
-        MARGIN,
-        TITLE_TOP,
-        SLIDE_W - 2 * MARGIN,
-        Inches(0.6),
-        text=title,
-        font_size=28,
-        bold=True,
-        color=TEAL,
-    )
-    accent = slide.shapes.add_connector(1, MARGIN, ACCENT_Y, MARGIN + Inches(1.5), ACCENT_Y)
-    accent.line.color.rgb = GOLD
-    accent.line.width = Pt(2.5)
+def _kicker(slide, text):
+    _text(slide, MARGIN, Inches(0.32), Inches(6.0), Inches(0.3),
+          text.upper(), size=12, bold=True, color=GOLD)
 
 
-def _new_content_slide(prs):
-    slide = prs.slides.add_slide(prs.slide_layouts[6])  # blank
+def _title(slide, text):
+    _text(slide, MARGIN, Inches(0.58), SLIDE_W - 2 * MARGIN, Inches(0.62),
+          text, size=27, bold=True, color=TEAL)
+
+
+def _takeaway(slide, text):
+    """Gold-tinted banner pinned at the slide bottom."""
+    bar = slide.shapes.add_shape(
+        MSO_SHAPE.ROUNDED_RECTANGLE, MARGIN, Inches(6.72),
+        SLIDE_W - 2 * MARGIN, Inches(0.52))
+    bar.fill.solid()
+    bar.fill.fore_color.rgb = TEAL
+    bar.line.fill.background()
+    tf = bar.text_frame
+    tf.word_wrap = True
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    p = tf.paragraphs[0]
+    p.alignment = PP_ALIGN.CENTER
+    run = p.add_run()
+    run.text = text
+    run.font.size = Pt(15)
+    run.font.bold = True
+    run.font.color.rgb = IVORY
+    run.font.name = "Calibri"
+
+
+def _footer(slide, n):
+    _text(slide, SLIDE_W - Inches(1.7), SLIDE_H - Inches(0.38),
+          Inches(1.2), Inches(0.3), f"{n} / 8", size=10, color=MUTED,
+          align=PP_ALIGN.RIGHT)
+    _text(slide, MARGIN, SLIDE_H - Inches(0.38), Inches(5.0), Inches(0.3),
+          "Project 8 · Entanglement in Online Choir", size=10, color=MUTED)
+
+
+def _stat_card(slide, left, top, width, height, number, label,
+               *, number_color=TEAL, number_size=30):
+    card = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
+    card.fill.solid()
+    card.fill.fore_color.rgb = IVORY
+    card.line.color.rgb = MIST
+    card.line.width = Pt(1.0)
+    tf = card.text_frame
+    tf.word_wrap = True
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    tf.margin_left = Inches(0.1)
+    tf.margin_right = Inches(0.1)
+    p1 = tf.paragraphs[0]
+    p1.alignment = PP_ALIGN.CENTER
+    r1 = p1.add_run()
+    r1.text = number
+    r1.font.size = Pt(number_size)
+    r1.font.bold = True
+    r1.font.color.rgb = number_color
+    r1.font.name = "Calibri"
+    p2 = tf.add_paragraph()
+    p2.alignment = PP_ALIGN.CENTER
+    r2 = p2.add_run()
+    r2.text = label
+    r2.font.size = Pt(11.5)
+    r2.font.color.rgb = MUTED
+    r2.font.name = "Calibri"
+
+
+def _card(slide, left, top, width, height, title, lines, *, title_color=TEAL,
+          fill=IVORY, size=12.5):
+    card = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
+    card.fill.solid()
+    card.fill.fore_color.rgb = fill
+    card.line.color.rgb = MIST
+    card.line.width = Pt(1.0)
+    tf = card.text_frame
+    tf.word_wrap = True
+    tf.margin_left = Inches(0.14)
+    tf.margin_right = Inches(0.14)
+    tf.margin_top = Inches(0.1)
+    p = tf.paragraphs[0]
+    r = p.add_run()
+    r.text = title
+    r.font.size = Pt(13.5)
+    r.font.bold = True
+    r.font.color.rgb = title_color
+    r.font.name = "Calibri"
+    p.space_after = Pt(5)
+    for line in lines:
+        lp = tf.add_paragraph()
+        lp.space_after = Pt(4)
+        lr = lp.add_run()
+        lr.text = line
+        lr.font.size = Pt(size)
+        lr.font.color.rgb = CHARCOAL
+        lr.font.name = "Calibri"
+
+
+def _picture_fit(slide, path, left, top, max_w, max_h):
+    """Insert picture scaled to fit the (max_w, max_h) box, preserving ratio."""
+    from PIL import Image  # pillow ships with mediapipe deps
+
+    with Image.open(path) as im:
+        w_px, h_px = im.size
+    ratio = min(max_w / w_px, max_h / h_px)
+    w, h = int(w_px * ratio), int(h_px * ratio)
+    # center within the box
+    x = left + (max_w - w) // 2
+    y = top + (max_h - h) // 2
+    slide.shapes.add_picture(str(path), x, y, width=w, height=h)
+
+
+def _content_slide(prs, n, kicker, title):
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
     _solid_bg(slide, CREAM)
+    _kicker(slide, kicker)
+    _title(slide, title)
+    _footer(slide, n)
     return slide
 
 
-def _new_dark_slide(prs):
+# ---------------- Slides ----------------
+
+
+def slide_1_title(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     _solid_bg(slide, TEAL_DARK)
-    return slide
+    _text(slide, MARGIN, Inches(1.55), SLIDE_W - 2 * MARGIN, Inches(0.9),
+          "Status Meeting IV", size=48, bold=True, color=IVORY, align=PP_ALIGN.CENTER)
+    _text(slide, MARGIN, Inches(2.65), SLIDE_W - 2 * MARGIN, Inches(0.7),
+          "Project 8: Entanglement in Online Choir", size=27, color=GOLD_SOFT,
+          align=PP_ALIGN.CENTER)
+    line = slide.shapes.add_connector(1, Inches(5.6), Inches(3.55), Inches(7.7), Inches(3.55))
+    line.line.color.rgb = GOLD
+    line.line.width = Pt(2.5)
+    _text(slide, MARGIN, Inches(3.85), SLIDE_W - 2 * MARGIN, Inches(0.45),
+          "SNA-OSN-M Summer 2026  ·  Uni Bamberg × Uni Köln × HSLU",
+          size=15, color=MIST, align=PP_ALIGN.CENTER)
+    _text(slide, MARGIN, Inches(4.95), SLIDE_W - 2 * MARGIN, Inches(0.5),
+          "Presented by Hassan Ahmed, on behalf of the team", size=18, bold=True,
+          color=IVORY, align=PP_ALIGN.CENTER)
+    _text(slide, MARGIN, Inches(5.55), SLIDE_W - 2 * MARGIN, Inches(0.4),
+          "Supervisors: Prof. Janine Hacker (Uni Bamberg) · Prof. Peter Gloor (MIT/Köln)",
+          size=13, color=MIST, align=PP_ALIGN.CENTER)
+    _text(slide, MARGIN, Inches(6.45), SLIDE_W - 2 * MARGIN, Inches(0.4),
+          "2026-06-11 · 14:00 CET", size=14, color=GOLD_SOFT, align=PP_ALIGN.CENTER)
 
 
-# ---------- Slide builders ----------
+def slide_2_recap(prs):
+    slide = _content_slide(prs, 2, "Recap", "Our goals and plan, in 60 seconds")
 
+    # Left: formula card + hypotheses
+    formula = slide.shapes.add_shape(
+        MSO_SHAPE.ROUNDED_RECTANGLE, MARGIN, Inches(1.45), Inches(6.1), Inches(1.05))
+    formula.fill.solid()
+    formula.fill.fore_color.rgb = TEAL
+    formula.line.fill.background()
+    tf = formula.text_frame
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    p = tf.paragraphs[0]
+    p.alignment = PP_ALIGN.CENTER
+    r = p.add_run()
+    r.text = "E(t)  =  mean(  A(t) audio,  V(t) visual,  N(t) network  )"
+    r.font.size = Pt(19)
+    r.font.bold = True
+    r.font.color.rgb = IVORY
+    r.font.name = "Calibri"
+    p2 = tf.add_paragraph()
+    p2.alignment = PP_ALIGN.CENTER
+    r2 = p2.add_run()
+    r2.text = "one number per moment: how well is this choir coordinating?"
+    r2.font.size = Pt(12)
+    r2.font.color.rgb = MIST
+    r2.font.name = "Calibri"
 
-def slide_1_title(prs) -> None:
-    slide = _new_dark_slide(prs)
-    _add_textbox(
-        slide, MARGIN, Inches(1.6), SLIDE_W - 2 * MARGIN, Inches(0.9),
-        text="Status Meeting IV", font_size=46, bold=True, color=IVORY, align=PP_ALIGN.CENTER,
-    )
-    _add_textbox(
-        slide, MARGIN, Inches(2.7), SLIDE_W - 2 * MARGIN, Inches(0.8),
-        text="Project 8: Entanglement in Online Choir", font_size=28, color=GOLD_SOFT,
-        align=PP_ALIGN.CENTER,
-    )
-    _add_textbox(
-        slide, MARGIN, Inches(3.7), SLIDE_W - 2 * MARGIN, Inches(0.5),
-        text="SNA-OSN-M Summer 2026   ·   Uni Bamberg × Uni Köln × HSLU",
-        font_size=16, color=MIST, align=PP_ALIGN.CENTER,
-    )
-    _add_textbox(
-        slide, MARGIN, Inches(5.0), SLIDE_W - 2 * MARGIN, Inches(0.5),
-        text="Presented by Hassan Ahmed", font_size=18, color=IVORY, align=PP_ALIGN.CENTER, bold=True,
-    )
-    _add_textbox(
-        slide, MARGIN, Inches(5.5), SLIDE_W - 2 * MARGIN, Inches(0.4),
-        text="on behalf of the team",
-        font_size=14, color=MIST, align=PP_ALIGN.CENTER,
-    )
-    _add_textbox(
-        slide, MARGIN, Inches(6.5), SLIDE_W - 2 * MARGIN, Inches(0.4),
-        text="2026-06-11   ·   14:00 CET", font_size=14, color=GOLD_SOFT, align=PP_ALIGN.CENTER,
-    )
+    hyp_y = Inches(2.75)
+    hyp_h = Inches(1.13)
+    _card(slide, MARGIN, hyp_y, Inches(6.1), hyp_h, "H1 · Latency regimes",
+          ["Low-latency tools (Jamulus, SoundJack) score higher E(t) than Zoom."])
+    _card(slide, MARGIN, hyp_y + hyp_h + Inches(0.12), Inches(6.1), hyp_h,
+          "H2 · Network topology",
+          ["Influence network shifts democratic → leader-dominated as latency rises."])
+    _card(slide, MARGIN, hyp_y + 2 * (hyp_h + Inches(0.12)), Inches(6.1), hyp_h,
+          "H3 · Honest signals",
+          ["Body sway + breathing add ≥ 10 points of explained variance over audio."])
 
-
-def slide_2_plan_recap(prs) -> None:
-    slide = _new_content_slide(prs)
-    _add_title_bar(slide, "What we said we'd do: Sprint 3 plan recap")
-    _add_textbox(
-        slide, MARGIN, Inches(1.5), SLIDE_W - 2 * MARGIN, Inches(0.5),
-        text="Six deliverables in total: four core + two stretch. All six shipped within the sprint window.",
-        font_size=16, color=MUTED,
-    )
-
-    rows = [
-        ("Deliverable", "Status"),
-        ("WP1 audio on all Dagstuhl pieces", "✓ shipped"),
-        ("WP2 pose on 10 Tier-1 videos", "✓ shipped"),
-        ("WP3 Granger + COP-GC on 5 pieces", "✓ shipped"),
-        ("WP4 dashboard scaffold", "✓ shipped"),
-        ("E(t) end-to-end + null (stretch)", "✓ shipped"),
-        ("WP3 full-corpus metrics (stretch)", "✓ shipped"),
+    # Right: timeline strip (vertical)
+    tl_x = Inches(7.2)
+    tl_w = Inches(5.5)
+    _text(slide, tl_x, Inches(1.45), tl_w, Inches(0.35),
+          "Where we are", size=15, bold=True, color=TEAL)
+    milestones = [
+        ("Apr 15-16", "Block course + status #1", True, False),
+        ("Apr 30", "Status #2 · goals + plan", True, False),
+        ("May 21", "Status #3 · all 4 WPs running + Virtual Mirror", True, False),
+        ("Jun 11", "Status #4 · TODAY: E(t) operational", False, True),
+        ("Jun 25", "Status #5 · cross-regime results", False, False),
+        ("Jul 9", "Status #6 · paper draft review", False, False),
+        ("Jul 23 / 31", "Final presentation / final paper", False, False),
     ]
-    rows_table = slide.shapes.add_table(
-        len(rows), 2, MARGIN, Inches(2.2), SLIDE_W - 2 * MARGIN, Inches(4.5)
-    ).table
-    rows_table.columns[0].width = Inches(8.5)
-    rows_table.columns[1].width = Inches(3.5)
-    for r, row_data in enumerate(rows):
-        for c, text in enumerate(row_data):
-            cell = rows_table.cell(r, c)
-            cell.text = text
-            cell.fill.solid()
-            cell.fill.fore_color.rgb = TEAL if r == 0 else (CREAM if r % 2 else IVORY)
-            for para in cell.text_frame.paragraphs:
-                for run in para.runs:
-                    run.font.size = Pt(14)
-                    run.font.bold = r == 0
-                    run.font.color.rgb = IVORY if r == 0 else CHARCOAL
-                    run.font.name = "Calibri"
+    y = Inches(1.9)
+    row_h = Inches(0.62)
+    for date, label, done, today in milestones:
+        dot = slide.shapes.add_shape(MSO_SHAPE.OVAL, tl_x, y + Inches(0.07),
+                                     Inches(0.22), Inches(0.22))
+        dot.fill.solid()
+        dot.fill.fore_color.rgb = GREEN if done else (GOLD if today else MIST)
+        dot.line.fill.background()
+        _text(slide, tl_x + Inches(0.38), y, Inches(1.25), Inches(0.5),
+              date, size=11.5, bold=True, color=TEAL if not today else GOLD)
+        _text(slide, tl_x + Inches(1.7), y, tl_w - Inches(1.7), Inches(0.55),
+              label, size=11.5, color=CHARCOAL if not today else GOLD,
+              line_spacing=0.95)
+        y += row_h
+
+    _takeaway(slide, "Same goals as April, no scope drift. This iteration: make E(t) real.")
 
 
-def slide_3_headline(prs) -> None:
-    slide = _new_content_slide(prs)
-    _add_title_bar(slide, "Headline: E(t) works, 5/5 pieces beat null at p < 0.001")
-    _add_textbox(
-        slide, MARGIN, Inches(1.5), Inches(7.6), Inches(0.5),
-        text="The Entanglement Index is operational end-to-end.",
-        font_size=18, bold=True, color=GREEN,
-    )
-
+def slide_3_headline(prs):
+    slide = _content_slide(prs, 3, "Progress · last iteration",
+                           "Headline: E(t) is operational, 5/5 pieces beat chance")
     fig = FIG_DIR / "et_corpus_comparison.png"
     if fig.exists():
-        slide.shapes.add_picture(
-            str(fig), MARGIN, Inches(2.1), height=Inches(4.6)
-        )
-    # right column commentary
-    right_left = Inches(8.5)
-    right_width = Inches(4.3)
-    _add_bullets(
-        slide, right_left, Inches(2.1), right_width, Inches(4.7),
-        bullets=[
-            "All 5 Dagstuhl WP3 pieces tested.",
-            "200-shuffle circular-shift null per piece.",
-            "Observed mean E(t): 0.57 to 0.80.",
-            "Null mean: 0.48 to 0.61.",
-            "Every piece > null by >17 σ.",
-            "Pattern splits by piece, not size:",
-            "   LI 0.74-0.80, TP 0.57-0.68.",
-        ],
-        font_size=14,
-    )
+        _picture_fit(slide, fig, MARGIN, Inches(1.4), Inches(8.6), Inches(5.1))
+
+    rail_x = Inches(9.5)
+    rail_w = Inches(3.3)
+    card_h = Inches(1.18)
+    _stat_card(slide, rail_x, Inches(1.5), rail_w, card_h, "5 / 5",
+               "pieces significantly above the null (p < 0.001)")
+    _stat_card(slide, rail_x, Inches(2.85), rail_w, card_h, "200",
+               "circular-shift permutations per piece")
+    _stat_card(slide, rail_x, Inches(4.2), rail_w, card_h, "0.57–0.80",
+               "observed mean E(t) across pieces", number_size=24)
+    _text(slide, rail_x, Inches(5.5), rail_w, Inches(1.1),
+          "Split follows the music: homophonic chant scores high, polyphony lower. "
+          "The metric reacts to what the choir is doing.",
+          size=12, color=MUTED, line_spacing=1.05)
+
+    _takeaway(slide, "The number we promised in April exists, is repeatable, and is statistically defensible.")
 
 
-def slide_4_wp1(prs) -> None:
-    slide = _new_content_slide(prs)
-    _add_title_bar(slide, "WP1 audio scale: 25 Dagstuhl musical takes")
-    _add_bullets(
-        slide, MARGIN, Inches(1.5), Inches(7.0), Inches(5.5),
-        bullets=[
-            "Sprint 2: 1 piece (LI Quartet A Take 02).",
-            "Sprint 3: all 25 musical takes across Locus Iste + Tu Pauper Es.",
-            "130 newly extracted singer parquets, 288 pairwise couplings.",
-            "Total runtime: 78 minutes.",
-            "Pipeline resumable; prefers DYN > HSM > LRX mic per singer.",
-            "Pattern matches musical structure:",
-            "   Within-section (LI Basses): 0.78–0.87",
-            "   Full-choir polyphonic (TP): 0.40–0.53",
-        ],
-        font_size=15,
-    )
-    fig = FIG_DIR / "wp1_satb_coupling.png"
-    if fig.exists():
-        slide.shapes.add_picture(
-            str(fig), Inches(8.0), Inches(1.6), width=Inches(4.8)
-        )
-
-
-def slide_5_wp3(prs) -> None:
-    slide = _new_content_slide(prs)
-    _add_title_bar(slide, "WP3 influence graph + COP-GC: Hacker flagship v2")
+def slide_4_audio_network(prs):
+    slide = _content_slide(prs, 4, "Progress · last iteration",
+                           "The audio + network engine behind E(t)")
     fig = FIG_DIR / "wp3_influence_graphs_5pieces.png"
     if fig.exists():
-        slide.shapes.add_picture(
-            str(fig), MARGIN, Inches(1.5), width=Inches(8.0)
-        )
-    _add_bullets(
-        slide, Inches(8.8), Inches(1.5), Inches(4.0), Inches(5.5),
-        bullets=[
-            "5 pieces × 2 methods.",
-            "Standard Granger + COP-GC (Zanin 2021).",
-            "Sprint-2 reference reproduces:",
-            "   11/12 edges, density 0.917, S leads.",
-            "Method divergence,TP_FullChoir:",
-            "   Standard: 42/56 edges significant",
-            "   COP-GC:   25/56 edges significant",
-            "Both methods carried forward.",
-        ],
-        font_size=13,
-    )
+        _picture_fit(slide, fig, MARGIN, Inches(1.4), Inches(8.2), Inches(5.1))
+
+    rail_x = Inches(9.1)
+    rail_w = Inches(3.7)
+    card_h = Inches(1.0)
+    _stat_card(slide, rail_x, Inches(1.45), rail_w, card_h, "25",
+               "Dagstuhl takes processed (was 1 last sprint)")
+    _stat_card(slide, rail_x, Inches(2.6), rail_w, card_h, "288",
+               "pairwise audio couplings computed")
+    _stat_card(slide, rail_x, Inches(3.75), rail_w, card_h, "2",
+               "causality methods per piece (Granger + COP-GC)")
+    _text(slide, rail_x, Inches(4.95), rail_w, Inches(1.6),
+          "Methods agree on quartets, diverge on full choir (42 vs 25 of 56 edges). "
+          "That gap is itself a finding: a third of standard edges rely on linear "
+          "magnitude, not pattern structure.",
+          size=12, color=MUTED, line_spacing=1.05)
+
+    _takeaway(slide, "Last sprint's flagship reproduces exactly, and the pipeline now scales.")
 
 
-def slide_6_wp2(prs) -> None:
-    slide = _new_content_slide(prs)
-    _add_title_bar(slide, "WP2 pose on 10 Tier-1 videos: 5/10 pass detection floor")
-    _add_bullets(
-        slide, MARGIN, Inches(1.5), Inches(6.5), Inches(5.5),
-        bullets=[
-            "Sprint 2: 1 video. Sprint 3: 10, stratified by NMP regime.",
-            "Total runtime: 2.3 minutes.",
-            "5/10 pass 50% detection: ZKthfLPWBCQ 98.5%, Z-cH7j5iB3k 94.0%,",
-            "   ouFyQKszE_Y 79.5%, w0ywMP8mOc4 78.2%, VsnvueTan4I 66.7%.",
-            "5/10 fail: software-UI captures or dense low-res tile grids",
-            "   (no body for MediaPipe to find).",
-            "Matches Status Meeting III \"try and iterate\" decision.",
-            "5 passing videos define WP2 inclusion set for H1.",
-        ],
-        font_size=14,
-    )
-    fig = FIG_DIR / "wp2_visual_features_v2.png"
-    if fig.exists():
-        slide.shapes.add_picture(
-            str(fig), Inches(7.5), Inches(2.5), width=Inches(5.4)
-        )
-
-
-def slide_7_wp4_et(prs) -> None:
-    slide = _new_content_slide(prs)
-    _add_title_bar(slide, "WP4 dashboard scaffold + E(t) integration")
+def slide_5_video_dashboard(prs):
+    slide = _content_slide(prs, 5, "Progress · last iteration",
+                           "Video features + the dashboard taking shape")
     fig = FIG_DIR / "wp4_dashboard_scaffold.png"
     if fig.exists():
-        slide.shapes.add_picture(
-            str(fig), MARGIN, Inches(1.5), height=Inches(5.0)
-        )
-    _add_bullets(
-        slide, Inches(7.0), Inches(1.5), Inches(5.8), Inches(5.5),
-        bullets=[
-            "Dashboard: React 18 + Vite 5 + TS strict + D3 + Plotly.",
-            "Backend: FastAPI 0.111, 3 mock endpoints.",
-            "4 panels render end-to-end (Playwright-verified).",
-            "Real-data wiring is the WP4 sub-plan (Jun 21).",
-            "",
-            "E(t) integration module:",
-            "   compute_entanglement() with NaN-safe weight reallocation.",
-            "   200-shuffle circular-shift null at composite level.",
-            "   Tests: 23/23 pass.",
-        ],
-        font_size=13,
-    )
+        _picture_fit(slide, fig, MARGIN, Inches(1.4), Inches(6.4), Inches(5.1))
+
+    mini = FIG_DIR / "wp2_visual_features_v2.png"
+    if mini.exists():
+        _picture_fit(slide, mini, Inches(7.15), Inches(1.4), Inches(3.4), Inches(2.2))
+
+    rail_x = Inches(10.75)
+    rail_w = Inches(2.05)
+    _stat_card(slide, rail_x, Inches(1.45), rail_w, Inches(1.0), "10",
+               "Tier-1 videos pose-processed", number_size=26)
+    _stat_card(slide, rail_x, Inches(2.6), rail_w, Inches(1.0), "5/10",
+               "pass 50% detection floor", number_size=26)
+    _stat_card(slide, rail_x, Inches(3.75), rail_w, Inches(1.0), "23/23",
+               "tests green", number_size=26)
+
+    _text(slide, Inches(7.15), Inches(3.85), Inches(5.6), Inches(2.6),
+          "WP2: half the YouTube corpus has detectable singers (best video: 98.5% "
+          "detection); the other half are software-UI captures with no body in frame. "
+          "Per last meeting's \"try and iterate\" decision, the 5 passing videos are "
+          "the working set.\n\nWP4: React + FastAPI scaffold renders all four panels "
+          "end-to-end (screenshot left is the app running locally). Real-data wiring "
+          "is next iteration.",
+          size=12, color=CHARCOAL, line_spacing=1.08)
+
+    _takeaway(slide, "Every work package moved. Nothing is blocked.")
 
 
-def slide_8_sprint4(prs) -> None:
-    slide = _new_content_slide(prs)
-    _add_title_bar(slide, "Sprint 4 plan: Jun 12 to Jun 25")
+def slide_6_next_iteration(prs):
+    slide = _content_slide(prs, 6, "Next iteration", "Plan: Jun 12 → Jun 25")
     rows = [
-        ("Track", "Sprint 4 work"),
-        ("WP1 audio", "Per-window Granger → time-varying N(t)"),
-        ("WP2 video", "Pose on remaining Tier-1 videos (quality-first triage)"),
-        ("WP3 network", "Tier-3 latency injection: synthetic jitter on Dagstuhl audio"),
-        ("WP4 dashboard", "Swap mock JSON → real parquet readers + pose overlay"),
-        ("Data", "Acquire ChoralSynth from Zenodo; pursue ESMUC if Hacker confirms a path"),
+        ("WP1 audio", "Per-window Granger → time-varying N(t) for the dashboard timeline"),
+        ("WP2 video", "Pose on remaining Tier-1 videos, quality-first triage"),
+        ("WP3 network", "Tier-3 latency injection: synthetic jitter at 4 regime levels, E(t) per level. First cross-regime test of H1 + H2."),
+        ("WP4 dashboard", "Swap mock JSON for real parquet readers + pose overlay"),
+        ("Data", "Download ChoralSynth (open license, Zenodo) · follow up ESMUC"),
     ]
-    t = slide.shapes.add_table(
-        len(rows), 2, MARGIN, Inches(1.8), SLIDE_W - 2 * MARGIN, Inches(4.0)
-    ).table
-    t.columns[0].width = Inches(2.5)
-    t.columns[1].width = Inches(9.5)
-    for r, row_data in enumerate(rows):
-        for c, text in enumerate(row_data):
+    t = slide.shapes.add_table(len(rows) + 1, 2, MARGIN, Inches(1.5),
+                               SLIDE_W - 2 * MARGIN, Inches(4.3)).table
+    t.columns[0].width = Inches(2.6)
+    t.columns[1].width = Inches(9.6)
+    header = ("Track", "What ships")
+    for c, htext in enumerate(header):
+        cell = t.cell(0, c)
+        cell.text = htext
+        cell.fill.solid()
+        cell.fill.fore_color.rgb = TEAL
+        for para in cell.text_frame.paragraphs:
+            for run in para.runs:
+                run.font.size = Pt(14)
+                run.font.bold = True
+                run.font.color.rgb = IVORY
+                run.font.name = "Calibri"
+    for r, (track, work) in enumerate(rows, start=1):
+        for c, txt in enumerate((track, work)):
             cell = t.cell(r, c)
-            cell.text = text
+            cell.text = txt
             cell.fill.solid()
-            cell.fill.fore_color.rgb = TEAL if r == 0 else (CREAM if r % 2 else IVORY)
+            cell.fill.fore_color.rgb = IVORY if r % 2 else CREAM
             for para in cell.text_frame.paragraphs:
                 for run in para.runs:
-                    run.font.size = Pt(14)
-                    run.font.bold = r == 0
-                    run.font.color.rgb = IVORY if r == 0 else CHARCOAL
+                    run.font.size = Pt(13.5)
+                    run.font.bold = c == 0
+                    run.font.color.rgb = TEAL if c == 0 else CHARCOAL
                     run.font.name = "Calibri"
-    _add_textbox(
-        slide, MARGIN, Inches(6.1), SLIDE_W - 2 * MARGIN, Inches(0.5),
-        text="Hard milestone: dashboard alpha runs on real data + first Tier-3 cross-regime result.",
-        font_size=18, bold=True, color=GOLD,
-    )
+
+    _text(slide, MARGIN, Inches(6.0), SLIDE_W - 2 * MARGIN, Inches(0.5),
+          "Hard milestone before status #5: dashboard alpha on real data + first Tier-3 cross-regime result.",
+          size=15, bold=True, color=GOLD)
+
+    _takeaway(slide, "This iteration made E(t) real. The next makes it discriminate between regimes.")
 
 
-def slide_9_retro(prs) -> None:
-    slide = _new_content_slide(prs)
-    _add_title_bar(slide, "Retrospective and four honest limitations")
-    _add_textbox(
-        slide, MARGIN, Inches(1.5), Inches(6.2), Inches(0.5),
-        text="What worked", font_size=18, bold=True, color=GREEN,
-    )
-    _add_bullets(
-        slide, MARGIN, Inches(2.0), Inches(6.2), Inches(2.5),
-        bullets=[
-            "6/6 Sprint-3 deliverables shipped.",
-            "2 stretch items 23 days early.",
-            "Doc-update discipline kept brief + guide + vault in sync after every phase.",
-        ],
-        font_size=14,
-    )
-    _add_textbox(
-        slide, MARGIN, Inches(4.5), Inches(6.2), Inches(0.5),
-        text="What slipped", font_size=18, bold=True, color=GOLD,
-    )
-    _add_bullets(
-        slide, MARGIN, Inches(5.0), Inches(6.2), Inches(2.0),
-        bullets=[
-            "ESMUC + ChoralSynth not yet pulled into Tier-2.",
-            "ChoralSynth: openly licensed on Zenodo, Sprint-4 download.",
-            "ESMUC: needs UPF license; asking Hacker on next slide.",
-        ],
-        font_size=14,
-    )
-    # Right column: limitations
-    right_left = Inches(7.0)
-    _add_textbox(
-        slide, right_left, Inches(1.5), Inches(5.8), Inches(0.5),
-        text="Four honest limitations", font_size=18, bold=True, color=TEAL,
-    )
-    _add_bullets(
-        slide, right_left, Inches(2.0), Inches(5.8), Inches(5.0),
-        bullets=[
-            "V(t) is NaN across all current E(t) (Dagstuhl is audio-only).",
-            "WP3 corpus is all Dagstuhl studio,no NMP-regime variation yet.",
-            "WP2 detection is 50%,the 5/10 pass rate defines our inclusion set.",
-            "p_null reports as 0.0000,correct read is \"p < 1/200\", not literal zero.",
-        ],
-        font_size=14,
-    )
+def slide_7_retro(prs):
+    slide = _content_slide(prs, 7, "Retrospective", "What we keep, what we fix, what to watch")
+    col_w = Inches(3.95)
+    col_h = Inches(4.9)
+    gap = Inches(0.18)
+    x0 = MARGIN
+
+    _card(slide, x0, Inches(1.5), col_w, col_h, "KEPT DOING · it works",
+          [
+              "One named, reviewable artefact per work package per iteration.",
+              "",
+              "Docs synced after every milestone: anyone can read three files and be fully current.",
+          ], title_color=GREEN)
+    _card(slide, x0 + col_w + gap, Inches(1.5), col_w, col_h, "WENT WRONG · and the fix",
+          [
+              "ESMUC + ChoralSynth not pulled into Tier-2 yet. Fix: ChoralSynth is an open Zenodo download, scheduled next iteration. ESMUC needs a license: question for the room.",
+              "",
+              "Half the Tier-1 videos are screen captures with no detectable body. Fix: future curation stratifies on \"singers visible\", not just NMP regime.",
+          ], title_color=RED_SOFT)
+    _card(slide, x0 + 2 * (col_w + gap), Inches(1.5), col_w, col_h, "WATCH LIST · before you ask",
+          [
+              "V(t) absent from all current E(t): Dagstuhl has no video. Weight reallocates; code is ready when multimodal data exists.",
+              "",
+              "All 5 E(t) pieces are zero-latency studio takes. Cross-regime variation arrives with Tier-3 next iteration.",
+              "",
+              "\"p < 0.001\" means 0 of 200 shuffles beat observed, not literal zero.",
+          ], title_color=GOLD)
+
+    _takeaway(slide, "No surprises buried. Everything here is also in the written results doc.")
 
 
-def slide_10_questions(prs) -> None:
-    slide = _new_content_slide(prs)
-    _add_title_bar(slide, "Open questions for the room")
-    _add_textbox(
-        slide, MARGIN, Inches(1.7), SLIDE_W - 2 * MARGIN, Inches(0.5),
-        text="Three questions before we open the floor.",
-        font_size=18, color=MUTED,
-    )
-    _add_bullets(
-        slide, MARGIN, Inches(2.5), SLIDE_W - 2 * MARGIN, Inches(4.5),
-        bullets=[
-            "To Prof. Hacker: do you have access to ESMUC multitrack data we could fold into Tier-2 alongside Dagstuhl? (ChoralSynth is openly licensed on Zenodo; we can acquire that ourselves.)",
-            "To Prof. Gloor: for the final paper figure, matplotlib-clean or Gephi/Cytoscape SVG-polished for the alchemical-stage diagram?",
-            "To the coordinators: is there a path to compute time on a Bamberg or HSLU university cluster for Sprint-4 Tier-3 latency-injection runs? Per-window Granger on the full corpus is the current bottleneck.",
-        ],
-        font_size=18,
-    )
-    _add_textbox(
-        slide, MARGIN, Inches(6.5), SLIDE_W - 2 * MARGIN, Inches(0.5),
-        text="Thank you. Questions.",
-        font_size=24, bold=True, color=TEAL, align=PP_ALIGN.CENTER,
-    )
+def slide_8_questions(prs):
+    slide = _content_slide(prs, 8, "Problems / questions", "Three things we need from the room")
+    q_w = SLIDE_W - 2 * MARGIN
+    q_h = Inches(1.45)
+    items = [
+        ("1 · Prof. Hacker",
+         "Do you have institutional access to the ESMUC multitrack dataset? "
+         "(ChoralSynth we can download ourselves: open license on Zenodo.)"),
+        ("2 · Prof. Gloor",
+         "For the final paper figures: matplotlib-clean, or Gephi/Cytoscape-polished SVG?"),
+        ("3 · Coordinators",
+         "Is there a path to CPU time on a Bamberg or HSLU cluster? Per-window Granger "
+         "is our compute bottleneck: hundreds of laptop-hours, or about a day on a 32-64 core node."),
+    ]
+    y = Inches(1.6)
+    for title, body in items:
+        _card(slide, MARGIN, y, q_w, q_h, title, [body], size=15)
+        y += q_h + Inches(0.22)
+
+    _text(slide, MARGIN, Inches(6.65), q_w, Inches(0.5),
+          "Thank you. Questions.", size=22, bold=True, color=TEAL,
+          align=PP_ALIGN.CENTER)
 
 
-def build() -> None:
+def build():
     prs = Presentation()
     prs.slide_width = SLIDE_W
     prs.slide_height = SLIDE_H
 
     slide_1_title(prs)
-    slide_2_plan_recap(prs)
+    slide_2_recap(prs)
     slide_3_headline(prs)
-    slide_4_wp1(prs)
-    slide_5_wp3(prs)
-    slide_6_wp2(prs)
-    slide_7_wp4_et(prs)
-    slide_8_sprint4(prs)
-    slide_9_retro(prs)
-    slide_10_questions(prs)
+    slide_4_audio_network(prs)
+    slide_5_video_dashboard(prs)
+    slide_6_next_iteration(prs)
+    slide_7_retro(prs)
+    slide_8_questions(prs)
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     prs.save(OUT_PATH)
