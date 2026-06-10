@@ -20,7 +20,7 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 **Short answer**: That mean E(t) on each Dagstuhl piece is significantly higher than what you would get from shuffling the singer streams against each other, so the coordination signal we measure is not a statistical artifact.
 
-**Backup detail**: The null model is 200 circular-shift permutations per piece. Each shuffle preserves within-stream autocorrelation but breaks cross-stream timing. On all five pieces the observed mean E(t) is at least 17 standard deviations above the null distribution mean. That is well outside chance.
+**Backup detail**: The null model is 200 circular-shift permutations per piece. Each shuffle preserves within-stream autocorrelation but breaks cross-stream timing. Across the five pieces the observed mean E(t) sits between 14 and 45 standard deviations above the null distribution mean (weakest: TP_QuartetA at 14.6, strongest: LI_FullChoir at 45). That is well outside chance.
 
 **If pressed**: This is a single-condition test. It proves the metric responds to real coordination, not that E(t) discriminates between low-latency and high-latency regimes (H1) or that visual signals add explanatory power (H3). Those are Sprint-4 and Sprint-5 tests. We are being explicit that Sprint 3 validated the metric, not the hypotheses.
 
@@ -46,7 +46,7 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 **Backup detail**: On Tu Pauper Es full choir, standard found 42 of 56 directed edges significant. COP-GC found 25. The 17-edge gap is edges that depend on linear-magnitude structure rather than pattern structure. We report both, and edges significant under both methods are the robust ones.
 
-**If pressed**: Implementation uses an order-3 Lehmer-code transform per Zanin 2021. The ordinal-pattern transform is invariant under monotonic transformations of the input, which is the key property. Mathematically: same null model (circular shift), same F-statistic, only the input series is the difference.
+**If pressed**: Implementation uses an order-3 Lehmer-code transform per Zanin 2024 (Communications in Nonlinear Science and Numerical Simulation 128, 107606). The ordinal-pattern transform is invariant under monotonic transformations of the input, which is the key property. Mathematically: same null model (circular shift), same F-statistic, only the input series is the difference.
 
 ### Q-H5: Why density 0.917 on Locus Iste Quartet A Take 02 and not higher?
 
@@ -54,7 +54,7 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 **Backup detail**: For a 4-node directed graph there are 12 possible edges. Density 0.917 means 11 of 12 are significant. That edge density is what we expect from a co-located in-person quartet with no network latency. The interesting question is what density looks like for Zoom-only choir performances, which is the H2 test we still need to run.
 
-**If pressed**: We will report density distributions across pieces, not single-piece point estimates. With 5 pieces in the Sprint-3 corpus we get a mean of 0.918 for the LI cluster and 0.833 for the TP cluster, which is consistent.
+**If pressed**: We will report density distributions across pieces, not single-piece point estimates. With 5 pieces in the Sprint-3 corpus (standard method), the LI cluster averages density 0.97 and the TP cluster 0.83, which is consistent.
 
 ### Q-H6: Where does H2 stand?
 
@@ -106,7 +106,7 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 **Short answer**: ESMUC requires a UPF research license we have not pursued yet. ChoralSynth we can simply download (it's openly licensed on Zenodo), and that is Sprint-4 work, not a deliberate Sprint-3 exclusion.
 
-**Backup detail**: ESMUC is a UPF-curated dataset (Cuesta et al.) that the original P-02 multi-f0 paper used for training; the audit notes that it is proprietary. ChoralSynth (Cuesta et al. 2023, MTG) is synthetic SATB, 20 pieces, 3.8 hours total duration, hosted on Zenodo at DOI 10.5281/zenodo.10137883 under a non-commercial research license. We just didn't pull it in Sprint 3 because the WP3 corpus stayed at the 5 real Dagstuhl pieces. Sprint 4 plan includes a ChoralSynth acquisition step before the Tier-3 latency-injection runs.
+**Backup detail**: ESMUC is a UPF-curated dataset that the original P-02 multi-f0 paper used for training; our deep-read audit notes it is proprietary. ChoralSynth (MTG, arXiv 2311.08350) is synthetic SATB, 20 pieces, about 3.8 hours total duration, hosted on Zenodo at DOI 10.5281/zenodo.10137883 for non-commercial research. We just didn't pull it in Sprint 3 because the WP3 corpus stayed at the 5 real Dagstuhl pieces. Sprint 4 plan includes a ChoralSynth acquisition step before the Tier-3 latency-injection runs.
 
 **If pressed**: The power calculation in our implementation plan assumed Dagstuhl plus ESMUC giving 156 paired observations for H1. Without ESMUC, we have 120 (Dagstuhl alone), which is still well-powered for Cohen's d of 0.50 (our headline H1 effect size). Adding ChoralSynth in Sprint 4 brings us back above 156. The right ask of Prof. Hacker is whether **she has institutional access to ESMUC** specifically. ChoralSynth we will just download.
 
@@ -128,11 +128,11 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 ### Q-T4: Is the Sprint-2 reference still valid?
 
-**Short answer**: Yes, the Sprint-2 Hacker flagship reproduces exactly: 11 of 12 significant edges, density 0.917, soprano leads.
+**Short answer**: Yes on the substance: the re-run reproduces 11 of 12 significant edges and density 0.917 on the same piece.
 
-**Backup detail**: We re-ran the same piece (Locus Iste Quartet A Take 02) under the new Sprint-3 batch pipeline and got identical numbers. This is the regression test for the Granger pipeline itself.
+**Backup detail**: We re-ran Locus Iste Quartet A Take 02 under the new Sprint-3 batch pipeline with the same parameters and got the same edge count and density. One label changed: "most central voice" is a near-tie at eigenvector centrality 0.53 between Soprano and Alto, and the tie resolves differently depending on node ordering (Sprint 2 reported Soprano, the batch run reports Alto). We treat edge count and density as the regression check and flag the centrality label as tie-sensitive.
 
-**If pressed**: We compare not just summary statistics but the specific edges. Same 11 directed edges, same lag selection, same F-statistics within numerical precision.
+**If pressed**: The honest statement is that in a 4-node graph with 11 of 12 edges present, the network is nearly complete and the voices are close to interchangeable by centrality. Single-voice "leader" labels only become meaningful on sparser graphs, like the TP full-choir COP-GC graph at density 0.45. A full edge-by-edge F-statistic comparison is queued for the report.
 
 ### Q-T5: Why pull forward the Jun-14 deliverables to May 22?
 
@@ -174,7 +174,7 @@ Don't deflect questions in your own area (WP3 Granger, influence graph). You own
 
 ### Q-X2: Why is N(t) constant per piece in the integration?
 
-**Short answer**: Because per-window Granger requires re-running the Granger pipeline on each 10-second window, which would take 70 minutes per piece per Sprint-3 piece. We use piece-level density as a constant for now.
+**Short answer**: Because per-window Granger multiplies the cost of the Granger pass by the number of windows; the full Sprint-3 pass (5 pieces, 2 methods, nulls) already took about 70 minutes, so a per-window version with fine steps is an order of magnitude more. We use piece-level density as a constant for now.
 
 **Backup detail**: Sprint-4 plan includes per-window Granger to give us a time-varying N(t). The current implementation broadcasts the piece-level density across all windows. This is a documented limitation in `sprint3_results.md`.
 
@@ -194,7 +194,7 @@ Don't deflect questions in your own area (WP3 Granger, influence graph). You own
 
 **Backup detail**: The cubic-monotone fixture is the canonical test case for COP-GC because cube of a stationary AR series is strongly non-linear but monotonic. Ordinal patterns are invariant under monotonic transforms, so COP-GC should still detect coupling there. Our test confirms it does, with the same null model as standard.
 
-**If pressed**: We did not re-run Zanin's exact simulation studies because the published code is in MATLAB and the time investment was not worth it for Sprint 3. We will revisit if reviewers ask.
+**If pressed**: We validated against our own synthetic fixtures rather than re-running the paper's simulation studies; that level of replication was out of scope for Sprint 3. We will revisit if reviewers ask.
 
 ### Q-X5: Why not use IDTxl or PyEDM for transfer entropy as a robustness check?
 

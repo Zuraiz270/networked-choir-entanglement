@@ -304,7 +304,7 @@ def slide_2_recap(prs):
         ("May 21", "Status #3 · all 4 WPs running + Virtual Mirror", True, False),
         ("Jun 11", "Status #4 · TODAY: E(t) operational", False, True),
         ("Jun 25", "Status #5 · cross-regime results", False, False),
-        ("Jul 9", "Status #6 · paper draft review", False, False),
+        ("Jul 9", "Status #6 · last check-in before final", False, False),
         ("Jul 23 / 31", "Final presentation / final paper", False, False),
     ]
     y = Inches(1.9)

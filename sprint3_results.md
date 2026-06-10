@@ -10,11 +10,11 @@ Five Dagstuhl pieces now have a complete E(t) timeline against a 200-shuffle cir
 
 ### A(t) audio coupling
 
-WP1 ran on every Dagstuhl musical take. 25 takes processed, 130 newly extracted per-singer parquets, 288 pairwise couplings. Per-take pattern is consistent with musical structure: within-section pieces (LI Basses, 5 takes) cluster at mean coupling 0.78–0.87; full-choir polyphonic pieces (TP, 4 takes) drop to 0.40–0.53. Summary at `data/processed/dagstuhl/_summary.csv`.
+WP1 ran on every Dagstuhl musical take. 25 takes processed, 130 newly extracted per-singer parquets, 288 pairwise couplings. Per-take pattern is consistent with musical structure: within-section pieces (LI Basses, 5 takes) cluster at mean coupling 0.78–0.87; TP full-choir takes (4) drop to 0.40–0.45, with the TP quartet takes at 0.49–0.53. Summary at `data/processed/dagstuhl/_summary.csv`.
 
 ### N(t) network coherence
 
-WP3 ran on 5 representative pieces under two methods: standard parametric Granger and COP-GC (Zanin-2021 ordinal-pattern variant). All 10 piece × method graphs persisted as Gephi-compatible GEXFs plus a flat per-piece metrics table at `data/processed/dagstuhl/_network_metrics.csv`. Sprint-2 reference (LI_QuartetA_Take02 standard) reproduced exactly at 11/12 significant edges and density 0.917. Method divergence is largest on full-choir Tu Pauper Es (42/56 standard edges vs 25/56 COP-GC), suggesting roughly a third of the standard test's "positive" edges depend on linear-magnitude structure that vanishes after ordinal-pattern transformation. We carry both methods forward.
+WP3 ran on 5 representative pieces under two methods: standard parametric Granger and COP-GC (Zanin-2024 ordinal-pattern variant). All 10 piece × method graphs persisted as Gephi-compatible GEXFs plus a flat per-piece metrics table at `data/processed/dagstuhl/_network_metrics.csv`. Sprint-2 reference (LI_QuartetA_Take02 standard) reproduced on edges and density: 11/12 significant edges, density 0.917. One caveat: the "most central voice" label is a near-tie at eigenvector centrality 0.53 (Sprint 2 reported Soprano, the batch re-run reports Alto; the tie resolves by node ordering), so centrality labels on near-complete graphs are treated as tie-sensitive. Method divergence is largest on full-choir Tu Pauper Es (42/56 standard edges vs 25/56 COP-GC), suggesting roughly a third of the standard test's "positive" edges depend on linear-magnitude structure that vanishes after ordinal-pattern transformation. We carry both methods forward.
 
 ### V(t) visual signals
 
@@ -56,11 +56,11 @@ Cannot be tested with the current data because no piece has both V(t) and A(t) t
 | E(t) | not implemented | module + 200-shuffle null + 5-piece corpus |
 | Dashboard | wireframe.md | React+Vite+FastAPI scaffold, screenshot verified |
 | Tests | 15/15 | 23/23 (+3 COP-GC, +5 entanglement) |
-| Commits on `main` | 0 since May 21 | 12 (3 per phase × 4 phases) |
+| Commits on `main` | 0 since May 21 | 15 across Sprint-3 phases A-F (one feat + one docs per phase, plus fixes) |
 
 ## What's left for Sprint 3
 
-Phase F only: Jun-11 deck, presenter script, Q&A bank, PPTX render. Target upload to Drive: EOD Jun 10. Meeting: Thu Jun 11 14:00 CET.
+Nothing. Phase F (Jun-11 deck, presenter script, Q&A bank, PPTX) shipped; meeting is Thu Jun 11 14:00 CET with Hassan presenting and Hammad supporting.
 
 ## Honest limitations to surface in the deck
 

@@ -7,14 +7,14 @@ autocorrelation, unlike i.i.d. shuffle.
 
 Two methods:
 - ``"standard"``: parametric VAR-based Granger (statsmodels). Linear couplings.
-- ``"cop_gc"``: COP-GC (Zanin 2021, P-22). Each series is first mapped to its
+- ``"cop_gc"``: COP-GC (Zanin 2024, P-22). Each series is first mapped to its
   ordinal-pattern sequence (Lehmer code of each consecutive `order`-window),
   then the same parametric Granger machinery is applied. Captures non-linear
   couplings that the standard test misses.
 
 Reference:
 - Granger 1969 (foundational); statsmodels `grangercausalitytests`
-- Zanin 2021 (P-22) "Augmenting Granger Causality through Ordinal Patterns"
+- Zanin 2024 (P-22) "Augmenting Granger Causality through Ordinal Patterns"
 """
 
 from __future__ import annotations
@@ -63,7 +63,7 @@ def pairwise_granger(
     against `n_shuffles` circular-shift permutations of the cause series.
 
     ``method="cop_gc"`` first maps both series to ordinal-pattern integers of
-    the given ``ordinal_order`` (default 3 → 6 patterns; Zanin 2021), then
+    the given ``ordinal_order`` (default 3 → 6 patterns; Zanin 2024), then
     applies the same parametric Granger test on the transformed series.
     """
     if cause_series.shape != effect_series.shape:

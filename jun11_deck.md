@@ -71,7 +71,7 @@ Supervisors: Prof. Janine Hacker (Uni Bamberg), Prof. Peter Gloor (MIT/Köln)
 - **288** pairwise audio couplings
 - **2** causality methods per piece
 
-**WP1 audio**: every musical take in the Dagstuhl ChoirSet now has per-singer pitch, onset, and loudness features. Coupling pattern matches musical structure (within-section 0.78-0.87, full-choir polyphonic 0.40-0.53).
+**WP1 audio**: every musical take in the Dagstuhl ChoirSet now has per-singer pitch, onset, and loudness features. Coupling pattern matches musical structure (within-section 0.78-0.87, full-choir polyphonic 0.40-0.45).
 
 **WP3 network (Hacker flagship v2)**: directed influence graphs for 5 pieces under both standard Granger and the ordinal-pattern COP-GC variant. The two methods agree on quartets and diverge on full choir (42/56 vs 25/56 significant edges), which is itself a finding: about a third of standard edges depend on linear magnitude, not pattern structure.
 
