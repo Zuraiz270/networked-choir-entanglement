@@ -25,18 +25,18 @@ Coordinators: Janine, Simon, Peter
 
 **Visual**: split layout. Left: the May-21 commitment list. Right: status column with ✓ marks.
 
-Three weeks ago we committed to four core Sprint-3 deliverables, plus a stretch pull-forward.
+Three weeks ago we committed to four core Sprint-3 deliverables plus two stretch items. Here is where each one stands.
 
-| Sprint 3 deliverable | Brief target | Status |
-|:---|:---:|:---:|
-| WP1 audio pipeline on all Dagstuhl pieces | Jun 4 | ✓ done May 22 |
-| WP2 pose extraction on 10 Tier-1 videos | Jun 11 | ✓ done May 22 |
-| WP3 Granger influence graph on 5 pieces + COP-GC | Jun 11 | ✓ done May 22 |
-| WP4 dashboard scaffold | Jun 11 | ✓ done May 22 |
-| **E(t) end-to-end + null model (pull-forward)** | **Jun 14** | **✓ done May 22** |
-| **WP3 full-corpus metrics (pull-forward)** | **Jun 14** | **✓ done May 22** |
+| Sprint 3 deliverable | Status |
+|:---|:---:|
+| WP1 audio pipeline on all Dagstuhl pieces | shipped |
+| WP2 pose extraction on 10 Tier-1 videos | shipped |
+| WP3 Granger influence graph on 5 pieces + COP-GC | shipped |
+| WP4 dashboard scaffold | shipped |
+| E(t) end-to-end + null model | shipped (stretch) |
+| WP3 full-corpus metrics | shipped (stretch) |
 
-Six of six. Two of the stretch deliverables came in 23 days early.
+All six deliverables landed within the sprint window. Walking through each one next.
 
 ---
 
@@ -56,7 +56,7 @@ Reading: this is real coordination structure, not a statistical artifact. The nu
 
 **Visual**: small `data/figures/wp1_satb_coupling.png` thumbnail (the Sprint-2 reference) + 4-row summary table from `data/processed/dagstuhl/_summary.csv` showing the per-piece coupling spread.
 
-WP1 went from one piece in Sprint 2 to 25 in Sprint 3. Locus Iste plus Tu Pauper Es, every musical take in the Dagstuhl ChoirSet. 130 newly extracted singer parquets, 288 pairwise audio couplings, total runtime 78 minutes.
+WP1 went from one piece in Sprint 2 to 25 in Sprint 3. Locus Iste plus Tu Pauper Es, every musical take in the Dagstuhl ChoirSet. 130 newly extracted singer parquets, 288 pairwise audio couplings.
 
 The pipeline is resumable, prefers the dynamic microphone per singer, and writes a corpus-level summary CSV.
 
@@ -106,16 +106,17 @@ Right: the E(t) integration module behind it. Takes A(t), V(t), N(t) parquets an
 
 **Visual**: same 4-track table style as the May-21 Sprint-3 plan slide.
 
-Sprint 4 runs from tomorrow until Status Meeting V on June 25. Four parallel tracks.
+Sprint 4 runs from tomorrow until Status Meeting V on June 25. Four parallel tracks plus one acquisition task.
 
-| Track | Sprint 4 work | Brief target |
-|:---|:---|:---|
-| WP1 audio | per-window Granger to give us a time-varying N(t) signal | Jun 21 |
-| WP2 video | extract pose for all 21 remaining Tier-1 videos, focus on high-detection regimes | Jun 30 |
-| WP3 network | Tier-3 latency injection: synthetic jitter on Dagstuhl audio, run E(t) at each regime | Jun 21 |
-| WP4 dashboard | swap mock JSON for real parquet readers; pose overlay on real video | Jun 21 |
+| Track | Sprint 4 work |
+|:---|:---|
+| WP1 audio | per-window Granger to give us a time-varying N(t) signal |
+| WP2 video | extract pose for the remaining Tier-1 videos, triaged by detection rate |
+| WP3 network | Tier-3 latency injection: synthetic jitter on Dagstuhl audio, run E(t) at each regime |
+| WP4 dashboard | swap mock JSON for real parquet readers; pose overlay on real video |
+| Data | acquire ChoralSynth from Zenodo; pursue ESMUC access if Hacker confirms a path |
 
-The Sprint-4 hard milestone is the dashboard alpha runs live data, due June 21.
+The Sprint-4 hard milestone is the dashboard alpha running on real data.
 
 ---
 
@@ -125,7 +126,7 @@ The Sprint-4 hard milestone is the dashboard alpha runs live data, due June 21.
 
 What went well: we shipped six of six Sprint-3 deliverables, including the two pull-forward stretch items. The doc-update discipline kept TEAM_BRIEF, PROJECT_GUIDE, and the vault wiki in sync after every phase.
 
-What did not: dataset acquisition for ESMUC and ChoralSynth slipped. They were Tier-2 candidates but ESMUC is proprietary (UPF license) and the ChoralSynth gate slipped past May 15.
+What did not: ESMUC + ChoralSynth not yet pulled into Tier-2. ESMUC needs a UPF license we have not pursued; ChoralSynth is openly licensed on Zenodo and is a Sprint-4 download, not a blocker.
 
 **Four honest limitations** to flag explicitly so they are not Q&A surprises:
 
@@ -140,8 +141,8 @@ What did not: dataset acquisition for ESMUC and ChoralSynth slipped. They were T
 
 **Visual**: 3 numbered questions, large font, no other content.
 
-1. **To Prof. Hacker**: do you have access to ESMUC or ChoralSynth multitrack data we could fold into Tier-2 before Sprint 4 acquisition?
+1. **To Prof. Hacker**: do you have access to ESMUC multitrack data we could fold into Tier-2 alongside Dagstuhl? (ChoralSynth we can acquire ourselves; it's openly licensed on Zenodo at DOI 10.5281/zenodo.10137883.)
 2. **To Prof. Gloor**: for the final paper figure, do you prefer matplotlib-clean or Gephi/Cytoscape SVG-polished for the alchemical-stage diagram?
-3. **To everyone**: is the Jul 23 final presentation in-person at Bamberg, or remote? Affects how Hassan and Hammad coordinate travel.
+3. **To the coordinators**: is there a path to compute time on the Bamberg or HSLU university cluster for the Sprint-4 Tier-3 latency-injection runs? Per-window Granger on the full corpus is the bottleneck and a cluster would unblock it.
 
 Thank you. Questions.

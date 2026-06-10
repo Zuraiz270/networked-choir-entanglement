@@ -171,28 +171,27 @@ def slide_1_title(prs) -> None:
 
 def slide_2_plan_recap(prs) -> None:
     slide = _new_content_slide(prs)
-    _add_title_bar(slide, "What we said we'd do,Sprint 3 plan recap")
+    _add_title_bar(slide, "What we said we'd do: Sprint 3 plan recap")
     _add_textbox(
         slide, MARGIN, Inches(1.5), SLIDE_W - 2 * MARGIN, Inches(0.5),
-        text="Six deliverables. Four core, two pull-forward stretch. All six shipped.",
+        text="Six deliverables in total: four core + two stretch. All six shipped within the sprint window.",
         font_size=16, color=MUTED,
     )
 
     rows = [
-        ("Deliverable", "Brief target", "Status"),
-        ("WP1 audio on all Dagstuhl pieces", "Jun 4", "✓ done May 22"),
-        ("WP2 pose on 10 Tier-1 videos", "Jun 11", "✓ done May 22"),
-        ("WP3 Granger + COP-GC on 5 pieces", "Jun 11", "✓ done May 22"),
-        ("WP4 dashboard scaffold", "Jun 11", "✓ done May 22"),
-        ("E(t) end-to-end + null (stretch)", "Jun 14", "✓ done May 22 (23 days early)"),
-        ("WP3 full-corpus metrics (stretch)", "Jun 14", "✓ done May 22 (23 days early)"),
+        ("Deliverable", "Status"),
+        ("WP1 audio on all Dagstuhl pieces", "✓ shipped"),
+        ("WP2 pose on 10 Tier-1 videos", "✓ shipped"),
+        ("WP3 Granger + COP-GC on 5 pieces", "✓ shipped"),
+        ("WP4 dashboard scaffold", "✓ shipped"),
+        ("E(t) end-to-end + null (stretch)", "✓ shipped"),
+        ("WP3 full-corpus metrics (stretch)", "✓ shipped"),
     ]
     rows_table = slide.shapes.add_table(
-        len(rows), 3, MARGIN, Inches(2.2), SLIDE_W - 2 * MARGIN, Inches(4.5)
+        len(rows), 2, MARGIN, Inches(2.2), SLIDE_W - 2 * MARGIN, Inches(4.5)
     ).table
-    rows_table.columns[0].width = Inches(6.5)
-    rows_table.columns[1].width = Inches(2.5)
-    rows_table.columns[2].width = Inches(3.0)
+    rows_table.columns[0].width = Inches(8.5)
+    rows_table.columns[1].width = Inches(3.5)
     for r, row_data in enumerate(rows):
         for c, text in enumerate(row_data):
             cell = rows_table.cell(r, c)
@@ -209,7 +208,7 @@ def slide_2_plan_recap(prs) -> None:
 
 def slide_3_headline(prs) -> None:
     slide = _new_content_slide(prs)
-    _add_title_bar(slide, "Headline,E(t) works, 5/5 pieces beat null at p < 0.001")
+    _add_title_bar(slide, "Headline: E(t) works, 5/5 pieces beat null at p < 0.001")
     _add_textbox(
         slide, MARGIN, Inches(1.5), Inches(7.6), Inches(0.5),
         text="The Entanglement Index is operational end-to-end.",
@@ -241,7 +240,7 @@ def slide_3_headline(prs) -> None:
 
 def slide_4_wp1(prs) -> None:
     slide = _new_content_slide(prs)
-    _add_title_bar(slide, "WP1 audio scale,25 Dagstuhl musical takes")
+    _add_title_bar(slide, "WP1 audio scale: 25 Dagstuhl musical takes")
     _add_bullets(
         slide, MARGIN, Inches(1.5), Inches(7.0), Inches(5.5),
         bullets=[
@@ -265,7 +264,7 @@ def slide_4_wp1(prs) -> None:
 
 def slide_5_wp3(prs) -> None:
     slide = _new_content_slide(prs)
-    _add_title_bar(slide, "WP3 influence graph + COP-GC,Hacker flagship v2")
+    _add_title_bar(slide, "WP3 influence graph + COP-GC: Hacker flagship v2")
     fig = FIG_DIR / "wp3_influence_graphs_5pieces.png"
     if fig.exists():
         slide.shapes.add_picture(
@@ -289,7 +288,7 @@ def slide_5_wp3(prs) -> None:
 
 def slide_6_wp2(prs) -> None:
     slide = _new_content_slide(prs)
-    _add_title_bar(slide, "WP2 pose on 10 Tier-1 videos,5/10 pass detection floor")
+    _add_title_bar(slide, "WP2 pose on 10 Tier-1 videos: 5/10 pass detection floor")
     _add_bullets(
         slide, MARGIN, Inches(1.5), Inches(6.5), Inches(5.5),
         bullets=[
@@ -338,20 +337,20 @@ def slide_7_wp4_et(prs) -> None:
 
 def slide_8_sprint4(prs) -> None:
     slide = _new_content_slide(prs)
-    _add_title_bar(slide, "Sprint 4 plan,Jun 12 to Jun 25")
+    _add_title_bar(slide, "Sprint 4 plan: Jun 12 to Jun 25")
     rows = [
-        ("Track", "Sprint 4 work", "Due"),
-        ("WP1 audio", "Per-window Granger → time-varying N(t)", "Jun 21"),
-        ("WP2 video", "Pose on remaining 21 Tier-1 videos (triage)", "Jun 30"),
-        ("WP3 network", "Tier-3 latency injection: jitter on Dagstuhl audio", "Jun 21"),
-        ("WP4 dashboard", "Swap mock JSON → real parquet readers + pose overlay", "Jun 21"),
+        ("Track", "Sprint 4 work"),
+        ("WP1 audio", "Per-window Granger → time-varying N(t)"),
+        ("WP2 video", "Pose on remaining Tier-1 videos (quality-first triage)"),
+        ("WP3 network", "Tier-3 latency injection: synthetic jitter on Dagstuhl audio"),
+        ("WP4 dashboard", "Swap mock JSON → real parquet readers + pose overlay"),
+        ("Data", "Acquire ChoralSynth from Zenodo; pursue ESMUC if Hacker confirms a path"),
     ]
     t = slide.shapes.add_table(
-        len(rows), 3, MARGIN, Inches(1.8), SLIDE_W - 2 * MARGIN, Inches(3.5)
+        len(rows), 2, MARGIN, Inches(1.8), SLIDE_W - 2 * MARGIN, Inches(4.0)
     ).table
     t.columns[0].width = Inches(2.5)
-    t.columns[1].width = Inches(7.5)
-    t.columns[2].width = Inches(2.0)
+    t.columns[1].width = Inches(9.5)
     for r, row_data in enumerate(rows):
         for c, text in enumerate(row_data):
             cell = t.cell(r, c)
@@ -365,8 +364,8 @@ def slide_8_sprint4(prs) -> None:
                     run.font.color.rgb = IVORY if r == 0 else CHARCOAL
                     run.font.name = "Calibri"
     _add_textbox(
-        slide, MARGIN, Inches(5.7), SLIDE_W - 2 * MARGIN, Inches(0.5),
-        text="Hard milestone: dashboard alpha runs on real data by Jun 21.",
+        slide, MARGIN, Inches(6.1), SLIDE_W - 2 * MARGIN, Inches(0.5),
+        text="Hard milestone: dashboard alpha runs on real data + first Tier-3 cross-regime result.",
         font_size=18, bold=True, color=GOLD,
     )
 
@@ -394,8 +393,9 @@ def slide_9_retro(prs) -> None:
     _add_bullets(
         slide, MARGIN, Inches(5.0), Inches(6.2), Inches(2.0),
         bullets=[
-            "ESMUC + ChoralSynth not acquired (proprietary / gate slipped May 15).",
-            "To be revisited in Sprint 4 if licensing path opens.",
+            "ESMUC + ChoralSynth not yet pulled into Tier-2.",
+            "ChoralSynth: openly licensed on Zenodo, Sprint-4 download.",
+            "ESMUC: needs UPF license; asking Hacker on next slide.",
         ],
         font_size=14,
     )
@@ -428,9 +428,9 @@ def slide_10_questions(prs) -> None:
     _add_bullets(
         slide, MARGIN, Inches(2.5), SLIDE_W - 2 * MARGIN, Inches(4.5),
         bullets=[
-            "To Prof. Hacker,do you have access to ESMUC or ChoralSynth multitrack data we could fold into Tier-2 before Sprint 4 acquisition?",
-            "To Prof. Gloor,for the final paper figure, matplotlib-clean or Gephi/Cytoscape SVG-polished for the alchemical-stage diagram?",
-            "To everyone,is the Jul 23 final presentation in-person at Bamberg or remote? Affects how Hassan and Hammad coordinate travel.",
+            "To Prof. Hacker: do you have access to ESMUC multitrack data we could fold into Tier-2 alongside Dagstuhl? (ChoralSynth is openly licensed on Zenodo; we can acquire that ourselves.)",
+            "To Prof. Gloor: for the final paper figure, matplotlib-clean or Gephi/Cytoscape SVG-polished for the alchemical-stage diagram?",
+            "To the coordinators: is there a path to compute time on a Bamberg or HSLU university cluster for Sprint-4 Tier-3 latency-injection runs? Per-window Granger on the full corpus is the current bottleneck.",
         ],
         font_size=18,
     )

@@ -104,11 +104,11 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 ### Q-T1: Why didn't you also use ESMUC and ChoralSynth?
 
-**Short answer**: ESMUC is proprietary and requires a UPF license we have not pursued yet, and the ChoralSynth acquisition gate slipped past May 15. Dagstuhl is the one we could verifiably download in time with an MD5 match.
+**Short answer**: ESMUC requires a UPF research license we have not pursued yet. ChoralSynth we can simply download (it's openly licensed on Zenodo), and that is Sprint-4 work, not a deliberate Sprint-3 exclusion.
 
-**Backup detail**: ESMUC is a UPF dataset that requires a research license. ChoralSynth is synthetic SATB and was supposed to be our Tier-3 latency-injection multiplier as well, but the access path was never verified. Dagstuhl is CC-BY-4.0 on Zenodo with MD5 verified against the source.
+**Backup detail**: ESMUC is a UPF-curated dataset (Cuesta et al.) that the original P-02 multi-f0 paper used for training; the audit notes that it is proprietary. ChoralSynth (Cuesta et al. 2023, MTG) is synthetic SATB, 20 pieces, 3.8 hours total duration, hosted on Zenodo at DOI 10.5281/zenodo.10137883 under a non-commercial research license. We just didn't pull it in Sprint 3 because the WP3 corpus stayed at the 5 real Dagstuhl pieces. Sprint 4 plan includes a ChoralSynth acquisition step before the Tier-3 latency-injection runs.
 
-**If pressed**: The power calculation in our implementation plan assumed Dagstuhl plus ESMUC giving 156 paired observations for H1. Without ESMUC, we have 120, which is still well-powered for Cohen's d of 0.50 (our headline H1 effect size). This is the right time to ask: **does Prof. Hacker have direct access to either dataset that we could borrow?**
+**If pressed**: The power calculation in our implementation plan assumed Dagstuhl plus ESMUC giving 156 paired observations for H1. Without ESMUC, we have 120 (Dagstuhl alone), which is still well-powered for Cohen's d of 0.50 (our headline H1 effect size). Adding ChoralSynth in Sprint 4 brings us back above 156. The right ask of Prof. Hacker is whether **she has institutional access to ESMUC** specifically. ChoralSynth we will just download.
 
 ### Q-T2: Why is the dashboard showing mock data?
 
@@ -142,7 +142,15 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 **If pressed**: That optimization gives us back about 8 hours of compute budget for Sprint 4 if we want to do per-window Granger for time-varying N(t). Net positive.
 
-### Q-T6: What if a supervisor asks something only Zuraiz/Hammad/Kumaran would know?
+### Q-T6: Do you need university cluster compute?
+
+**Short answer**: Yes, for Sprint 4 the per-window Granger on the full corpus is our biggest compute bottleneck and a cluster would unblock it. We are asking the coordinators about access.
+
+**Backup detail**: Standard Granger on one piece took 69 minutes on a Windows laptop in Sprint 3. Per-window Granger means re-running that on each 10-second window, so on a 143-second piece you multiply by roughly 30. That is about 35 hours per piece on the laptop. Tier-3 latency injection requires running this on 5 to 10 piece-times-jitter-level combinations. We are looking at hundreds of laptop-hours. A small SLURM allocation on Bamberg or HSLU would compress that to a day or two.
+
+**If pressed**: We are not asking for GPU time. CPU multi-core is enough because statsmodels' grangercausalitytests is single-threaded but embarrassingly parallel across windows and pieces. A 32-core or 64-core node would be ideal. If neither cluster is available we will manually parallelise across our four laptops and accept a slower turn-around.
+
+### Q-T7: What if a supervisor asks something only Zuraiz/Hammad/Kumaran would know?
 
 This is for Hassan's reference only.
 

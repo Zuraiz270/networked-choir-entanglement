@@ -12,13 +12,13 @@ Hello everyone. I'm Hassan Ahmed, presenting on behalf of the Project 8 team for
 
 ---
 
-## Slide 2: What we said we'd do, Sprint 3 plan recap (50 sec)
+## Slide 2: What we said we'd do, Sprint 3 plan recap (45 sec)
 
 Quick recap of what we committed to three weeks ago at status meeting three.
 
-Six deliverables. Four core: WP1 audio scale, WP2 video on 10 Tier-1 clips, WP3 influence graph on 5 pieces, WP4 dashboard scaffold. Two stretch: E(t) end-to-end with the null model, and the full-corpus WP3 metrics tabulation. The stretch items were officially due June 14 in the brief.
+Six deliverables in total. Four core: WP1 audio scale, WP2 video on 10 Tier-1 clips, WP3 influence graph on 5 pieces, WP4 dashboard scaffold. Two stretch: E(t) end-to-end with the null model, and the full-corpus WP3 metrics tabulation.
 
-All six shipped. The two stretch items came in 23 days early. We will walk through each one in the next slides.
+All six shipped within the sprint window. We will walk through each one in the next slides.
 
 ---
 
@@ -86,15 +86,17 @@ On the right is the E(t) integration module that powers the timeline. It takes t
 
 Sprint 4 runs from tomorrow until status meeting five on June 25.
 
-WP1 audio adds per-window Granger to give us a time-varying N(t) signal that updates as the user scrubs the dashboard timeline. Due June 21.
+WP1 audio adds per-window Granger to give us a time-varying N(t) signal that updates as the user scrubs the dashboard timeline.
 
-WP2 video scales to all 21 remaining Tier-1 videos, with a quality-first triage so we keep what works and document what does not. Due June 30.
+WP2 video extends to the remaining Tier-1 videos with a quality-first triage so we keep what works and document what does not.
 
-WP3 network is the big one. Tier-3 latency injection. We take the clean Dagstuhl audio, inject controlled jitter at four levels matching the NMP regimes, run E(t) at each level. This is the first time we get cross-regime variation in N(t). Due June 21.
+WP3 network is the big one. Tier-3 latency injection. We take the clean Dagstuhl audio, inject controlled jitter at four levels matching the NMP regimes, run E(t) at each level. This is the first time we get cross-regime variation in N(t).
 
-WP4 dashboard swaps the mock JSON for real parquet readers and adds the pose overlay on the actual video. Due June 21.
+WP4 dashboard swaps the mock JSON for real parquet readers and adds the pose overlay on the actual video.
 
-The hard milestone is the dashboard alpha running real data by June 21.
+Plus one acquisition task: we download ChoralSynth from Zenodo since it is openly licensed, and we follow up on ESMUC pending the Hacker question on the next slide.
+
+The hard milestone is the dashboard alpha running real data, plus the first Tier-3 cross-regime result.
 
 ---
 
@@ -102,7 +104,7 @@ The hard milestone is the dashboard alpha running real data by June 21.
 
 What went well. We shipped six of six Sprint-3 deliverables. Two of the stretch items came in 23 days early. The doc-update discipline kept TEAM_BRIEF, PROJECT_GUIDE, and the vault wiki in sync after every phase, which means anyone joining the project can read three files and be current.
 
-What did not go well. Two Tier-2 datasets, ESMUC and ChoralSynth, were planned in the implementation plan but did not get acquired this sprint. ESMUC is proprietary and requires a UPF license. ChoralSynth's access gate slipped. We will address both in Sprint 4 if the licensing path opens up.
+What did not go well. Two Tier-2 datasets, ESMUC and ChoralSynth, were planned but not yet pulled in. ESMUC requires a UPF research license, so we will ask Prof. Hacker on the next slide whether she has institutional access. ChoralSynth is openly licensed on Zenodo and we can just download it ourselves in Sprint 4; it is not a blocker.
 
 Four limitations to flag explicitly so they are not surprises in Q&A.
 
@@ -110,15 +112,15 @@ One: V(t) is NaN in every current E(t) because Dagstuhl has no video. Two: the W
 
 ---
 
-## Slide 10: Open questions for the room (40 sec)
+## Slide 10: Open questions for the room (45 sec)
 
-Three questions. Two to the supervisors, one to everyone.
+Three questions. Two to the supervisors, one to the coordinators.
 
-To Professor Hacker. Do you have direct access to ESMUC or ChoralSynth multitrack data that we could fold into Tier-2 before we pursue licensing ourselves in Sprint 4?
+To Professor Hacker. Do you have direct access to ESMUC multitrack data that we could fold into Tier-2 alongside Dagstuhl? ChoralSynth we can acquire ourselves, it's openly licensed on Zenodo, so no need to ask about that one.
 
 To Professor Gloor. For the final paper figure, do you prefer matplotlib-clean or Gephi-polished SVG for the alchemical-stage diagram?
 
-To everyone. Is the July 23 final presentation in person at Bamberg or remote? Affects how the team coordinates travel.
+To the coordinators. Is there a path to compute time on a Bamberg or HSLU university cluster for the Sprint-4 Tier-3 latency-injection runs? Per-window Granger on the full corpus is our current bottleneck and cluster access would unblock it.
 
 Thank you. Open for questions.
 
