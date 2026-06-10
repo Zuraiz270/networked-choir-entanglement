@@ -226,16 +226,17 @@ The principle: each person has **one clear lead area** and **one concrete primar
 
 ### 5.1 Iteration cadence
 
-Six iterations between Apr 17 and Jul 23. Each iteration ends on a status meeting with deliverables, not a status update.
+Seven iterations between Apr 16 and Jul 23 (six status meetings + one final presentation). Each iteration ends on a status meeting with deliverables, not a status update. **Source of truth for dates**: <https://sites.google.com/view/coinseminar26/dates>. All virtual status meetings are Thursdays 14:00-16:00 CET unless noted.
 
-| Iteration | Status meeting             | Date              |
-| :-------- | :------------------------- | :---------------- |
-| 1         | Status #1 (block course)   | 2026-04-16 (done) |
-| 2         | Status #2 (Hacker + Gloor) | 2026-04-30        |
-| 3         | Status #3 + Virtual Mirror | 2026-05-21        |
-| 4         | Status #4                  | 2026-06-11        |
-| 5         | Status #5                  | 2026-06-25        |
-| 6         | Final presentation         | 2026-07-23        |
+| Iteration | Status meeting             | Date                       |
+| :-------- | :------------------------- | :------------------------- |
+| 1         | Status #1 (block course)   | 2026-04-16 14:00-15:00 (done) |
+| 2         | Status #2 (Hacker + Gloor) | 2026-04-30 14:00-16:00 (done) |
+| 3         | Status #3 + Virtual Mirror | 2026-05-21 14:00-16:00 (done) |
+| 4         | Status #4                  | 2026-06-11 14:00-16:00        |
+| 5         | Status #5                  | 2026-06-25 14:00-16:00        |
+| 6         | Status #6                  | 2026-07-09 14:00-16:00        |
+| 7         | Final presentation         | 2026-07-23                    |
 
 ### 5.2 Communication
 

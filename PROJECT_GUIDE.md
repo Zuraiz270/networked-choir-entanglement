@@ -104,13 +104,19 @@ Every technical word used in sections 1–10 is explained once here. Keep this o
   2. The Cybernetic Alchemy PDF by Prof. Gloor is in `raw/`.
 - **Upcoming deadlines**:
 
-| Date                        | What                                                                                                                                                            |
-| :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Apr 30, 14:00 CET** ✓ done | **Hacker + Gloor joint status meeting.** Deck/script archived in commit 9f8c677. |
-| **May 8** ✓ done 05-17       | First audio-pipeline milestone (delayed; SATB A(t) figure at `data/figures/wp1_satb_coupling.png`). |
-| **May 21, 14:00 CET** ✓ done | **Status #3 + Virtual Mirror**. Both supervisors satisfied. Two decisions out of Q&A: (a) DPIA / DPO sign-off NOT required (semester-project scope, not peer-reviewed paper); (b) MediaPipe calibration downgrades to lightweight "try and iterate" instead of formal OpenPose study. Full outcome at `onsidian vault/OSN-M/wiki/01_project/status_meeting_3_outcome.md`. |
-| **Jul 23**            | **Final 20-minute presentation.** End of project.                                                                                                                   |
-| **Jul 31, 23:59**     | **Final Paper due.**                                                                                                                   |
+**Source of truth for dates**: <https://sites.google.com/view/coinseminar26/dates>. Virtual status meetings are Thursdays 14:00-16:00 CET unless noted otherwise.
+
+| Date                              | What                                                                                                                                                            |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Apr 16, 14:00-15:00 CET** ✓ done | **Virtual status #1** (during block course day #2; shorter 1-hour slot).                                                                                       |
+| **Apr 30, 14:00-16:00 CET** ✓ done | **Virtual status #2** (Hacker + Gloor joint status meeting). Deck/script archived in commit 9f8c677.                                                            |
+| **May 8** ✓ done 05-17             | First audio-pipeline milestone (delayed; SATB A(t) figure at `data/figures/wp1_satb_coupling.png`).                                                              |
+| **May 21, 14:00-16:00 CET** ✓ done | **Virtual status #3 + Virtual Mirror**. Both supervisors satisfied. Two decisions: (a) DPIA / DPO sign-off NOT required (semester-project scope, not peer-reviewed paper); (b) MediaPipe calibration downgrades to lightweight "try and iterate" instead of formal OpenPose study. Full outcome at `onsidian vault/OSN-M/wiki/01_project/status_meeting_3_outcome.md`. |
+| **Jun 11, 14:00-16:00 CET**        | **Virtual status #4** (Sprint-3 outcomes). Deck + script + Q&A bank + PPTX ready 2026-05-22; Hassan presenting.                                                  |
+| **Jun 25, 14:00-16:00 CET**        | **Virtual status #5** (Sprint-4 outcomes).                                                                                                                       |
+| **Jul 9, 14:00-16:00 CET**         | **Virtual status #6** (last check-in before final).                                                                                                              |
+| **Jul 23**                         | **Final 20-minute presentation.** End of project.                                                                                                                |
+| **Jul 31, 23:59**                  | **Final Paper due.**                                                                                                                                             |
 
 ---
 
@@ -178,6 +184,7 @@ Every deadline, in order, with the engineering-jargon stripped out.
 | **Jun 25**           | **Virtual status #5**                                                    | Progress check-in                                                                                                       |
 | **Jun 30**           | Full pipeline on Tier 1 + Tier 2 + Tier 3 completed                                                    | We have numbers for the paper                                                                                                       |
 | **Jul 7**            | Paper draft v1                                                                                           | First complete draft circulated                                                                                                     |
+| **Jul 9, 14:00-16:00 CET** | **Virtual status #6**                                                                              | Last check-in before final                                                                                                          |
 | **Jul 23**           | **Final 20-minute presentation**                                                                   | 10-12 min presentation + Q&A                                                                                                                      |
 | **Jul 31, 23:59**    | **Final paper due**                                                                   | 10 to 20 pages                                                                                                                      |
 
