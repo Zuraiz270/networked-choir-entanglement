@@ -46,6 +46,24 @@ SLIDE_W = Inches(13.333)
 SLIDE_H = Inches(7.5)
 MARGIN = Inches(0.55)
 
+# Segoe UI ships with Windows; reads cleaner than the Calibri theme default.
+FONT_HEAD = "Segoe UI Semibold"
+FONT_BODY = "Segoe UI"
+
+
+def _no_midword(p):
+    """Forbid Latin mid-word line breaks (PowerPoint otherwise splits
+    words at the shape border: 'th e', 'pa ssing', ...)."""
+    pPr = p._p.get_or_add_pPr()
+    pPr.set("latinLnBrk", "0")
+
+
+def _style(run, *, size, bold=False, color=CHARCOAL, head=False):
+    run.font.size = Pt(size)
+    run.font.bold = bold
+    run.font.color.rgb = color
+    run.font.name = FONT_HEAD if head else FONT_BODY
+
 
 def _solid_bg(slide, color):
     fill = slide.background.fill
@@ -55,7 +73,7 @@ def _solid_bg(slide, color):
 
 def _text(slide, left, top, width, height, text, *, size=16, bold=False,
           color=CHARCOAL, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP,
-          line_spacing=1.0):
+          line_spacing=1.0, head=False):
     tb = slide.shapes.add_textbox(left, top, width, height)
     tf = tb.text_frame
     tf.word_wrap = True
@@ -67,17 +85,15 @@ def _text(slide, left, top, width, height, text, *, size=16, bold=False,
     p = tf.paragraphs[0]
     p.alignment = align
     p.line_spacing = line_spacing
+    _no_midword(p)
     run = p.add_run()
     run.text = text
-    run.font.size = Pt(size)
-    run.font.bold = bold
-    run.font.color.rgb = color
-    run.font.name = "Calibri"
+    _style(run, size=size, bold=bold, color=color, head=head)
     return tb
 
 
 def _multiline(slide, left, top, width, height, items, *, size=14,
-               color=CHARCOAL, gap=6, bold_first_chars=0):
+               color=CHARCOAL, gap=6):
     """Paragraph list without bullet glyph clutter. items: list of (text, color|None, bold)."""
     tb = slide.shapes.add_textbox(left, top, width, height)
     tf = tb.text_frame
@@ -87,23 +103,22 @@ def _multiline(slide, left, top, width, height, items, *, size=14,
         text, item_color, bold = item
         p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
         p.space_after = Pt(gap)
+        p.alignment = PP_ALIGN.LEFT
+        _no_midword(p)
         run = p.add_run()
         run.text = text
-        run.font.size = Pt(size)
-        run.font.bold = bold
-        run.font.color.rgb = item_color or color
-        run.font.name = "Calibri"
+        _style(run, size=size, bold=bold, color=item_color or color)
     return tb
 
 
 def _kicker(slide, text):
     _text(slide, MARGIN, Inches(0.32), Inches(6.0), Inches(0.3),
-          text.upper(), size=12, bold=True, color=GOLD)
+          text.upper(), size=12, bold=True, color=GOLD, head=True)
 
 
 def _title(slide, text):
     _text(slide, MARGIN, Inches(0.58), SLIDE_W - 2 * MARGIN, Inches(0.62),
-          text, size=27, bold=True, color=TEAL)
+          text, size=27, bold=True, color=TEAL, head=True)
 
 
 def _takeaway(slide, text):
@@ -111,7 +126,7 @@ def _takeaway(slide, text):
     bar = slide.shapes.add_shape(
         MSO_SHAPE.ROUNDED_RECTANGLE, MARGIN, Inches(6.72),
         SLIDE_W - 2 * MARGIN, Inches(0.52))
-    bar.adjustments[0] = 0.12
+    bar.adjustments[0] = 0.06
     bar.fill.solid()
     bar.fill.fore_color.rgb = TEAL
     bar.line.fill.background()
@@ -120,12 +135,10 @@ def _takeaway(slide, text):
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
     p = tf.paragraphs[0]
     p.alignment = PP_ALIGN.CENTER
+    _no_midword(p)
     run = p.add_run()
     run.text = text
-    run.font.size = Pt(15)
-    run.font.bold = True
-    run.font.color.rgb = IVORY
-    run.font.name = "Calibri"
+    _style(run, size=14, bold=True, color=IVORY, head=True)
 
 
 def _footer(slide, n):
@@ -151,19 +164,16 @@ def _stat_card(slide, left, top, width, height, number, label,
     tf.margin_right = Inches(0.1)
     p1 = tf.paragraphs[0]
     p1.alignment = PP_ALIGN.CENTER
+    _no_midword(p1)
     r1 = p1.add_run()
     r1.text = number
-    r1.font.size = Pt(number_size)
-    r1.font.bold = True
-    r1.font.color.rgb = number_color
-    r1.font.name = "Calibri"
+    _style(r1, size=number_size, bold=True, color=number_color, head=True)
     p2 = tf.add_paragraph()
     p2.alignment = PP_ALIGN.CENTER
+    _no_midword(p2)
     r2 = p2.add_run()
     r2.text = label
-    r2.font.size = Pt(11.5)
-    r2.font.color.rgb = MUTED
-    r2.font.name = "Calibri"
+    _style(r2, size=11.5, color=MUTED)
 
 
 def _card(slide, left, top, width, height, title, lines, *, title_color=TEAL,
@@ -177,25 +187,24 @@ def _card(slide, left, top, width, height, title, lines, *, title_color=TEAL,
     tf = card.text_frame
     tf.word_wrap = True
     tf.vertical_anchor = MSO_ANCHOR.TOP
-    tf.margin_left = Inches(0.2)
-    tf.margin_right = Inches(0.2)
+    tf.margin_left = Inches(0.22)
+    tf.margin_right = Inches(0.22)
     tf.margin_top = Inches(0.16)
     p = tf.paragraphs[0]
+    p.alignment = PP_ALIGN.LEFT
+    _no_midword(p)
     r = p.add_run()
     r.text = title
-    r.font.size = Pt(13.5)
-    r.font.bold = True
-    r.font.color.rgb = title_color
-    r.font.name = "Calibri"
-    p.space_after = Pt(5)
+    _style(r, size=14, bold=True, color=title_color, head=True)
+    p.space_after = Pt(6)
     for line in lines:
         lp = tf.add_paragraph()
+        lp.alignment = PP_ALIGN.LEFT
         lp.space_after = Pt(4)
+        _no_midword(lp)
         lr = lp.add_run()
         lr.text = line
-        lr.font.size = Pt(size)
-        lr.font.color.rgb = CHARCOAL
-        lr.font.name = "Calibri"
+        _style(lr, size=size, color=CHARCOAL)
 
 
 def _picture_fit(slide, path, left, top, max_w, max_h):
@@ -254,6 +263,7 @@ def slide_2_recap(prs):
     # Left: formula card + hypotheses
     formula = slide.shapes.add_shape(
         MSO_SHAPE.ROUNDED_RECTANGLE, MARGIN, Inches(1.45), Inches(6.1), Inches(1.05))
+    formula.adjustments[0] = 0.08
     formula.fill.solid()
     formula.fill.fore_color.rgb = TEAL
     formula.line.fill.background()
@@ -261,22 +271,19 @@ def slide_2_recap(prs):
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
     p = tf.paragraphs[0]
     p.alignment = PP_ALIGN.CENTER
+    _no_midword(p)
     r = p.add_run()
     r.text = "E(t)  =  mean(  A(t) audio,  V(t) visual,  N(t) network  )"
-    r.font.size = Pt(19)
-    r.font.bold = True
-    r.font.color.rgb = IVORY
-    r.font.name = "Calibri"
+    _style(r, size=19, bold=True, color=IVORY, head=True)
     p2 = tf.add_paragraph()
     p2.alignment = PP_ALIGN.CENTER
+    _no_midword(p2)
     r2 = p2.add_run()
     r2.text = "a single coordination score per time window"
-    r2.font.size = Pt(12)
-    r2.font.color.rgb = MIST
-    r2.font.name = "Calibri"
+    _style(r2, size=12, color=MIST)
 
     hyp_y = Inches(2.75)
-    hyp_h = Inches(1.13)
+    hyp_h = Inches(0.98)
     _card(slide, MARGIN, hyp_y, Inches(6.1), hyp_h, "H1 · Latency regimes",
           ["Low-latency tools (Jamulus, SoundJack) score higher E(t) than Zoom."])
     _card(slide, MARGIN, hyp_y + hyp_h + Inches(0.12), Inches(6.1), hyp_h,
@@ -374,27 +381,29 @@ def slide_5_video_dashboard(prs):
     if fig.exists():
         _picture_fit(slide, fig, MARGIN, Inches(1.4), Inches(6.4), Inches(5.1))
 
+    right_x = Inches(7.15)
+    right_w = Inches(5.6)
+
     mini = FIG_DIR / "wp2_visual_features_v2.png"
     if mini.exists():
-        _picture_fit(slide, mini, Inches(7.15), Inches(1.4), Inches(3.4), Inches(2.2))
+        _picture_fit(slide, mini, right_x, Inches(1.4), right_w, Inches(2.25))
 
-    rail_x = Inches(10.75)
-    rail_w = Inches(2.05)
-    _stat_card(slide, rail_x, Inches(1.45), rail_w, Inches(1.0), "10",
-               "Tier-1 videos pose-processed", number_size=26)
-    _stat_card(slide, rail_x, Inches(2.6), rail_w, Inches(1.0), "5/10",
-               "pass 50% detection floor", number_size=26)
-    _stat_card(slide, rail_x, Inches(3.75), rail_w, Inches(1.0), "23/23",
-               "tests green", number_size=26)
+    # three stat cards in one row under the mini figure (no overlaps)
+    card_w = Inches(1.78)
+    card_gap = Inches(0.13)
+    card_y = Inches(3.85)
+    _stat_card(slide, right_x, card_y, card_w, Inches(1.0), "10",
+               "videos pose-processed", number_size=24)
+    _stat_card(slide, right_x + card_w + card_gap, card_y, card_w, Inches(1.0), "5/10",
+               "pass 50% detection", number_size=24)
+    _stat_card(slide, right_x + 2 * (card_w + card_gap), card_y, card_w, Inches(1.0), "23/23",
+               "tests green", number_size=24)
 
-    _text(slide, Inches(7.15), Inches(3.85), Inches(5.6), Inches(2.6),
-          "WP2: half the YouTube corpus has detectable singers (best video: 98.5% "
-          "detection); the other half are software-UI captures with no body in frame. "
-          "Per last meeting's \"try and iterate\" decision, the 5 passing videos are "
-          "the working set.\n\nWP4: React + FastAPI scaffold renders all four panels "
-          "end-to-end (screenshot left is the app running locally). Real-data wiring "
-          "is next iteration.",
-          size=12, color=CHARCOAL, line_spacing=1.08)
+    _multiline(slide, right_x, Inches(5.05), right_w, Inches(1.55),
+               [
+                   ("WP2: 5 of 10 stratified videos have usable pose tracks (best 98.5% detection); the rest are UI screen captures. The five passing videos form the working set.", None, False),
+                   ("WP4: the scaffold renders all four panels end-to-end; real-data wiring follows next iteration.", None, False),
+               ], size=12, gap=5)
 
     _takeaway(slide, "All four work packages advanced; no blockers.")
 
@@ -419,11 +428,9 @@ def slide_6_next_iteration(prs):
         cell.fill.solid()
         cell.fill.fore_color.rgb = TEAL
         for para in cell.text_frame.paragraphs:
+            _no_midword(para)
             for run in para.runs:
-                run.font.size = Pt(14)
-                run.font.bold = True
-                run.font.color.rgb = IVORY
-                run.font.name = "Calibri"
+                _style(run, size=14, bold=True, color=IVORY, head=True)
     for r, (track, work) in enumerate(rows, start=1):
         for c, txt in enumerate((track, work)):
             cell = t.cell(r, c)
@@ -431,11 +438,10 @@ def slide_6_next_iteration(prs):
             cell.fill.solid()
             cell.fill.fore_color.rgb = IVORY if r % 2 else CREAM
             for para in cell.text_frame.paragraphs:
+                _no_midword(para)
                 for run in para.runs:
-                    run.font.size = Pt(13.5)
-                    run.font.bold = c == 0
-                    run.font.color.rgb = TEAL if c == 0 else CHARCOAL
-                    run.font.name = "Calibri"
+                    _style(run, size=13.5, bold=c == 0,
+                           color=TEAL if c == 0 else CHARCOAL, head=c == 0)
 
     _text(slide, MARGIN, Inches(6.0), SLIDE_W - 2 * MARGIN, Inches(0.5),
           "Hard milestone before status #5: dashboard alpha on real data + first Tier-3 cross-regime result.",
@@ -447,7 +453,7 @@ def slide_6_next_iteration(prs):
 def slide_7_retro(prs):
     slide = _content_slide(prs, 7, "Retrospective", "Sprint 3 retrospective")
     col_w = Inches(3.95)
-    col_h = Inches(4.9)
+    col_h = Inches(4.35)
     gap = Inches(0.18)
     x0 = MARGIN
     nbh = "‑"  # non-breaking hyphen: keeps "Tier-2" etc. on one line
