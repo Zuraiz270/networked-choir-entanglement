@@ -122,22 +122,22 @@ Supervisors: Prof. Janine Hacker (Uni Bamberg), Prof. Peter Gloor (MIT/Köln)
 
 **Kicker**: RETROSPECTIVE
 
-**Visual**: three columns: "Kept doing" / "Went wrong" / "Watch list" as card stacks.
+**Visual**: three card columns: "What worked" / "What went wrong" / "Known limitations".
 
-**Kept doing (it works)**:
-- One named reviewable artefact per work package per iteration.
-- Docs synced after every milestone; anyone can read three files and be current.
+**What worked**:
+- One reviewable artefact per work package per iteration.
+- Documentation updated at every milestone; project state is readable from three files.
 
-**Went wrong (and the fix)**:
-- Two Tier-2 datasets (ESMUC, ChoralSynth) were planned but not pulled in. Fix: ChoralSynth is an open Zenodo download, scheduled next iteration; ESMUC needs a license, question for the room.
-- Half the Tier-1 videos turned out to be screen captures with no detectable body. Fix: stratify future curation by "singers visible in tiles", not just by NMP regime.
+**What went wrong**:
+- ESMUC and ChoralSynth not yet in Tier-2. ChoralSynth is openly licensed on Zenodo and scheduled for next iteration; ESMUC requires a license (open question).
+- Half of the Tier-1 videos are screen captures without visible singers. Future curation will filter on singer visibility, not only NMP regime.
 
-**Watch list (honest limitations, before you ask)**:
-- V(t) is absent from every current E(t): Dagstuhl has no video. Composite reallocates weight; code is ready for V(t) when multimodal data exists.
-- All 5 E(t) pieces are zero-latency studio recordings; cross-regime variation arrives with Tier-3 next iteration.
-- p-values reported as "< 0.001" mean "0 of 200 shuffles exceeded observed", not literal zero.
+**Known limitations**:
+- V(t) is absent from current E(t) values; Dagstuhl has no video. The composite reallocates weight until multimodal data exists.
+- All five E(t) pieces are zero-latency studio recordings. Cross-regime variation arrives with Tier-3.
+- p < 0.001 means 0 of 200 permutations exceeded the observed value.
 
-**Takeaway line**: no surprises buried; everything on this slide is also in the written results doc.
+**Takeaway line**: all retrospective items are documented in sprint3_results.md.
 
 ---
 
@@ -145,10 +145,9 @@ Supervisors: Prof. Janine Hacker (Uni Bamberg), Prof. Peter Gloor (MIT/Köln)
 
 **Kicker**: PROBLEMS / QUESTIONS
 
-**Visual**: three numbered question cards, large type, nothing else.
+**Visual**: two question cards, large type, nothing else.
 
-1. **To Prof. Hacker**: do you have institutional access to the ESMUC multitrack dataset? (ChoralSynth we can download ourselves.)
-2. **To Prof. Gloor**: for the final paper figures, matplotlib-clean or Gephi/Cytoscape-polished SVG?
-3. **To the coordinators**: is there a path to CPU time on a Bamberg or HSLU cluster? Per-window Granger across the corpus is our compute bottleneck for the next iteration (hundreds of laptop-hours; a 32-64 core node turns it into a day).
+1. **To Prof. Hacker, ESMUC dataset access**: do you have institutional access to the ESMUC multitrack dataset? ChoralSynth is openly licensed on Zenodo and we will download it ourselves; ESMUC is the only dataset where we need support.
+2. **To the coordinators, compute for the next iteration**: is there a path to CPU time on a Bamberg or HSLU cluster? Per-window Granger across the corpus is the compute bottleneck for the latency-injection runs (hundreds of laptop-hours; roughly one day on a 32-64 core node).
 
-Thank you. Questions.
+Thank you.

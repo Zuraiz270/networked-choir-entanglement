@@ -107,10 +107,11 @@ def _title(slide, text):
 
 
 def _takeaway(slide, text):
-    """Gold-tinted banner pinned at the slide bottom."""
+    """Teal banner pinned at the slide bottom; one factual line."""
     bar = slide.shapes.add_shape(
         MSO_SHAPE.ROUNDED_RECTANGLE, MARGIN, Inches(6.72),
         SLIDE_W - 2 * MARGIN, Inches(0.52))
+    bar.adjustments[0] = 0.12
     bar.fill.solid()
     bar.fill.fore_color.rgb = TEAL
     bar.line.fill.background()
@@ -138,6 +139,7 @@ def _footer(slide, n):
 def _stat_card(slide, left, top, width, height, number, label,
                *, number_color=TEAL, number_size=30):
     card = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
+    card.adjustments[0] = 0.06
     card.fill.solid()
     card.fill.fore_color.rgb = IVORY
     card.line.color.rgb = MIST
@@ -167,15 +169,17 @@ def _stat_card(slide, left, top, width, height, number, label,
 def _card(slide, left, top, width, height, title, lines, *, title_color=TEAL,
           fill=IVORY, size=12.5):
     card = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
+    card.adjustments[0] = 0.04
     card.fill.solid()
     card.fill.fore_color.rgb = fill
     card.line.color.rgb = MIST
     card.line.width = Pt(1.0)
     tf = card.text_frame
     tf.word_wrap = True
-    tf.margin_left = Inches(0.14)
-    tf.margin_right = Inches(0.14)
-    tf.margin_top = Inches(0.1)
+    tf.vertical_anchor = MSO_ANCHOR.TOP
+    tf.margin_left = Inches(0.2)
+    tf.margin_right = Inches(0.2)
+    tf.margin_top = Inches(0.16)
     p = tf.paragraphs[0]
     r = p.add_run()
     r.text = title
@@ -245,7 +249,7 @@ def slide_1_title(prs):
 
 
 def slide_2_recap(prs):
-    slide = _content_slide(prs, 2, "Recap", "Our goals and plan, in 60 seconds")
+    slide = _content_slide(prs, 2, "Recap", "Goals and plan")
 
     # Left: formula card + hypotheses
     formula = slide.shapes.add_shape(
@@ -266,7 +270,7 @@ def slide_2_recap(prs):
     p2 = tf.add_paragraph()
     p2.alignment = PP_ALIGN.CENTER
     r2 = p2.add_run()
-    r2.text = "one number per moment: how well is this choir coordinating?"
+    r2.text = "a single coordination score per time window"
     r2.font.size = Pt(12)
     r2.font.color.rgb = MIST
     r2.font.name = "Calibri"
@@ -311,12 +315,12 @@ def slide_2_recap(prs):
               line_spacing=0.95)
         y += row_h
 
-    _takeaway(slide, "Same goals as April, no scope drift. This iteration: make E(t) real.")
+    _takeaway(slide, "Goals unchanged since April. This iteration delivered the first end-to-end E(t).")
 
 
 def slide_3_headline(prs):
     slide = _content_slide(prs, 3, "Progress · last iteration",
-                           "Headline: E(t) is operational, 5/5 pieces beat chance")
+                           "E(t) is operational: all 5 pieces significant above the null")
     fig = FIG_DIR / "et_corpus_comparison.png"
     if fig.exists():
         _picture_fit(slide, fig, MARGIN, Inches(1.4), Inches(8.6), Inches(5.1))
@@ -335,12 +339,12 @@ def slide_3_headline(prs):
           "The metric reacts to what the choir is doing.",
           size=12, color=MUTED, line_spacing=1.05)
 
-    _takeaway(slide, "The number we promised in April exists, is repeatable, and is statistically defensible.")
+    _takeaway(slide, "E(t) is implemented, reproducible, and significant against the null on all five pieces.")
 
 
 def slide_4_audio_network(prs):
     slide = _content_slide(prs, 4, "Progress · last iteration",
-                           "The audio + network engine behind E(t)")
+                           "Audio and network pipelines behind E(t)")
     fig = FIG_DIR / "wp3_influence_graphs_5pieces.png"
     if fig.exists():
         _picture_fit(slide, fig, MARGIN, Inches(1.4), Inches(8.2), Inches(5.1))
@@ -360,12 +364,12 @@ def slide_4_audio_network(prs):
           "magnitude, not pattern structure.",
           size=12, color=MUTED, line_spacing=1.05)
 
-    _takeaway(slide, "Last sprint's flagship reproduces exactly, and the pipeline now scales.")
+    _takeaway(slide, "The Sprint-2 reference result reproduces exactly; the pipeline now scales to the corpus.")
 
 
 def slide_5_video_dashboard(prs):
     slide = _content_slide(prs, 5, "Progress · last iteration",
-                           "Video features + the dashboard taking shape")
+                           "Video features and dashboard scaffold")
     fig = FIG_DIR / "wp4_dashboard_scaffold.png"
     if fig.exists():
         _picture_fit(slide, fig, MARGIN, Inches(1.4), Inches(6.4), Inches(5.1))
@@ -392,7 +396,7 @@ def slide_5_video_dashboard(prs):
           "is next iteration.",
           size=12, color=CHARCOAL, line_spacing=1.08)
 
-    _takeaway(slide, "Every work package moved. Nothing is blocked.")
+    _takeaway(slide, "All four work packages advanced; no blockers.")
 
 
 def slide_6_next_iteration(prs):
@@ -437,61 +441,62 @@ def slide_6_next_iteration(prs):
           "Hard milestone before status #5: dashboard alpha on real data + first Tier-3 cross-regime result.",
           size=15, bold=True, color=GOLD)
 
-    _takeaway(slide, "This iteration made E(t) real. The next makes it discriminate between regimes.")
+    _takeaway(slide, "Next iteration: from measuring coordination to comparing latency regimes.")
 
 
 def slide_7_retro(prs):
-    slide = _content_slide(prs, 7, "Retrospective", "What we keep, what we fix, what to watch")
+    slide = _content_slide(prs, 7, "Retrospective", "Sprint 3 retrospective")
     col_w = Inches(3.95)
     col_h = Inches(4.9)
     gap = Inches(0.18)
     x0 = MARGIN
+    nbh = "‑"  # non-breaking hyphen: keeps "Tier-2" etc. on one line
 
-    _card(slide, x0, Inches(1.5), col_w, col_h, "KEPT DOING · it works",
+    _card(slide, x0, Inches(1.5), col_w, col_h, "What worked",
           [
-              "One named, reviewable artefact per work package per iteration.",
+              "One reviewable artefact per work package per iteration.",
               "",
-              "Docs synced after every milestone: anyone can read three files and be fully current.",
-          ], title_color=GREEN)
-    _card(slide, x0 + col_w + gap, Inches(1.5), col_w, col_h, "WENT WRONG · and the fix",
+              "Documentation updated at every milestone; project state is readable from three files.",
+          ], title_color=GREEN, size=13.5)
+    _card(slide, x0 + col_w + gap, Inches(1.5), col_w, col_h, "What went wrong",
           [
-              "ESMUC + ChoralSynth not pulled into Tier-2 yet. Fix: ChoralSynth is an open Zenodo download, scheduled next iteration. ESMUC needs a license: question for the room.",
+              f"ESMUC and ChoralSynth not yet in Tier{nbh}2. ChoralSynth is openly licensed on Zenodo and scheduled for next iteration; ESMUC requires a license (open question).",
               "",
-              "Half the Tier-1 videos are screen captures with no detectable body. Fix: future curation stratifies on \"singers visible\", not just NMP regime.",
-          ], title_color=RED_SOFT)
-    _card(slide, x0 + 2 * (col_w + gap), Inches(1.5), col_w, col_h, "WATCH LIST · before you ask",
+              f"Half of the Tier{nbh}1 videos are screen captures without visible singers. Future curation will filter on singer visibility, not only NMP regime.",
+          ], title_color=RED_SOFT, size=13.5)
+    _card(slide, x0 + 2 * (col_w + gap), Inches(1.5), col_w, col_h, "Known limitations",
           [
-              "V(t) absent from all current E(t): Dagstuhl has no video. Weight reallocates; code is ready when multimodal data exists.",
+              "V(t) is absent from current E(t) values; Dagstuhl has no video. The composite reallocates weight until multimodal data exists.",
               "",
-              "All 5 E(t) pieces are zero-latency studio takes. Cross-regime variation arrives with Tier-3 next iteration.",
+              f"All five E(t) pieces are zero{nbh}latency studio recordings. Cross{nbh}regime variation arrives with Tier{nbh}3.",
               "",
-              "\"p < 0.001\" means 0 of 200 shuffles beat observed, not literal zero.",
-          ], title_color=GOLD)
+              "p < 0.001 means 0 of 200 permutations exceeded the observed value.",
+          ], title_color=GOLD, size=13.5)
 
-    _takeaway(slide, "No surprises buried. Everything here is also in the written results doc.")
+    _takeaway(slide, "All retrospective items are documented in sprint3_results.md.")
 
 
 def slide_8_questions(prs):
-    slide = _content_slide(prs, 8, "Problems / questions", "Three things we need from the room")
+    slide = _content_slide(prs, 8, "Problems / questions", "Open questions")
     q_w = SLIDE_W - 2 * MARGIN
-    q_h = Inches(1.45)
+    q_h = Inches(1.7)
     items = [
-        ("1 · Prof. Hacker",
+        ("1 · Prof. Hacker: ESMUC dataset access",
          "Do you have institutional access to the ESMUC multitrack dataset? "
-         "(ChoralSynth we can download ourselves: open license on Zenodo.)"),
-        ("2 · Prof. Gloor",
-         "For the final paper figures: matplotlib-clean, or Gephi/Cytoscape-polished SVG?"),
-        ("3 · Coordinators",
+         "ChoralSynth is openly licensed on Zenodo and we will download it ourselves; "
+         "ESMUC is the only dataset where we need support."),
+        ("2 · Coordinators: compute for the next iteration",
          "Is there a path to CPU time on a Bamberg or HSLU cluster? Per-window Granger "
-         "is our compute bottleneck: hundreds of laptop-hours, or about a day on a 32-64 core node."),
+         "across the corpus is the compute bottleneck for the latency-injection runs: "
+         "hundreds of hours on our laptops, roughly one day on a 32-64 core node."),
     ]
-    y = Inches(1.6)
+    y = Inches(1.8)
     for title, body in items:
         _card(slide, MARGIN, y, q_w, q_h, title, [body], size=15)
-        y += q_h + Inches(0.22)
+        y += q_h + Inches(0.35)
 
-    _text(slide, MARGIN, Inches(6.65), q_w, Inches(0.5),
-          "Thank you. Questions.", size=22, bold=True, color=TEAL,
+    _text(slide, MARGIN, Inches(6.4), q_w, Inches(0.5),
+          "Thank you.", size=22, bold=True, color=TEAL,
           align=PP_ALIGN.CENTER)
 
 

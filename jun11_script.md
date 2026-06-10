@@ -28,7 +28,7 @@ One sentence on scope: same goals as April, no drift. This iteration had a singl
 
 ## Slide 3: Headline, E(t) is operational (90 sec)
 
-This is the slide that matters most.
+This is the core result of the iteration.
 
 The Entanglement Index now runs end-to-end. We computed it on five multitrack choir pieces from the Dagstuhl ChoirSet, each singer on their own microphone. For every piece we also ran a null model: two hundred random time-shifts of each singer's audio, which preserves how each voice behaves on its own but destroys the coordination between voices. If our metric were measuring noise, the real recording would look like the shuffled ones.
 
@@ -76,7 +76,7 @@ Audio: per-window Granger, so the network signal becomes time-varying instead of
 
 Video: pose on the remaining YouTube videos, triaged by quality so we spend effort where singers are actually visible.
 
-Network, the big one: Tier-3 latency injection. We take the clean Dagstuhl audio and inject controlled jitter at four levels matching the regimes, then compute E(t) at each level. That is the first cross-regime test of hypotheses one and two, the actual point of the project.
+Network is the priority track: Tier-3 latency injection. We take the clean Dagstuhl audio and inject controlled jitter at four levels matching the regimes, then compute E(t) at each level. That is the first cross-regime test of hypotheses one and two.
 
 Dashboard: swap mock data for the real pipeline outputs and add the pose overlay.
 
@@ -100,13 +100,11 @@ Nothing on this slide is news to us; it's all in the written results document to
 
 ---
 
-## Slide 8: Problems and questions (45 sec)
+## Slide 8: Problems and questions (35 sec)
 
-Three things we need from the room.
+Two questions for the room.
 
 Professor Hacker: do you have institutional access to the ESMUC multitrack dataset? ChoralSynth we can download ourselves, so ESMUC is the only dataset where we need help.
-
-Professor Gloor: for the final paper figures, do you prefer matplotlib-clean or Gephi-polished SVG? We'll build the figure pipeline to match.
 
 To the coordinators: is there a path to CPU time on a Bamberg or HSLU cluster? Per-window Granger across the corpus is our compute bottleneck for next iteration. On our laptops it's hundreds of hours; on a thirty-two to sixty-four core node it's about a day.
 
