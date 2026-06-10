@@ -1038,3 +1038,56 @@ Piece-level clustering: Locus Iste sits at 0.74-0.80; Tu Pauper Es sits at 0.57-
 Tests 23/23 (no change). No new vault wiki pages.
 
 **Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+---
+
+## [2026-05-22] schema | Sprint-3 Phase F, Jun-11 Status Meeting IV prep
+
+Final Sprint-3 phase. Three text deliverables plus a rendered PPTX, all committed in `docs(jun11)` 58e12bf.
+
+**Presenter decisions** (made by Zuraiz at the start of Phase F):
+- Presenter: Hassan Ahmed. Rotation default (Hammad presented May 21). Also makes sense because Hassan owns WP3 and the Sprint-3 headline is WP3-heavy.
+- Tone: strength-first. Lead slide 3 with the 5/5 p < 0.001 result. Surface limitations on slide 9.
+- ESMUC + ChoralSynth deferral handled in Q&A bank only, not a dedicated slide. Keeps the deck tight.
+
+**Deck content** (10 slides, 9-minute target):
+1. Title (Hassan, on behalf of team)
+2. Sprint 3 plan recap (6/6 shipped + 2 stretch 23 days early)
+3. Headline: 5/5 pieces beat null at p < 0.001 (`et_corpus_comparison.png`)
+4. WP1 audio scale (25 takes)
+5. WP3 + COP-GC, Hacker flagship v2 (`wp3_influence_graphs_5pieces.png`)
+6. WP2 pose, 5/10 pass (`wp2_visual_features_v2.png`)
+7. WP4 dashboard + E(t) integration (`wp4_dashboard_scaffold.png`)
+8. Sprint 4 plan (4 tracks, hard milestone Jun 21)
+9. Retrospective + 4 honest limitations
+10. Open questions (ESMUC ask to Hacker, figure style to Gloor, presentation venue to everyone)
+
+**Script** (`jun11_script.md`): 10 narration blocks totaling 9:00. Includes a private project-context appendix for Hassan to read once: what the project is, the binary, the 3 hypotheses, the 4 WPs with owners, the 3 tiers of data, and a deflection rule per WP owner.
+
+**Q&A bank** (`jun11_qa_prep.md`): 4 categories.
+- Hacker-flavored: 6 questions (headline interpretation, p_null framing, LI-vs-TP cluster, COP-GC vs standard, density 0.917 baseline, H2 status).
+- Gloor-flavored: 4 questions (alchemical mapping, why V absent, how visual is separated, framework trajectory).
+- General: 6 questions including the ESMUC/ChoralSynth answer (Q-T1) and the Sprint-2 regression check (Q-T4).
+- Hard: 5 deeper questions (multiple-comparisons, constant N(t), why density, COP-GC validation, transfer-entropy alternative).
+
+**PPTX**: `scripts/generate_jun11_pptx.py` builds 10 slides using `python-pptx` with the "Studio Acoustic" palette from `scripts/generate_apr30_pptx.py`. Embeds 4 figures + 2 tables. Output at `output/jun11_status_meeting_iv.pptx` (1.0 MB).
+
+**Style discipline**: removed all em-dashes from the four files after first draft (caught the violation against Zuraiz's no-em-dashes preference; replaced with commas and colons).
+
+**Engineering changes** (committed in `docs(jun11)` 58e12bf):
+- CREATED `jun11_deck.md`, `jun11_script.md`, `jun11_qa_prep.md`
+- CREATED `scripts/generate_jun11_pptx.py`
+- CREATED `output/jun11_status_meeting_iv.pptx`
+- UPDATED `pyproject.toml` (added `python-pptx>=1.0.2` to dev extras)
+- UPDATED `uv.lock`
+
+**Doc sync** (committed in `docs(sprint3-phaseF)`):
+- UPDATED `TEAM_BRIEF.md` §3 Feature code row with Phase F summary
+- UPDATED `PROJECT_GUIDE.md` §6 Roadmap with Jun-11 deck-ready row
+- UPDATED `wiki/log.md` (this entry)
+
+Tests 23/23 (no change). No new vault wiki pages.
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+Sprint 3 complete. 15 commits on `main` since May 21 (5 feat:, 1 chore:, 6 docs:phase, 1 docs:jun11, 1 docs:sprint3-phaseF, baseline 0).
