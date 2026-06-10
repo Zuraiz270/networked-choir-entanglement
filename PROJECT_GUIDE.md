@@ -10,7 +10,7 @@
 
 ## 1. TL;DR
 
-We are building a tool that measures **how well people are coordinating when they sing together over the internet**. We will test it on 20 to 30 hand-curated virtual-choir videos (visual signals, no post-produced content) and a handful of academic multi-microphone recordings (audio plus network signals, which is where our latency conclusions actually come from). By **July 17**, we deliver: a working piece of software, a paper, and a live 20-minute presentation with a 60-second demo. Supervisor: Prof. Janine Hacker (Uni Bamberg). Second grader: Prof. Peter Gloor (Uni Köln / ex-MIT).
+We are building a tool that measures **how well people are coordinating when they sing together over the internet**. We will test it on 20 to 30 hand-curated virtual-choir videos (visual signals, no post-produced content) and a handful of academic multi-microphone recordings (audio plus network signals, which is where our latency conclusions actually come from). By **July 23**, we deliver: a working piece of software, a paper, and a live 20-minute presentation with a 60-second demo. Supervisor: Prof. Janine Hacker (Uni Bamberg). Second grader: Prof. Peter Gloor (Uni Köln / ex-MIT).
 
 ---
 
@@ -127,13 +127,13 @@ Our 26 migrated papers must be ingested into the vault and mapped to deliverable
 
 ---
 
-## 5. Where We Need to Be by July 17
+## 5. Where We Need to Be by July 23
 
 Three concrete deliverables. In plain words:
 
 1. **A working tool.** Give it a choir video → it outputs a set of coordination numbers + a visualisation. This is the `choir_entanglement` Python package plus a small web dashboard. A new teammate cloning the repo must be able to reproduce our results in under 15 minutes on a fresh Windows 11 laptop, using `uv run make all` inside Docker.
 2. **A paper.** 8–12 pages in IEEE or LNCS format. Every claim backed by a DOI or primary citation. Must include our reproducibility appendix. Lead author: Zuraiz.
-3. **A 20-minute presentation** on July 17 with a live 60-second demo of the dashboard. Ideally ≤ 10 slides.
+3. **A 20-minute presentation** on July 23 with a live 60-second demo of the dashboard. Ideally ≤ 10 slides.
 
 **Plus two stakeholder-specific artefacts** that we *must* produce because each professor has asked for them in their own research language:
 
@@ -164,8 +164,7 @@ Every deadline, in order, with the engineering-jargon stripped out.
 | **May 15** ✓ (done 05-17, supplemented + hashed 05-19, 29 URLs) | YouTube corpus fully curated, downloaded, and SHA-256 hashed at 20 to 30 videos                                                         | 29 verified + hashed Tier-1 URLs in Hacker schema (4 Hacker seeds re-confirmed + 25 new). Stratification: 11 Jamulus, 5 Jamulus+Zoom, 4 SoundJack, 9 Zoom-only. 1.3 GB of mp4s held for Sprint-3 WP2. |
 | **May 18** ✓ done            | **Virtual Mirror analysis** (project-level meta task)                                                   | SC Chat Analyzer applied to team WhatsApp; team archetype = Tree Hugger consensus; chat character HIGH Meaning / LOW Emotion / MEDIUM Relationship; outputs at `data/sc chat analyzer/`. |
 | **May 20** ✓ done            | **May-21 deck + script + Q&A bank ready**                                                               | `OSN.pptx`, `may21_script.md` (Hammad as presenter, 10 slides, 9:15 budget), `may21_qa_prep.md` (21 Q&A entries across 3 categories). |
-| **May 21 14:00 CET** ✓ done  | **Status Meeting III** (Hacker + Gloor + coordinators)                                                  | Both supervisors satisfied. Key decisions: DPIA NOT required for semester scope; MediaPipe calibration downgrades to "try and iterate"; publication scope = internal seminar report only. See [[status_meeting_3_outcome]]. |
-| **May 21**           | **Virtual status #3 + Virtual Mirror**                                                                           | **WhatsApp analysis ✓ done 2026-05-18** (SC Chat Analyzer outputs at `data/sc chat analyzer/`, writeup at `virtual_mirror_sprint1.md`). Status meeting itself: Thu 14:00 CET. |
+| **May 21 14:00 CET** ✓ done  | **Status Meeting III (Virtual status #3) + Virtual Mirror**                                            | Both supervisors satisfied. Key decisions: DPIA NOT required for semester scope; MediaPipe calibration downgrades to "try and iterate"; publication scope = internal seminar report only. See [[status_meeting_3_outcome]]. Team Virtual Mirror analysis ✓ done 2026-05-18 (SC Chat Analyzer outputs at `data/sc chat analyzer/`, writeup at `virtual_mirror_sprint1.md`). |
 | **May 22** ✓ (10/10, done 05-22) | Video pipeline first milestone                                                                           | WP2 code extracts body/face coordinates from a Tier-1 SoundJack video (595 frames, 79.5% pose detection). **Sprint-3 Phase C scaled to 10 stratified Tier-1 videos**; 5/10 pass 50% pose-detection floor (matching the "try and iterate" decision from Status Meeting III). Summary at `data/processed/tier1/_pose_summary.csv`. |
 | **May 31** ✓ (done 05-17)       | Network pipeline first milestone                                                                         | WP3 produces Hacker's directed influence graph for Dagstuhl SATB Quartet A Take 02 (11/12 significant edges at p_null < 0.05, density 0.92). |
 | **Jun 4** ✓ (done 05-22)        | WP1 audio pipeline scaled to all Dagstuhl pieces                                                         | Sprint-3 Phase A. 25 musical takes batch-processed (130 newly-extracted singer parquets + 288 pairwise A(t) couplings); corpus summary at `data/processed/dagstuhl/_summary.csv`. Pulled forward 13 days from Jun-4 target. |
@@ -179,7 +178,6 @@ Every deadline, in order, with the engineering-jargon stripped out.
 | **Jun 25**           | **Virtual status #5**                                                    | Progress check-in                                                                                                       |
 | **Jun 30**           | Full pipeline on Tier 1 + Tier 2 + Tier 3 completed                                                    | We have numbers for the paper                                                                                                       |
 | **Jul 7**            | Paper draft v1                                                                                           | First complete draft circulated                                                                                                     |
-| **Jul 9**            | **Virtual status #6**                                                                      | Last check-in before final                                                                                                                        |
 | **Jul 23**           | **Final 20-minute presentation**                                                                   | 10-12 min presentation + Q&A                                                                                                                      |
 | **Jul 31, 23:59**    | **Final paper due**                                                                   | 10 to 20 pages                                                                                                                      |
 
@@ -191,7 +189,7 @@ The project is organised into four **work packages** (WPs). Each WP is ~180 hour
 
 ### WP1 — Lead, audio, integration, paper
 
-WP1 owns the audio side of the project (what the choir *sounds* like — timing, pitch, onsets, tempo) and stitches the four pieces together into one running system. Also delivers the paper as first author, and gives the Apr 30 + Jul 17 presentations. This is the flagship WP because the Entanglement Index itself is the paper's central contribution, and the WP that owns it is the paper's first author.
+WP1 owns the audio side of the project (what the choir *sounds* like — timing, pitch, onsets, tempo) and stitches the four pieces together into one running system. Also delivers the paper as first author, and gives the Apr 30 + Jul 23 presentations. This is the flagship WP because the Entanglement Index itself is the paper's central contribution, and the WP that owns it is the paper's first author.
 
 **Stack**: Python 3.11 · `librosa` (audio analysis) · `demucs` (stem separation) · `numpy` / `scipy` / `pandas` · `uv` (package manager) · Docker.
 
@@ -219,7 +217,7 @@ WP4 builds the web-based dashboard that demonstrates the whole system visually �
 
 **Stack**: React + Vite + TypeScript + D3 + Plotly (frontend) · FastAPI + uvicorn (backend) · Tailwind CSS · Playwright (end-to-end tests).
 
-**Most important deliverable**: a working dashboard that plays a 60-second live demo during the Jul 17 presentation without crashing.
+**Most important deliverable**: a working dashboard that plays a 60-second live demo during the Jul 23 presentation without crashing.
 
 ---
 
@@ -834,7 +832,7 @@ The five items that **must** land before the 2026-04-30 14:00 CET Hacker + Gloor
 
 - **Owner**: Zuraiz (team reviews)
 - **Deadline**: 2026-04-25 (draft) · 2026-04-28 (team critique) · 2026-04-29 (rehearsal)
-- **Acceptance**: 5–10 slide deck covering (1) team + archetypes, (2) problem + two-lens framing (Pentland + Hacker), (3) three data tiers, (4) roadmap with Apr 17–Jul 17 milestones, (5) §12 top-3 open items transparently flagged. Team critique round incorporated before rehearsal.
+- **Acceptance**: 5–10 slide deck covering (1) team + archetypes, (2) problem + two-lens framing (Pentland + Hacker), (3) three data tiers, (4) roadmap with Apr 17–Jul 23 milestones, (5) §12 top-3 open items transparently flagged. Team critique round incorporated before rehearsal.
 
 #### W4 · L-E-1 — FaceMesh biometric classification (promoted under v2.2)
 
