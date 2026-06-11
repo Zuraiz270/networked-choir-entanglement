@@ -30,7 +30,7 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 **Backup detail**: With 200 shuffles, the smallest reportable p_null is 0.005. We can bump to 2000 shuffles for a finer p-value at a cost of about 30 minutes runtime per piece. Happy to do that for the paper if reviewers ask.
 
-**If pressed**: For the deck we round to "p < 0.001" rather than "0.0000" to avoid the literal-zero misinterpretation. Standard practice in coordination science.
+**If pressed**: For the deck we round to "p < 0.005" rather than "0.0000" to avoid the literal-zero misinterpretation. Standard practice in coordination science.
 
 ### Q-H3: Why are LI pieces clustering above TP pieces in mean E(t)?
 
@@ -104,9 +104,9 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 ### Q-T1: Why didn't you also use ESMUC and ChoralSynth?
 
-**Short answer**: ESMUC requires a UPF research license we have not pursued yet. ChoralSynth we can simply download (it's openly licensed on Zenodo), and that is Sprint-4 work, not a deliberate Sprint-3 exclusion.
+**Short answer**: ESMUC requires a UPF research license we have not pursued yet. ChoralSynth we can simply download (it's freely available on Zenodo for research), and that is Sprint-4 work, not a deliberate Sprint-3 exclusion.
 
-**Backup detail**: ESMUC is a UPF-curated dataset that the original P-02 multi-f0 paper used for training; our deep-read audit notes it is proprietary. ChoralSynth (MTG, arXiv 2311.08350) is synthetic SATB, 20 pieces, about 3.8 hours total duration, hosted on Zenodo at DOI 10.5281/zenodo.10137883 for non-commercial research. We just didn't pull it in Sprint 3 because the WP3 corpus stayed at the 5 real Dagstuhl pieces. Sprint 4 plan includes a ChoralSynth acquisition step before the Tier-3 latency-injection runs.
+**Backup detail**: ESMUC is a UPF-curated dataset that the original P-02 multi-f0 paper used for training; our deep-read audit notes it is proprietary. ChoralSynth (Narang et al. 2023, MTG/UPF, arXiv 2311.08350) is synthetic SATB, 20 pieces, about 3.8 hours total duration, hosted on Zenodo at DOI 10.5281/zenodo.10137883 for non-commercial research. We just didn't pull it in Sprint 3 because the WP3 corpus stayed at the 5 real Dagstuhl pieces. Sprint 4 plan includes a ChoralSynth acquisition step before the Tier-3 latency-injection runs.
 
 **If pressed**: The power calculation in our implementation plan assumed Dagstuhl plus ESMUC giving 156 paired observations for H1. Without ESMUC, we have 120 (Dagstuhl alone), which is still well-powered for Cohen's d of 0.50 (our headline H1 effect size). Adding ChoralSynth in Sprint 4 brings us back above 156. The right ask of Prof. Hacker is whether **she has institutional access to ESMUC** specifically. ChoralSynth we will just download.
 

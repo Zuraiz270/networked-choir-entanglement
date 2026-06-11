@@ -336,7 +336,7 @@ def slide_3_headline(prs):
     rail_w = Inches(3.3)
     card_h = Inches(1.18)
     _stat_card(slide, rail_x, Inches(1.5), rail_w, card_h, "5 / 5",
-               "pieces significantly above the null (p < 0.001)")
+               "pieces significantly above the null (p < 0.005)")
     _stat_card(slide, rail_x, Inches(2.85), rail_w, card_h, "200",
                "circular-shift permutations per piece")
     _stat_card(slide, rail_x, Inches(4.2), rail_w, card_h, "0.57–0.80",
@@ -367,11 +367,11 @@ def slide_4_audio_network(prs):
                "causality methods per piece (Granger + COP-GC)")
     _text(slide, rail_x, Inches(4.95), rail_w, Inches(1.6),
           "Methods agree on quartets, diverge on full choir (42 vs 25 of 56 edges). "
-          "That gap is itself a finding: a third of standard edges rely on linear "
-          "magnitude, not pattern structure.",
+          "That gap is itself a finding: about 40% of standard edges (17 of 42) "
+          "rely on linear magnitude, not pattern structure.",
           size=12, color=MUTED, line_spacing=1.05)
 
-    _takeaway(slide, "The Sprint-2 reference result reproduces exactly; the pipeline now scales to the corpus.")
+    _takeaway(slide, "Sprint-2 reference reproduces (11/12 edges, density 0.917); the pipeline now scales to the corpus.")
 
 
 def slide_5_video_dashboard(prs):
@@ -401,7 +401,7 @@ def slide_5_video_dashboard(prs):
 
     _multiline(slide, right_x, Inches(5.05), right_w, Inches(1.55),
                [
-                   ("WP2: 5 of 10 stratified videos have usable pose tracks (best 98.5% detection); the rest are UI screen captures. The five passing videos form the working set.", None, False),
+                   ("WP2: 5 of 10 stratified videos have usable pose tracks (best 98.5% detection); the rest are UI captures or low-res tile grids. The five passing videos form the working set.", None, False),
                    ("WP4: the scaffold renders all four panels end-to-end; real-data wiring follows next iteration.", None, False),
                ], size=12, gap=5)
 
@@ -415,7 +415,7 @@ def slide_6_next_iteration(prs):
         ("WP2 video", "Pose on remaining Tier-1 videos, quality-first triage"),
         ("WP3 network", "Tier-3 latency injection: synthetic jitter at 4 regime levels, E(t) per level. First cross-regime test of H1 + H2."),
         ("WP4 dashboard", "Swap mock JSON for real parquet readers + pose overlay"),
-        ("Data", "Download ChoralSynth (open license, Zenodo) · follow up ESMUC"),
+        ("Data", "Download ChoralSynth (Zenodo, research licence) · follow up ESMUC"),
     ]
     t = slide.shapes.add_table(len(rows) + 1, 2, MARGIN, Inches(1.5),
                                SLIDE_W - 2 * MARGIN, Inches(4.3)).table
@@ -466,7 +466,7 @@ def slide_7_retro(prs):
           ], title_color=GREEN, size=13.5)
     _card(slide, x0 + col_w + gap, Inches(1.5), col_w, col_h, "What went wrong",
           [
-              f"ESMUC and ChoralSynth not yet in Tier{nbh}2. ChoralSynth is openly licensed on Zenodo and scheduled for next iteration; ESMUC requires a license (open question).",
+              f"ESMUC and ChoralSynth not yet in Tier{nbh}2. ChoralSynth is freely available on Zenodo for research and scheduled for next iteration; ESMUC requires a license (open question).",
               "",
               f"Half of the Tier{nbh}1 videos are screen captures without visible singers. Future curation will filter on singer visibility, not only NMP regime.",
           ], title_color=RED_SOFT, size=13.5)
@@ -476,7 +476,7 @@ def slide_7_retro(prs):
               "",
               f"All five E(t) pieces are zero{nbh}latency studio recordings. Cross{nbh}regime variation arrives with Tier{nbh}3.",
               "",
-              "p < 0.001 means 0 of 200 permutations exceeded the observed value.",
+              "p < 0.005 means 0 of 200 permutations exceeded the observed value.",
           ], title_color=GOLD, size=13.5)
 
     _takeaway(slide, "All retrospective items are documented in sprint3_results.md.")
@@ -489,7 +489,7 @@ def slide_8_questions(prs):
     items = [
         ("1 · Prof. Hacker: ESMUC dataset access",
          "Do you have institutional access to the ESMUC multitrack dataset? "
-         "ChoralSynth is openly licensed on Zenodo and we will download it ourselves; "
+         "ChoralSynth is freely available on Zenodo for research and we will download it ourselves; "
          "ESMUC is the only dataset where we need support."),
         ("2 · Coordinators: cluster access (nice-to-have, not a blocker)",
          "Is CPU time available on a Bamberg or HSLU cluster? The planned next-iteration "

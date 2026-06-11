@@ -48,7 +48,7 @@ Supervisors: Prof. Janine Hacker (Uni Bamberg), Prof. Peter Gloor (MIT/Köln)
 **Visual**: hero figure `data/figures/et_corpus_comparison.png` at ~70% slide width. Right rail: three stat cards.
 
 **Stat cards**:
-- **5 / 5** pieces beat the null (p < 0.001)
+- **5 / 5** pieces beat the null (p < 0.005)
 - **200** circular-shift permutations per piece
 - **0.57 – 0.80** observed mean E(t) range
 
@@ -73,7 +73,7 @@ Supervisors: Prof. Janine Hacker (Uni Bamberg), Prof. Peter Gloor (MIT/Köln)
 
 **WP1 audio**: every musical take in the Dagstuhl ChoirSet now has per-singer pitch, onset, and loudness features. Coupling pattern matches musical structure (within-section 0.78-0.87, full-choir polyphonic 0.40-0.45).
 
-**WP3 network (Hacker flagship v2)**: directed influence graphs for 5 pieces under both standard Granger and the ordinal-pattern COP-GC variant. The two methods agree on quartets and diverge on full choir (42/56 vs 25/56 significant edges), which is itself a finding: about a third of standard edges depend on linear magnitude, not pattern structure.
+**WP3 network (Hacker flagship v2)**: directed influence graphs for 5 pieces under both standard Granger and the ordinal-pattern COP-GC variant. The two methods agree on quartets and diverge on full choir (42/56 vs 25/56 significant edges), which is itself a finding: about 40% (17 of 42) of standard edges depend on linear magnitude, not pattern structure.
 
 **Takeaway line**: the influence-graph pipeline reproduces last sprint's result exactly and now scales.
 
@@ -129,13 +129,13 @@ Supervisors: Prof. Janine Hacker (Uni Bamberg), Prof. Peter Gloor (MIT/Köln)
 - Documentation updated at every milestone; project state is readable from three files.
 
 **What went wrong**:
-- ESMUC and ChoralSynth not yet in Tier-2. ChoralSynth is openly licensed on Zenodo and scheduled for next iteration; ESMUC requires a license (open question).
+- ESMUC and ChoralSynth not yet in Tier-2. ChoralSynth is freely available on Zenodo for research and scheduled for next iteration; ESMUC requires a license (open question).
 - Half of the Tier-1 videos are screen captures without visible singers. Future curation will filter on singer visibility, not only NMP regime.
 
 **Known limitations**:
 - V(t) is absent from current E(t) values; Dagstuhl has no video. The composite reallocates weight until multimodal data exists.
 - All five E(t) pieces are zero-latency studio recordings. Cross-regime variation arrives with Tier-3.
-- p < 0.001 means 0 of 200 permutations exceeded the observed value.
+- p < 0.005 means 0 of 200 permutations exceeded the observed value.
 
 **Takeaway line**: all retrospective items are documented in sprint3_results.md.
 
@@ -147,7 +147,7 @@ Supervisors: Prof. Janine Hacker (Uni Bamberg), Prof. Peter Gloor (MIT/Köln)
 
 **Visual**: two question cards, large type, nothing else.
 
-1. **To Prof. Hacker, ESMUC dataset access**: do you have institutional access to the ESMUC multitrack dataset? ChoralSynth is openly licensed on Zenodo and we will download it ourselves; ESMUC is the only dataset where we need support.
+1. **To Prof. Hacker, ESMUC dataset access**: do you have institutional access to the ESMUC multitrack dataset? ChoralSynth is freely available on Zenodo for research and we will download it ourselves; ESMUC is the only dataset where we need support.
 2. **To the coordinators, cluster access (nice-to-have, not a blocker)**: is CPU time available on a Bamberg or HSLU cluster? The planned next-iteration scope runs overnight on our laptops. Cluster access would let us run denser jitter grids and finer analysis windows, strengthening the H1 robustness checks.
 
 Thank you.

@@ -4,7 +4,7 @@
 
 ## Headline
 
-Five Dagstuhl pieces now have a complete E(t) timeline against a 200-shuffle circular-shift null. Every piece beats its null at p < 0.001. Mean E(t) splits cleanly along piece (not ensemble) lines: Locus Iste sits at 0.74–0.80, Tu Pauper Es sits at 0.57–0.68. The composite is currently audio + network only because no piece in our corpus carries video natively (Dagstuhl is audio-only; Tier-1 is video only). The integration code already handles weight reallocation when V(t) returns.
+Five Dagstuhl pieces now have a complete E(t) timeline against a 200-shuffle circular-shift null. Every piece beats its null at p < 0.005. Mean E(t) splits cleanly along piece (not ensemble) lines: Locus Iste sits at 0.74–0.80, Tu Pauper Es sits at 0.57–0.68. The composite is currently audio + network only because no piece in our corpus carries video natively (Dagstuhl is audio-only; Tier-1 is video only). The integration code already handles weight reallocation when V(t) returns.
 
 ## Where the four signals stand
 
@@ -14,7 +14,7 @@ WP1 ran on every Dagstuhl musical take. 25 takes processed, 130 newly extracted 
 
 ### N(t) network coherence
 
-WP3 ran on 5 representative pieces under two methods: standard parametric Granger and COP-GC (Zanin-2024 ordinal-pattern variant). All 10 piece × method graphs persisted as Gephi-compatible GEXFs plus a flat per-piece metrics table at `data/processed/dagstuhl/_network_metrics.csv`. Sprint-2 reference (LI_QuartetA_Take02 standard) reproduced on edges and density: 11/12 significant edges, density 0.917. One caveat: the "most central voice" label is a near-tie at eigenvector centrality 0.53 (Sprint 2 reported Soprano, the batch re-run reports Alto; the tie resolves by node ordering), so centrality labels on near-complete graphs are treated as tie-sensitive. Method divergence is largest on full-choir Tu Pauper Es (42/56 standard edges vs 25/56 COP-GC), suggesting roughly a third of the standard test's "positive" edges depend on linear-magnitude structure that vanishes after ordinal-pattern transformation. We carry both methods forward.
+WP3 ran on 5 representative pieces under two methods: standard parametric Granger and COP-GC (Zanin-2024 ordinal-pattern variant). All 10 piece × method graphs persisted as Gephi-compatible GEXFs plus a flat per-piece metrics table at `data/processed/dagstuhl/_network_metrics.csv`. Sprint-2 reference (LI_QuartetA_Take02 standard) reproduced on edges and density: 11/12 significant edges, density 0.917. One caveat: the "most central voice" label is a near-tie at eigenvector centrality 0.53 (Sprint 2 reported Soprano, the batch re-run reports Alto; the tie resolves by node ordering), so centrality labels on near-complete graphs are treated as tie-sensitive. Method divergence is largest on full-choir Tu Pauper Es (42/56 standard edges vs 25/56 COP-GC), suggesting about 40% (17 of 42) of the standard test's "positive" edges depend on linear-magnitude structure that vanishes after ordinal-pattern transformation. We carry both methods forward.
 
 ### V(t) visual signals
 

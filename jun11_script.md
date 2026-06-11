@@ -32,7 +32,7 @@ This is the core result of the iteration.
 
 The Entanglement Index now runs end-to-end. We computed it on five multitrack choir pieces from the Dagstuhl ChoirSet, each singer on their own microphone. For every piece we also ran a null model: two hundred random time-shifts of each singer's audio, which preserves how each voice behaves on its own but destroys the coordination between voices. If our metric were measuring noise, the real recording would look like the shuffled ones.
 
-It does not. The figure shows it: five red dots are the observed coordination per piece, five gray bars are what chance produces. Every red dot sits far above its gray bar. All five pieces, p below one in a thousand.
+It does not. The figure shows it: five red dots are the observed coordination per piece, five gray bars are what chance produces. Every red dot sits far above its gray bar. All five pieces, p below one in two hundred.
 
 One more pattern worth noticing. The two pieces cluster by what the music is, not by how many singers there are. Locus Iste, a homophonic chant where everyone moves together, scores high, 0.74 to 0.80. Tu Pauper Es, polyphonic with independent voice entries, scores lower, 0.57 to 0.68. A four-singer quartet of Locus Iste sits with the eight-singer full choir of Locus Iste. The metric reacts to what the choir is actually doing, which is exactly what we want from it.
 
@@ -48,9 +48,9 @@ The audio side scaled from one piece last iteration to all twenty-five musical t
 
 The network side is the influence graph, Professor Hacker's flagship. The grid shows directed who-leads-whom graphs for five pieces. New this iteration: every piece runs under two causality methods. Standard Granger, which is the classic parametric test, and an ordinal-pattern variant called COP-GC that only looks at the shape of changes, not their size.
 
-The two methods agree on quartets and diverge on full choir: forty-two versus twenty-five significant edges out of fifty-six on the same recording. That gap is itself a finding. Roughly a third of the standard test's edges depend on loudness magnitude rather than timing pattern. We carry both methods forward and the contrast goes in the discussion section.
+The two methods agree on quartets and diverge on full choir: forty-two versus twenty-five significant edges out of fifty-six on the same recording. That gap is itself a finding. About forty percent of the standard test's edges, seventeen of forty-two, depend on loudness magnitude rather than timing pattern. We carry both methods forward and the contrast goes in the discussion section.
 
-Also worth saying: last sprint's flagship result reproduces exactly under the new pipeline. Same edges, same density. That's our regression test.
+Also worth saying: last sprint's flagship result reproduces under the new pipeline: same edge count, eleven of twelve, and same density. That's our regression test.
 
 ---
 
@@ -80,7 +80,7 @@ Network is the priority track: Tier-3 latency injection. We take the clean Dagst
 
 Dashboard: swap mock data for the real pipeline outputs and add the pose overlay.
 
-Data: we download ChoralSynth, which is openly licensed on Zenodo, and follow up on ESMUC, which is our first question later.
+Data: we download ChoralSynth, which is freely available on Zenodo for research, and follow up on ESMUC, which is our first question later.
 
 The hard milestone before status five: dashboard alpha on real data, plus the first cross-regime result.
 
