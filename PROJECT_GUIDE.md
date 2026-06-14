@@ -88,7 +88,7 @@ Every technical word used in sections 1–10 is explained once here. Keep this o
 
 ---
 
-## 4. Where We Are Today (2026-06-11)
+## 4. Where We Are Today (2026-06-15)
 
 **Concrete status**, no spin:
 
@@ -246,7 +246,7 @@ We use three tiers of data — each fills a different job. Understanding this is
 
 ### Tier 2 — Academic multitrack recordings
 
-**What it is.** Purpose-built research datasets where each singer was recorded on a separate microphone. Primary: **Dagstuhl ChoirSet** (Rosenzweig et al., TISMIR 2020, DOI `10.5334/tismir.48`). Also: **ESMUC Choir Dataset** (Cuesta & Gómez, Zenodo DOI `10.5281/zenodo.5848990`, CC BY 4.0, open, 12 singers / 3 pieces / 2.3 GB — verified openly downloadable 2026-06-11), **ChoralSynth** (synthetic SATB, Narang et al. 2023, Zenodo DOI `10.5281/zenodo.10137883`), **Cairns 2024 York PhD thesis** (NMP comparator data), **DUST Dataset** (packet-loss traces — access to verify by Apr 24).
+**What it is.** Purpose-built research datasets where each singer was recorded on a separate microphone. Primary: **Dagstuhl ChoirSet** (Rosenzweig et al., TISMIR 2020, DOI `10.5334/tismir.48`). Also: **ESMUC Choir Dataset** (Cuesta & Gómez, Zenodo DOI `10.5281/zenodo.5848990`, CC BY 4.0, **downloaded + MD5-verified 2026-06-15**; on inspection: 7 song codes DG/DH1/DH2/SC1-3/WU × FT/IS/SE settings, 48 multitrack groups / 32 full-ensemble, per-singer WAV, not the "3 pieces" the paper implies), **ChoralSynth** (synthetic SATB, Narang et al. 2023, Zenodo DOI `10.5281/zenodo.10137883`, CC BY-SA 4.0, **downloaded + MD5-verified 2026-06-15**; 20 pieces, per-voice MP3, 3-8 voices each), **Cairns 2024 York PhD thesis** (NMP comparator data), **DUST Dataset** (packet-loss traces — access to verify by Apr 24). Full verified provenance: `data/raw/_dataset_inventory.md`.
 
 **What it's for.** The **audio and network halves** of our analysis. Because each singer is on their own microphone, we can run per-singer pitch (pyin), per-pair DTW alignment, Granger-causality onset networks, and everything else that needs per-singer streams. Tier 2 serves hypothesis **H2** (network topology differs across regimes) and provides the audio ground truth for **H3**.
 

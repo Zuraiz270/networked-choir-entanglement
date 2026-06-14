@@ -1091,3 +1091,23 @@ Tests 23/23 (no change). No new vault wiki pages.
 **Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
 
 Sprint 3 complete. 15 commits on `main` since May 21 (5 feat:, 1 chore:, 6 docs:phase, 1 docs:jun11, 1 docs:sprint3-phaseF, baseline 0).
+
+---
+
+## [2026-06-15] ingest | Sprint-4 Phase 0 — ESMUC + ChoralSynth downloaded + verified
+
+Tier-2 corpus expansion. Both datasets downloaded from Zenodo and **MD5-verified against upstream** (zero-fabrication protocol; nothing trusted from papers/web).
+
+- **ESMUC** (`zenodo.5848990`, CC BY 4.0, 2.34 GB): MD5 `ba2b4b5c…` matches upstream. On inspection the web "3 pieces, 12 singers" claim is **wrong**: 7 song codes (DG/DH1/DH2/SC1-3/WU) × FT/IS/SE settings, 48 per-singer multitrack groups (32 full-ensemble; DG_FT_take1-4 = 12 singers each). Per-singer mono WAV; also `.f0`/`.lab` annotations; room mics AB/ORTF to exclude.
+- **ChoralSynth** (`zenodo.10137883`, CC BY-SA 4.0 per authoritative Zenodo metadata — a GitHub "non-commercial" claim is contradicted and rejected, 96 MB): MD5 `4aae6cd6…` matches upstream. 20 pieces, per-voice **MP3** (3-8 voices each), decodes via libsndfile without ffmpeg. Voice naming inconsistent across pieces → adapter must read `info.json`. Unit = voice part, not singer.
+
+**Pages/files touched**:
+- CREATED `data/raw/_dataset_inventory.md` (verified structure of both)
+- CREATED `data/raw/_dataset_checksums.csv` (MD5 match + SHA-256 recorded)
+- UPDATED `.gitignore` (ignore raw esmuc/ + choralsynth/ trees; keep provenance files)
+- UPDATED `TEAM_BRIEF.md` §3 Tier-2 row + last-updated date
+- UPDATED `PROJECT_GUIDE.md` §4 date + §9 Tier-2 dataset description
+
+Sprint-4 plan: `C:\Users\zurai\.claude\plans\ok-plan-for-the-virtual-pnueli.md`. Next: Phase 1 dataset adapters written from this inventory.
+
+**Rule 1 N/A** (data-provenance ingest). **Rule 2** ingest counter unchanged.
