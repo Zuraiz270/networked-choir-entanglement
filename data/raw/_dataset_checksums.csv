@@ -1,0 +1,3 @@
+dataset,file,size_bytes,upstream_md5,md5_match,sha256,verified_date
+esmuc,EsmucChoirDataset_v1.0.0.zip,2337732986,ba2b4b5c4326dbe0a6d391167fa30574,yes,d0611dcb76b7cab53e2247b8672337bfcb3ed0d5023bfa99243907a7c949b818,2026-06-15
+choralsynth,Dataset.zip,96087209,4aae6cd6da198e6f1924f47551d9fd70,yes,399a9d780981212b6b503126e96224e25b7eab37a8b7e37759713a7a43fa531b,2026-06-15

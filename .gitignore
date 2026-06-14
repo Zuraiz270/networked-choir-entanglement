@@ -73,3 +73,9 @@ data/raw/**/*.m4a
 data/raw/**/*.csv
 # Unzipped Dagstuhl tree (regenerable from the zip + README provenance)
 data/raw/dagstuhl/DagstuhlChoirSet_V1.2.3/
+# Tier-2 raw dataset trees (large; regenerable from Zenodo + verified checksums)
+data/raw/esmuc/
+data/raw/choralsynth/
+# Keep dataset provenance files at data/raw/ root (override the *.csv rule above)
+!data/raw/_dataset_checksums.csv
+!data/raw/_dataset_inventory.md
