@@ -104,11 +104,11 @@ Sprint-3 specific deflection rule: if asked anything outside WP3 (Granger and in
 
 ### Q-T1: Why didn't you also use ESMUC and ChoralSynth?
 
-**Short answer**: ESMUC requires a UPF research license we have not pursued yet. ChoralSynth we can simply download (it's freely available on Zenodo for research), and that is Sprint-4 work, not a deliberate Sprint-3 exclusion.
+**Short answer**: Both are openly downloadable from Zenodo; we simply kept the Sprint-3 WP3 corpus at the 5 Dagstuhl pieces and scheduled both for Sprint 4. Not a deliberate exclusion.
 
-**Backup detail**: ESMUC is a UPF-curated dataset that the original P-02 multi-f0 paper used for training; our deep-read audit notes it is proprietary. ChoralSynth (Narang et al. 2023, MTG/UPF, arXiv 2311.08350) is synthetic SATB, 20 pieces, about 3.8 hours total duration, hosted on Zenodo at DOI 10.5281/zenodo.10137883 for non-commercial research. We just didn't pull it in Sprint 3 because the WP3 corpus stayed at the 5 real Dagstuhl pieces. Sprint 4 plan includes a ChoralSynth acquisition step before the Tier-3 latency-injection runs.
+**Backup detail**: ESMUC Choir Dataset (Cuesta & Gómez, Zenodo DOI 10.5281/zenodo.5848990) is open, CC BY 4.0, 12 singers, 3 pieces, 2.3 GB, released Jan 2022. ChoralSynth (Narang et al. 2023, MTG/UPF, arXiv 2311.08350) is synthetic SATB, 20 pieces, ~3.8 hours, Zenodo DOI 10.5281/zenodo.10137883. Both fold into Tier-2 the same way Dagstuhl did.
 
-**If pressed**: The power calculation in our implementation plan assumed Dagstuhl plus ESMUC giving 156 paired observations for H1. Without ESMUC, we have 120 (Dagstuhl alone), which is still well-powered for Cohen's d of 0.50 (our headline H1 effect size). Adding ChoralSynth in Sprint 4 brings us back above 156. The right ask of Prof. Hacker is whether **she has institutional access to ESMUC** specifically. ChoralSynth we will just download.
+**If pressed**: Our power calculation assumes Dagstuhl (~10) + ESMUC (3) × 4 regimes × 3 jitter seeds = 156 within-piece paired observations for H1. With all three datasets in hand we hit that target; Dagstuhl alone (120) is already well-powered for Cohen's d ≥ 0.50. **Correction note**: an earlier version of this answer wrongly called ESMUC license-restricted. That label was carried over from the P-02 multi-f0 paper's 2019-era dataset table; Cuesta released ESMUC openly on Zenodo in Jan 2022. We verified the open access on 2026-06-11.
 
 ### Q-T2: Why is the dashboard showing mock data?
 

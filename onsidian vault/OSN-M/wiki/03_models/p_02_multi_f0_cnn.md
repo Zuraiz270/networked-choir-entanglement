@@ -48,9 +48,11 @@ Aggregate of 5 multi-track polyphonic singing datasets [§3, Table 1]:
 | :--- | :--- | :--- | :--- | :--- |
 | **Choral Singing Dataset (CSD)** | 3 | 16 | 4S4A4T4B | Yes |
 | **Dagstuhl ChoirSet (DCS)** | 2 | 13 | 2S2A4T5B | Yes (see [[p_01_dagstuhl_choirset]]) |
-| **ESMUC Choir Dataset (ECS)** | 3 | 13 | 5S3A3T2B | **Proprietary** |
+| **ESMUC Choir Dataset (ECS)** | 3 | 13 | 5S3A3T2B | **Proprietary** *(at paper's writing; see note)* |
 | **Bach Chorales** | 26 | SATB quartets | SATB | Commercial |
 | **Barbershop Quartets** | 22 | Male quartets | Tenor/Lead/Baritone/Bass | Commercial |
+
+> **[STALE-FACT CORRECTION, 2026-06-11]** The "Proprietary" label above reflects this paper's Table 1 at its 2019 writing. The **ESMUC Choir Dataset was subsequently released openly** by Cuesta & Gómez on Zenodo (DOI `10.5281/zenodo.5848990`, CC BY 4.0) in January 2022 and is freely downloadable. Confirmed by Prof. Hacker at Status Meeting IV. Do not cite ESMUC as license-restricted in any forward-looking project doc; it folds into Tier-2 exactly like Dagstuhl.
 
 **Augmentation**:
 
