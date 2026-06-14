@@ -78,6 +78,36 @@ def test_reference_singer_unshifted() -> None:
     assert out["A1"]["rms"].iloc[: ms_to_frames(83.0)].isna().all()  # other delayed
 
 
+def test_jitter_degrades_coupling_but_constant_delay_does_not() -> None:
+    """The core validity check: jitter lowers recovered coupling; constant delay does not.
+
+    This is exactly why Tier-3 pivoted from constant delay to jitter.
+    """
+    rng = np.random.default_rng(3)
+    n = 1500
+    t = np.arange(n) / FRAME_RATE_HZ
+    shared = 0.5 + 0.25 * np.sin(2 * np.pi * 0.7 * t)
+    a = pd.DataFrame({"time_sec": t, "rms": shared + 0.02 * rng.normal(size=n),
+                      "f0_hz": np.full(n, 220.0), "voiced": np.ones(n, bool),
+                      "voiced_prob": np.full(n, 0.9), "onset": np.zeros(n, bool)})
+    b = pd.DataFrame({"time_sec": t, "rms": shared + 0.02 * rng.normal(size=n),
+                      "f0_hz": np.full(n, 220.0), "voiced": np.ones(n, bool),
+                      "voiced_prob": np.full(n, 0.9), "onset": np.zeros(n, bool)})
+
+    def coupling(x: pd.DataFrame) -> float:
+        return abs(compute_pairwise_coupling(a, x, max_lag_sec=1.0, signal="rms").peak_correlation)
+
+    clean_c = coupling(b)
+    const_c = coupling(inject_latency_frame(b, LatencyConfig(delay_ms=83.0)))
+    jitter_c = coupling(inject_latency_frame(b, LatencyConfig(delay_ms=83.0, jitter_sd_ms=150.0, seed=1)))
+
+    # constant delay is absorbed by lag-tolerant coupling (barely changes it)
+    assert abs(const_c - clean_c) < 0.05, f"constant delay should be absorbed (clean={clean_c:.3f}, const={const_c:.3f})"
+    # jitter measurably degrades coupling, and degrades it MORE than constant delay
+    assert clean_c - jitter_c > 0.05, f"jitter should degrade coupling (clean={clean_c:.3f}, jit={jitter_c:.3f})"
+    assert jitter_c < const_c, "jitter must degrade coupling more than a constant delay does"
+
+
 def test_dropout_blanks_expected_fraction() -> None:
     df = _frame(n=2000)
     out = inject_latency_frame(df, LatencyConfig(delay_ms=0.0, dropout_rate=0.2, seed=7))

@@ -26,7 +26,7 @@ import numpy as np
 import pandas as pd
 
 from choir_entanglement.entanglement import compute_entanglement, compute_entanglement_null
-from choir_entanglement.latency import LATENCY_LEVELS_MS, LatencyConfig, inject_latency_take
+from choir_entanglement.latency import LATENCY_REGIMES, inject_latency_take
 from choir_entanglement.network.influence_graph import build_influence_graph, graph_metrics
 from scripts.wp3_dagstuhl_batch import run_pairwise
 
@@ -57,22 +57,24 @@ def gini(values: np.ndarray) -> float:
 
 
 def process_cell(
-    dataset: str, piece: str, unit: str, level: str, delay_ms: float,
+    dataset: str, piece: str, unit: str, level: str,
     clean: dict[str, pd.DataFrame],
 ) -> dict[str, object]:
-    delayed = inject_latency_take(clean, LatencyConfig(delay_ms=delay_ms))
+    config = LATENCY_REGIMES[level]
+    delay_ms = config.delay_ms
+    delayed = inject_latency_take(clean, config)
     rms_series = {s: df["rms"].to_numpy(np.float64) for s, df in delayed.items()}
     n_min = min(len(a) for a in rms_series.values())
     rms_series = {s: a[:n_min] for s, a in rms_series.items()}
 
-    # Latency injection blanks leading frames to NaN; Granger (statsmodels)
-    # rejects NaN. Trim the blanked head uniformly so we analyse the
-    # steady-state delayed region. (compute_entanglement is NaN-tolerant and
-    # keeps the full series for A(t)/null.)
-    stacked = np.vstack(list(rms_series.values()))
-    finite_cols = np.all(np.isfinite(stacked), axis=0)
-    first = int(np.argmax(finite_cols)) if finite_cols.any() else n_min
-    rms_series = {s: a[first:] for s, a in rms_series.items()}
+    # Latency injection blanks frames to NaN (leading frames from the causal
+    # shift, scattered frames from dropout). Granger (statsmodels) rejects NaN,
+    # so fill via packet-loss CONCEALMENT (hold last received value: ffill then
+    # bfill) - which is what real NMP clients do. compute_entanglement keeps the
+    # raw NaN series (it is NaN-tolerant) for A(t)/null.
+    rms_series = {
+        s: pd.Series(a).ffill().bfill().to_numpy(np.float64) for s, a in rms_series.items()
+    }
 
     results = run_pairwise(rms_series, method="standard", maxlag=MAXLAG, n_shuffles=N_NULL)
     graph = build_influence_graph(results, significance=0.05)
@@ -100,7 +102,8 @@ def process_cell(
     p_null = float((null >= e_mean).mean()) if null.size else float("nan")
     return {
         "dataset": dataset, "piece": piece, "unit": unit, "level": level,
-        "delay_ms": delay_ms, "n_singers": len(rms_series),
+        "delay_ms": delay_ms, "jitter_sd_ms": config.jitter_sd_ms,
+        "dropout_rate": config.dropout_rate, "n_singers": len(rms_series),
         "A_mean": round(float(a.mean()) if a.size else float("nan"), 4),
         "N_density": round(float(m.density), 4),
         "E_mean": round(e_mean, 4),
@@ -158,7 +161,7 @@ def run(dataset: str, pieces: list[str] | None, levels: list[str]) -> None:
             continue
         for level in levels:
             t = time.perf_counter()
-            row = process_cell(dataset, piece, unit, level, LATENCY_LEVELS_MS[level], clean)
+            row = process_cell(dataset, piece, unit, level, clean)
             rows.append(row)
             print(f"  {piece} [{level:11s}] E={row['E_mean']} density={row['N_density']} "
                   f"p_null={row['p_null']} ({time.perf_counter()-t:.0f}s)")
@@ -179,8 +182,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", required=True, choices=["dagstuhl", "esmuc", "choralsynth"])
     parser.add_argument("--pieces", default=None, help="comma-separated piece ids (default: discover)")
-    parser.add_argument("--levels", default=",".join(LATENCY_LEVELS_MS),
-                        help="comma-separated latency levels")
+    parser.add_argument("--levels", default=",".join(LATENCY_REGIMES),
+                        help="comma-separated latency regimes")
     args = parser.parse_args()
     pieces = args.pieces.split(",") if args.pieces else None
     levels = [lv.strip() for lv in args.levels.split(",") if lv.strip()]
