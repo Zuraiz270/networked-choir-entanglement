@@ -167,5 +167,23 @@ def run() -> None:
     print(f"Wrote {figure_path}")
 
 
-if __name__ == "__main__":
+def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--dataset", default="dagstuhl", choices=["dagstuhl", "esmuc", "choralsynth"])
+    args = parser.parse_args()
+
+    global PROCESSED_ROOT, CORPUS_CSV, FIGURE_OUT
+    PROCESSED_ROOT = Path("data/processed") / args.dataset
+    CORPUS_CSV = PROCESSED_ROOT / "_et_corpus.csv"
+    FIGURE_OUT = (
+        Path("data/figures/et_corpus_comparison.png")
+        if args.dataset == "dagstuhl"
+        else Path(f"data/figures/et_corpus_comparison_{args.dataset}.png")
+    )
     run()
+
+
+if __name__ == "__main__":
+    main()
