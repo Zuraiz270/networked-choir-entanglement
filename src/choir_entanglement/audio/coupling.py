@@ -93,6 +93,43 @@ def compute_pairwise_coupling(
     )
 
 
+def onset_synchrony(
+    onsets_a: npt.NDArray[np.bool_],
+    onsets_b: npt.NDArray[np.bool_],
+    tolerance_frames: int = 3,
+) -> float:
+    """Zero-lag onset-attack synchrony of two singers within a perceptual tolerance.
+
+    Unlike ``compute_pairwise_coupling`` (which searches over lags and is
+    therefore latency-tolerant by design), this is a ZERO-LAG measure: it asks
+    whether the two singers attack notes at the same instant, within
+    ``tolerance_frames`` (default 3 frames at 22050/512 = ~70 ms, near the
+    Ensemble Performance Threshold). Network jitter beyond the tolerance
+    scrambles attack alignment and lowers this score, which is exactly the
+    physical quantity transmission latency degrades.
+
+    Each binary onset train is smoothed with a centred box window of width
+    ``2*tolerance_frames + 1`` (so onsets within the tolerance overlap), then
+    the two smoothed trains are compared by zero-lag Pearson correlation.
+    Returns NaN if either singer has no onsets.
+    """
+    n = min(onsets_a.size, onsets_b.size)
+    a = onsets_a[:n].astype(np.float64)
+    b = onsets_b[:n].astype(np.float64)
+    if a.sum() == 0 or b.sum() == 0:
+        return float("nan")
+    width = 2 * tolerance_frames + 1
+    box = np.ones(width, dtype=np.float64)
+    sa = np.convolve(a, box, mode="same")
+    sb = np.convolve(b, box, mode="same")
+    sa -= sa.mean()
+    sb -= sb.mean()
+    denom = float(np.sqrt((sa * sa).sum() * (sb * sb).sum()))
+    if denom == 0.0:
+        return float("nan")
+    return float((sa * sb).sum() / denom)
+
+
 def load_feature_parquet(path: Path) -> pd.DataFrame:
     """Load a per-singer feature parquet written by pipeline.py."""
     return pq.read_table(path).to_pandas()

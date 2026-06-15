@@ -25,6 +25,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from itertools import combinations
+
+import numpy as np
+
+from choir_entanglement.audio.coupling import onset_synchrony
 from choir_entanglement.entanglement import compute_entanglement, compute_entanglement_null
 from choir_entanglement.latency import LATENCY_REGIMES, inject_latency_take
 from choir_entanglement.network.influence_graph import build_influence_graph, graph_metrics
@@ -63,6 +68,18 @@ def process_cell(
     config = LATENCY_REGIMES[level]
     delay_ms = config.delay_ms
     delayed = inject_latency_take(clean, config)
+
+    # Zero-lag onset synchrony on the JITTERED onset trains (not concealment-
+    # filled): the physical attack-timing quantity latency degrades. Mean over
+    # all singer pairs.
+    onset_arrays = {s: df["onset"].fillna(False).to_numpy(bool) for s, df in delayed.items()}
+    sync_vals = [
+        onset_synchrony(onset_arrays[a], onset_arrays[b])
+        for a, b in combinations(sorted(onset_arrays), 2)
+    ]
+    sync_finite = [v for v in sync_vals if np.isfinite(v)]
+    onset_sync = float(np.mean(sync_finite)) if sync_finite else float("nan")
+
     rms_series = {s: df["rms"].to_numpy(np.float64) for s, df in delayed.items()}
     n_min = min(len(a) for a in rms_series.values())
     rms_series = {s: a[:n_min] for s, a in rms_series.items()}
@@ -105,6 +122,7 @@ def process_cell(
         "delay_ms": delay_ms, "jitter_sd_ms": config.jitter_sd_ms,
         "dropout_rate": config.dropout_rate, "n_singers": len(rms_series),
         "A_mean": round(float(a.mean()) if a.size else float("nan"), 4),
+        "onset_sync": round(onset_sync, 4),
         "N_density": round(float(m.density), 4),
         "E_mean": round(e_mean, 4),
         "n_sig_edges": int(m.n_edges),
@@ -117,21 +135,25 @@ def process_cell(
 
 def render_figure(df: pd.DataFrame, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5.5))
-    for piece, g in df.groupby("piece"):
-        g = g.sort_values("delay_ms")
-        ax1.plot(g["delay_ms"], g["E_mean"], marker="o", label=piece, linewidth=1.3)
-        ax2.plot(g["delay_ms"], g["N_density"], marker="s", label=piece, linewidth=1.3)
-    for ax, ylab, title in (
-        (ax1, "Mean E(t) (audio+network)", "H1: coordination vs latency"),
-        (ax2, "Influence-graph density", "H2: topology vs latency"),
-    ):
-        ax.set_xlabel("Injected one-way latency (ms)")
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16, 5.2))
+    x = "jitter_sd_ms" if "jitter_sd_ms" in df.columns else "delay_ms"
+    panels = [
+        (ax1, "onset_sync", "Zero-lag onset synchrony", "Attack-timing (latency-sensitive)"),
+        (ax2, "E_mean", "Mean E(t) (envelope+network)", "Envelope E(t) (latency-robust)"),
+        (ax3, "N_density", "Influence-graph density", "Network topology"),
+    ]
+    for ax, col, ylab, title in panels:
+        if col not in df.columns:
+            continue
+        for piece, g in df.groupby("piece"):
+            g = g.sort_values(x)
+            ax.plot(g[x], g[col], marker="o", label=piece, linewidth=1.2)
+        ax.set_xlabel(f"Injected jitter SD (ms)" if x == "jitter_sd_ms" else "Delay (ms)")
         ax.set_ylabel(ylab)
         ax.set_title(title)
         ax.grid(True, alpha=0.3)
     ax1.legend(fontsize=7, loc="best")
-    fig.suptitle("Tier-3 latency injection (constant delay, standard Granger, 100-shuffle null)",
+    fig.suptitle("Tier-3 latency injection (jitter model, standard Granger, 100-shuffle null)",
                  fontsize=12)
     fig.tight_layout()
     fig.savefig(output, dpi=150, bbox_inches="tight")

@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from choir_entanglement.audio.coupling import compute_pairwise_coupling
+from choir_entanglement.audio.coupling import compute_pairwise_coupling, onset_synchrony
 from choir_entanglement.latency import (
     FRAME_DT_SEC,
     LatencyConfig,
@@ -106,6 +106,29 @@ def test_jitter_degrades_coupling_but_constant_delay_does_not() -> None:
     # jitter measurably degrades coupling, and degrades it MORE than constant delay
     assert clean_c - jitter_c > 0.05, f"jitter should degrade coupling (clean={clean_c:.3f}, jit={jitter_c:.3f})"
     assert jitter_c < const_c, "jitter must degrade coupling more than a constant delay does"
+
+
+def test_onset_synchrony_is_latency_sensitive() -> None:
+    """Zero-lag onset synchrony degrades under jitter, the H1-relevant property.
+
+    Two singers attack on the same frames; jitter scrambles attack timing and
+    must lower synchrony, whereas a constant delay within tolerance keeps it.
+    """
+    rng = np.random.default_rng(5)
+    n = 1500
+    onsets = np.zeros(n, dtype=bool)
+    onsets[rng.choice(n, size=120, replace=False)] = True  # shared attack pattern
+    a = pd.DataFrame({"time_sec": np.arange(n) / FRAME_RATE_HZ, "rms": np.full(n, 0.5),
+                      "f0_hz": np.full(n, 220.0), "voiced": np.ones(n, bool),
+                      "voiced_prob": np.full(n, 0.9), "onset": onsets.copy()})
+    b = a.copy(deep=True)
+
+    clean = onset_synchrony(a["onset"].to_numpy(), b["onset"].to_numpy())
+    jittered = inject_latency_frame(b, LatencyConfig(delay_ms=83.0, jitter_sd_ms=150.0, seed=2))
+    jit = onset_synchrony(a["onset"].to_numpy(), jittered["onset"].to_numpy())
+
+    assert clean > 0.9, f"identical onset trains should be near 1.0, got {clean:.2f}"
+    assert jit < clean - 0.2, f"jitter must degrade onset synchrony (clean={clean:.2f}, jit={jit:.2f})"
 
 
 def test_dropout_blanks_expected_fraction() -> None:
