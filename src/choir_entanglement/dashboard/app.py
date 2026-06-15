@@ -24,6 +24,7 @@ import networkx as nx
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from choir_entanglement.entanglement import compute_entanglement
 
@@ -157,6 +158,15 @@ def get_pose(video_id: str, max_frames: int = 600) -> dict[str, Any]:
         for _, r in df.iterrows()
     ]
     return {"video_id": video_id, "n_frames": len(frames), "frames": frames}
+
+
+@app.get("/api/video/{video_id}")
+def get_video_file(video_id: str) -> FileResponse:
+    meta = _require_video(video_id)
+    mp4 = RAW_TIER1 / video_id / f"{video_id}.mp4"
+    if meta["kind"] != "video_pose" or not mp4.exists():
+        raise HTTPException(status_code=404, detail=f"{video_id} has no mp4")
+    return FileResponse(mp4, media_type="video/mp4")
 
 
 def _require_video(video_id: str) -> dict[str, Any]:

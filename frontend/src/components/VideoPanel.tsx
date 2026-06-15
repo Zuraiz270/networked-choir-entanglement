@@ -1,24 +1,100 @@
+import { useEffect, useRef, useState } from "react";
+import type { PoseResponse, VideoMetaFull } from "../types";
+
 interface Props {
   videoId: string | null;
+  meta: VideoMetaFull | null;
 }
 
-export default function VideoPanel({ videoId }: Props) {
+// MediaPipe pose keypoint coordinates are normalised to [0,1] in image space.
+const NORM = 1.0;
+
+export default function VideoPanel({ videoId, meta }: Props) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const [pose, setPose] = useState<PoseResponse | null>(null);
+
+  const isVideo = meta?.kind === "video_pose";
+
+  useEffect(() => {
+    setPose(null);
+    if (!videoId || !isVideo) return;
+    fetch(`/api/pose/${videoId}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.statusText)))
+      .then((d: PoseResponse) => setPose(d))
+      .catch(() => setPose(null));
+  }, [videoId, isVideo]);
+
+  // Draw the nearest pose frame's keypoints onto the SVG overlay as the video plays.
+  useEffect(() => {
+    const video = videoRef.current;
+    const svg = svgRef.current;
+    if (!video || !svg || !pose) return;
+
+    const draw = () => {
+      const t = video.currentTime;
+      let nearest = pose.frames[0];
+      for (const f of pose.frames) {
+        if (Math.abs(f.time_sec - t) < Math.abs(nearest.time_sec - t)) nearest = f;
+      }
+      const w = svg.clientWidth;
+      const h = svg.clientHeight;
+      const pts: string[] = [];
+      const kp = nearest?.keypoints ?? {};
+      const names = new Set(
+        Object.keys(kp).map((k) => k.replace(/_x$|_y$/, "")),
+      );
+      for (const name of names) {
+        const x = kp[`${name}_x`];
+        const y = kp[`${name}_y`];
+        if (x == null || y == null) continue;
+        pts.push(
+          `<circle cx="${(x / NORM) * w}" cy="${(y / NORM) * h}" r="3" fill="#22d3ee" opacity="0.85" />`,
+        );
+      }
+      svg.innerHTML = pts.join("");
+      if (!video.paused && !video.ended) requestAnimationFrame(draw);
+    };
+
+    const onPlay = () => requestAnimationFrame(draw);
+    video.addEventListener("play", onPlay);
+    video.addEventListener("seeked", draw);
+    video.addEventListener("timeupdate", draw);
+    return () => {
+      video.removeEventListener("play", onPlay);
+      video.removeEventListener("seeked", draw);
+      video.removeEventListener("timeupdate", draw);
+    };
+  }, [pose]);
+
   return (
     <div className="flex flex-col rounded bg-slate-800 p-3">
       <h2 className="mb-2 text-sm font-semibold text-slate-300">
-        Video playback (pose overlay placeholder)
+        Video playback {isVideo ? "(33-keypoint pose overlay)" : ""}
       </h2>
-      <div className="flex flex-1 items-center justify-center rounded border border-dashed border-slate-600 bg-slate-900 text-slate-500">
-        {videoId ? (
-          <div className="text-center">
-            <div className="text-xs uppercase tracking-wide">video_id</div>
-            <div className="mt-1 font-mono text-lg">{videoId}</div>
+      <div className="relative flex flex-1 items-center justify-center overflow-hidden rounded border border-slate-700 bg-slate-900">
+        {videoId && isVideo ? (
+          <>
+            <video
+              ref={videoRef}
+              src={`/api/video/${videoId}`}
+              controls
+              className="max-h-full max-w-full"
+            />
+            <svg
+              ref={svgRef}
+              className="pointer-events-none absolute inset-0 h-full w-full"
+            />
+          </>
+        ) : (
+          <div className="px-4 text-center text-slate-500">
+            <div className="font-mono text-lg">{videoId ?? "Loading…"}</div>
             <div className="mt-2 text-xs">
-              HTML5 &lt;video&gt; + D3 skeleton overlay land in WP4 sub-plan
+              {meta?.kind === "audio_network"
+                ? "Audio + network piece (Dagstuhl): no video. See timeline + influence graph."
+                : "Select a Tier-1 video to see the pose overlay."}
             </div>
           </div>
-        ) : (
-          <div>Loading…</div>
         )}
       </div>
     </div>

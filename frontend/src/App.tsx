@@ -3,17 +3,17 @@ import VideoPanel from "./components/VideoPanel";
 import GraphPanel from "./components/GraphPanel";
 import TimelinePanel from "./components/TimelinePanel";
 import MetadataPanel from "./components/MetadataPanel";
-import type { VideoMeta } from "./types";
+import type { VideoMetaFull } from "./types";
 
 export default function App() {
-  const [videos, setVideos] = useState<VideoMeta[]>([]);
+  const [videos, setVideos] = useState<VideoMetaFull[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/videos")
       .then((r) => (r.ok ? r.json() : Promise.reject(r.statusText)))
-      .then((data: VideoMeta[]) => {
+      .then((data: VideoMetaFull[]) => {
         setVideos(data);
         if (data.length > 0) setSelected(data[0].video_id);
       })
@@ -53,7 +53,7 @@ export default function App() {
       )}
 
       <div className="grid flex-1 grid-cols-2 gap-3">
-        <VideoPanel videoId={selected} />
+        <VideoPanel videoId={selected} meta={currentMeta} />
         <GraphPanel videoId={selected} />
       </div>
 

@@ -1,7 +1,7 @@
-import type { VideoMeta } from "../types";
+import type { VideoMetaFull } from "../types";
 
 interface Props {
-  meta: VideoMeta | null;
+  meta: VideoMetaFull | null;
 }
 
 export default function MetadataPanel({ meta }: Props) {
@@ -12,12 +12,13 @@ export default function MetadataPanel({ meta }: Props) {
       </div>
     );
   }
+  const kindLabel = meta.kind === "audio_network" ? "audio + network" : "video + pose";
   return (
     <div className="grid grid-cols-4 gap-3 rounded bg-slate-800 p-3 text-sm">
       <Field label="video_id" value={meta.video_id} mono />
       <Field label="regime" value={meta.regime} />
-      <Field label="singers" value={String(meta.n_singers)} />
-      <Field label="duration" value={`${meta.duration_s} s`} />
+      <Field label="signals" value={kindLabel} />
+      <Field label="singers" value={meta.n_singers == null ? "—" : String(meta.n_singers)} />
     </div>
   );
 }

@@ -2,8 +2,7 @@ export interface VideoMeta {
   video_id: string;
   title: string;
   regime: string;
-  n_singers: number;
-  duration_s: number;
+  n_singers: number | null;
 }
 
 export interface EntanglementSeries {
@@ -38,4 +37,19 @@ export interface InfluenceGraphResponse {
   video_id: string;
   nodes: GraphNode[];
   edges: GraphEdge[];
+}
+
+export interface PoseFrame {
+  time_sec: number;
+  keypoints: Record<string, number | null>;
+}
+
+export interface PoseResponse {
+  video_id: string;
+  n_frames: number;
+  frames: PoseFrame[];
+}
+
+export interface VideoMetaFull extends VideoMeta {
+  kind: "audio_network" | "video_pose";
 }
