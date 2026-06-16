@@ -1111,3 +1111,25 @@ Tier-2 corpus expansion. Both datasets downloaded from Zenodo and **MD5-verified
 Sprint-4 plan: `C:\Users\zurai\.claude\plans\ok-plan-for-the-virtual-pnueli.md`. Next: Phase 1 dataset adapters written from this inventory.
 
 **Rule 1 N/A** (data-provenance ingest). **Rule 2** ingest counter unchanged.
+
+---
+
+## [2026-06-16] schema | Sprint-4 Phases 1-3 — adapters, Tier-3 H1 finding, dashboard alpha
+
+**Phase 1 (adapters)**: `src/choir_entanglement/datasets.py` (PieceManifest + dagstuhl/esmuc/choralsynth adapters, written against the verified real trees) + `scripts/wp1_corpus_batch.py`. ChoralSynth (20 pieces) + ESMUC (16 FT takes) extracted to the shared `data/processed/{dataset}/{piece}/{singer}.parquet` layout. Dagstuhl regex/mic logic moved verbatim (byte-identical regression).
+
+**Phase 2 (Tier-3 latency, the headline)**: `src/choir_entanglement/latency.py`. The scientific journey, reported honestly:
+- Constant delay → no E(t) effect (confound: lag-tolerant envelope coupling absorbs a constant shift).
+- Pivot to jitter (SD = measured P-11 timing SD, 46/57 ms) → envelope E(t) still flat (10s envelopes robust to ms jitter).
+- Added zero-lag **onset synchrony** (`audio/coupling.py`, chosen a priori as the physical quantity latency breaks) → **H1 signal recovered.**
+- **Result, 5 Dagstuhl pieces**: onset synchrony falls 49-61% clean→Zoom (monotonic, every piece); envelope coupling −9%. Dissociation = the finding.
+- **Replicates on ChoralSynth** (independent synthetic dataset): −82% on the pilot piece. Cross-dataset corpus grid (ChoralSynth 20 + ESMUC 3 takes) running.
+- `scripts/tier3_latency_grid.py`; `data/processed/tier3/_latency_grid.csv`; `data/figures/tier3_latency_grid.png` (3-panel: attack-timing sensitive / envelope robust / density).
+
+**Phase 3 (dashboard alpha)**: `dashboard/app.py` serves real data (real E(t), real GEXF graph, pose stream + mp4); VideoPanel pose overlay synced to playback. All 4 panels on real outputs.
+
+**WP3 flagship SVG** (Jul-7 pulled forward): `scripts/wp3_flagship_svg.py` → `data/figures/wp3_flagship_LI_QuartetA_Take02_standard.svg`.
+
+Tests 38/38. Commits: feat(datasets), feat(tier3)×3, feat(wp4)×2, feat(wp3), data(tier3), docs. **Deck (Phase 4) held until the cross-dataset grid lands.**
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
