@@ -124,7 +124,7 @@ def render_v2_figure(summary: pd.DataFrame, lookup: dict[str, dict[str, str]]) -
     axes[0].set_title(
         f"WP2 visual features v2 · Tier-1 {meta['latency_regime_label']} "
         f"({best_id}, {meta['singer_count_est']} singers)\n"
-        f"Best pose detection in 10-video batch: {voiced.mean()*100:.1f}% of {len(df)} frames"
+        f"Best pose detection in {len(summary)}-video batch: {voiced.mean()*100:.1f}% of {len(df)} frames"
     )
     axes[1].plot(df["time_sec"], df["shoulder_rise"], color="#2ca02c", linewidth=0.9)
     axes[1].set_ylabel("Shoulder rise\n(breath proxy)")
@@ -141,13 +141,22 @@ def render_v2_figure(summary: pd.DataFrame, lookup: dict[str, dict[str, str]]) -
     return FIGURE_OUT
 
 
-def run() -> None:
+def discover_on_disk_videos(lookup: dict[str, dict[str, str]]) -> list[str]:
+    """Every manifest video whose mp4 is present under data/raw/tier1/."""
+    return sorted(
+        vid for vid in lookup
+        if (RAW_ROOT / vid / f"{vid}.mp4").exists()
+    )
+
+
+def run(all_videos: bool = False) -> None:
     lookup = load_manifest_lookup()
     PROCESSED_ROOT.mkdir(parents=True, exist_ok=True)
+    video_ids = discover_on_disk_videos(lookup) if all_videos else SELECTED_VIDEOS
     rows: list[dict[str, object]] = []
     total_start = time.perf_counter()
 
-    for i, video_id in enumerate(SELECTED_VIDEOS, 1):
+    for i, video_id in enumerate(video_ids, 1):
         meta = lookup.get(video_id)
         if meta is None:
             raise KeyError(f"video_id not in manifest: {video_id}")
@@ -158,7 +167,7 @@ def run() -> None:
         flag = "PASS" if row["quality_pass"] else "FAIL"
         source = "reused" if row["reused_parquet"] else "extracted"
         print(
-            f"  [{i:2d}/{len(SELECTED_VIDEOS)}] {video_id:14s} "
+            f"  [{i:2d}/{len(video_ids)}] {video_id:14s} "
             f"({row['regime']:18s}) "
             f"{row['n_frames_processed']:>4d} frames, "
             f"pose {row['pose_detection_rate']:.1%}, "
@@ -179,5 +188,17 @@ def run() -> None:
     print(f"Wrote V(t) figure for best-detection video: {figure_path}")
 
 
+def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--all", action="store_true",
+        help="Process every Tier-1 mp4 on disk (default: the 10 stratified picks).",
+    )
+    args = parser.parse_args()
+    run(all_videos=args.all)
+
+
 if __name__ == "__main__":
-    run()
+    main()
