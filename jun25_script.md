@@ -2,13 +2,13 @@
 
 **Project 8 · Entanglement in Online Choir · 2026-06-25 · 14:00 CET**
 
-> 8 slides, ~9 min spoken. Plain language, "we"/"the team". Presenter rotates. Appendix at the bottom is private prep.
+> 8 slides, ~9 min spoken. Plain language, "we"/"the team". Presenters: Zuraiz and Kumaran Vasu. Appendix at the bottom is private prep.
 
 ---
 
 ## Slide 1: Title (15 sec)
 
-Hello, I'm presenting for Project 8 at status meeting five. I'll recap our goals, walk through this iteration's main result on latency, show the dashboard now running on real data, give the next-iteration plan, and close with the retrospective and two questions.
+Hello, we're Zuraiz and Kumaran, presenting for Project 8 at status meeting five. I'll recap our goals, walk through this iteration's main result on latency, show the dashboard now running on real data, give the next-iteration plan, and close with the retrospective and two questions.
 
 ## Slide 2: Recap (60 sec)
 

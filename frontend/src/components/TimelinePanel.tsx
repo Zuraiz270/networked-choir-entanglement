@@ -42,7 +42,7 @@ export default function TimelinePanel({ videoId }: Props) {
         xaxis: { title: { text: "Time (s)" }, gridcolor: "#334155" },
         yaxis: { title: { text: "Coupling / coherence" }, gridcolor: "#334155" },
         legend: { orientation: "h", y: 1.15 },
-        title: { text: `E(t) timeline · ${data.video_id} (mock data)`, font: { size: 12 } },
+        title: { text: `E(t) timeline · ${data.video_id}`, font: { size: 12 } },
       },
       { responsive: true, displayModeBar: false },
     );

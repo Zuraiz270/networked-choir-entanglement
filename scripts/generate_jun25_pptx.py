@@ -48,7 +48,10 @@ def s1_title(prs):
     _text(slide, MARGIN, Inches(4.0), SLIDE_W - 2 * MARGIN, Inches(0.45),
           "SNA-OSN-M Summer 2026  ·  Uni Bamberg × Uni Köln × HSLU",
           size=15, color=MIST, align=PP_ALIGN.CENTER)
-    _text(slide, MARGIN, Inches(5.0), SLIDE_W - 2 * MARGIN, Inches(0.4),
+    _text(slide, MARGIN, Inches(4.9), SLIDE_W - 2 * MARGIN, Inches(0.4),
+          "Presented by Zuraiz and Kumaran Vasu, on behalf of the team", size=15, bold=True,
+          color=IVORY, align=PP_ALIGN.CENTER)
+    _text(slide, MARGIN, Inches(5.5), SLIDE_W - 2 * MARGIN, Inches(0.4),
           "Supervisors: Prof. Janine Hacker · Prof. Peter Gloor", size=13, color=MIST,
           align=PP_ALIGN.CENTER)
     _text(slide, MARGIN, Inches(6.4), SLIDE_W - 2 * MARGIN, Inches(0.4),
@@ -121,7 +124,7 @@ def s5_replication(prs):
 
 def s6_dashboard(prs):
     slide = _content_slide(prs, 6, "Progress · last iteration", "Dashboard alpha, on real data")
-    fig = FIG_DIR / "wp4_dashboard_scaffold.png"
+    fig = FIG_DIR / "wp4_dashboard_realdata.png"
     if fig.exists():
         _picture_fit(slide, fig, MARGIN, Inches(1.4), Inches(8.2), Inches(4.7))
     _text(slide, Inches(9.0), Inches(1.6), Inches(3.8), Inches(4.4),

@@ -14,7 +14,7 @@ Project 8: Entanglement in Online Choir
 
 SNA-OSN-M Summer 2026 · Uni Bamberg × Uni Köln × HSLU
 
-Presented by [rotation], on behalf of the team
+Presented by Zuraiz and Kumaran Vasu, on behalf of the team
 
 Supervisors: Prof. Janine Hacker (Uni Bamberg) · Prof. Peter Gloor (Köln)
 
@@ -93,7 +93,7 @@ All monotonic; two independent human datasets plus synthetic. Not a single-datas
 
 **Kicker**: PROGRESS · LAST ITERATION
 
-**Visual**: `data/figures/wp4_dashboard_scaffold.png` (or fresh screenshot).
+**Visual**: `data/figures/wp4_dashboard_realdata.png` (live screenshot, real Dagstuhl piece LI_QuartetA_Take02).
 
 The dashboard now runs on **real outputs**, not mock data:
 - E(t) timeline from the real entanglement pipeline.
