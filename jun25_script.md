@@ -24,7 +24,7 @@ First we injected a constant delay into clean studio recordings. E(t) didn't mov
 
 So we pivoted to realistic jitter, random timing noise, with the spread taken from the actual measured Jamulus numbers. The composite E(t) still stayed flat. The deeper reason: E(t)'s audio term is a ten-second loudness envelope, which is physically robust to timing noise of a few tens of milliseconds.
 
-That told us we were measuring the wrong thing. So we added the measure that latency actually breaks: onset synchrony, do the singers attack notes at the same instant, measured at zero lag. And there the signal appears clearly: attack-timing synchrony drops by roughly half to two-thirds as latency rises to Zoom-class levels, on every piece. Loudness coupling barely moves.
+That told us we were measuring the wrong thing. So we added the measure that latency actually breaks: onset synchrony, do the singers attack notes at the same instant, measured at zero lag. And there the signal appears clearly: attack-timing synchrony drops by well over half, between 57 and 76 percent depending on the dataset, as latency rises to Zoom-class levels, on every piece. Loudness coupling barely moves.
 
 The headline: latency degrades attack timing, not loudness coupling. A naive envelope metric would have told us "latency doesn't matter," which would have been wrong.
 
