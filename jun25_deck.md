@@ -2,7 +2,7 @@
 
 **Project 8 · Entanglement in Online Choir · 2026-06-25 · 14:00-16:00 CET**
 
-> 8 slides, 8-10 min spoken, coordinators' rubric: goals+plan recap, last-iteration progress, next-iteration plan, retrospective, problems/questions. Presenter TBD (rotation). Speaker notes in `jun25_script.md`; Q&A bank in `jun25_qa_prep.md`. NOTE: the cross-dataset corpus figure on slide 5 finalises when the overnight ChoralSynth+ESMUC grid lands; Dagstuhl + ChoralSynth-pilot numbers below are final.
+> 8 slides, 8-10 min spoken, coordinators' rubric: goals+plan recap, last-iteration progress, next-iteration plan, retrospective, problems/questions. Presenters: Zuraiz and Kumaran Vasu. Speaker notes in `jun25_script.md`; Q&A bank in `jun25_qa_prep.md`. All numbers are final and verified against `data/processed/tier3/_latency_grid.csv` (28 pieces, 3 datasets).
 
 ---
 
