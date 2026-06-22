@@ -114,10 +114,9 @@ Honest by construction: Dagstuhl pieces show audio+network; Tier-1 videos show v
 | Track | What ships |
 |:--|:--|
 | Integration | Fold onset-synchrony into the E(t) definition as the timing-sensitive component (with the envelope term) |
-| WP3 | Finish the cross-dataset latency corpus (ESMUC full); per-window N(t) |
-| WP2 | All 29 Tier-1 videos pose-processed (visibility-triaged) |
+| WP3 | Per-window time-varying N(t); cleaner H2 topology measure |
 | Paper | Start the seminar-report methods + results sections |
-| Compute | Cluster access for the paper-scale run (2000-shuffle null, full corpus) |
+| WP2 / H3 | First visual-onset V(t): pair pose onsets with audio onsets on the 18 usable Tier-1 videos |
 
 **Hard milestone before Jul 9**: report draft v1 with the H1 result written up.
 
@@ -136,7 +135,7 @@ Honest by construction: Dagstuhl pieces show audio+network; Tier-1 videos show v
 **Known limitations**: injecting latency into pre-recorded studio audio simulates transmission timing, not live behavioural adaptation; envelope E(t) alone is latency-blind; ChoralSynth coupling is weak (synthetic).
 
 **Questions for the room**:
-1. **Prof. Hacker**: with onset-synchrony now the H1-bearing measure, should the paper foreground it over the composite E(t)?
-2. **Coordinators**: cluster access (ki-support contacted) for the paper-scale run?
+1. **Prof. Hacker**: with onset-synchrony now the H1-bearing measure, should the report foreground it over the composite E(t)?
+2. **Prof. Gloor**: the latency effect lives in *attack timing*, not loudness. Does that fit the Honest Signals reading, and is per-singer *visual onset* (breath/sway preceding the note) the right next signal to test H3?
 
 Thank you.

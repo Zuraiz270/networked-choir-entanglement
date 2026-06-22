@@ -42,8 +42,12 @@ Private prep. Each Q: short answer (read cold), backup detail, if-pressed depth.
 ### Q7: Where's the visual hypothesis (H3)?
 **Short**: Still blocked, no piece has audio and video together. The integration code is ready for V(t) when multimodal data exists.
 
-### Q8: Do you actually need the cluster?
-**Short**: Not for what you've seen, that all ran on a laptop. The cluster is for the final paper-scale run (full corpus, per-window networks, 2000-shuffle null), roughly 1,500 core-hours. ki-support contacted, Prof. Hacker CC'd.
+### Q8: Do you need a cluster / more compute?
+**Short**: No. Everything to date ran on a laptop, and the report's analysis (static networks, even at the 2000-permutation null) is ~160 CPU-hours, an overnight laptop run. We are not requesting cluster resources. Only the optional per-window network analysis would need more, and it is not load-bearing for the H1 result.
+
+### Q9 (the Gloor question we are asking): why visual onset next?
+**Short**: Because our latency effect is in attack timing, the same micro-timing channel Honest Signals treats as the coordination carrier. The natural V(t) is therefore a *visual* onset, the breath or sway that precedes a sung note, rather than generic sway energy. We are asking Prof. Gloor whether that framing fits and whether it is the right next signal for H3.
+**Backup**: H3 is still data-blocked (no piece has audio + video together). A visual-onset measure on the 18 usable Tier-1 videos, paired with their audio onsets, is the most promising path to a first V(t) contribution.
 
 ### Q9: Is the dashboard real or mock now?
 **Short**: Real. Timeline = real E(t), graph = real Granger GEXF, video panel = real mp4 + real pose overlay. Each piece serves the signals it has.

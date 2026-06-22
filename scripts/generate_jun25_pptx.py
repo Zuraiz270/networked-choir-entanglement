@@ -137,10 +137,9 @@ def s7_next(prs):
     slide = _content_slide(prs, 7, "Next iteration", "Plan: Jun 26 → Jul 9")
     rows = [
         ("Integration", "Fold onset synchrony into E(t) as its timing-sensitive component"),
-        ("WP3", "Finish cross-dataset corpus; per-window time-varying networks"),
-        ("WP2", "Pose on all 29 Tier-1 videos (visibility-triaged)"),
+        ("WP3", "Per-window time-varying networks; cleaner H2 topology measure"),
         ("Paper", "Draft report methods + results (the latency finding)"),
-        ("Compute", "Cluster access for the paper-scale run (2000-shuffle null)"),
+        ("WP2 / H3", "First visual-onset V(t): pair pose onsets with audio onsets on the 18 usable Tier-1 videos"),
     ]
     y = Inches(1.6)
     for track, work in rows:
@@ -160,7 +159,7 @@ def s8_retro(prs):
            "", "Envelope E(t) alone is latency-blind (why onset synchrony matters)."], size=12.5)
     _card(slide, MARGIN + 2 * (col + Inches(0.18)), Inches(1.5), col, Inches(3.4), "Questions",
           ["Hacker: foreground onset synchrony over composite E(t) in the report?",
-           "", "Coordinators: cluster access for the paper-scale run (ki-support contacted)?"], size=12.5)
+           "", "Gloor: the effect is in attack timing, not loudness. Does this fit Honest Signals, and is visual-onset lead (breath/sway) the right next signal for H3?"], size=12.5)
     _text(slide, MARGIN, Inches(5.3), SLIDE_W - 2 * MARGIN, Inches(0.5),
           "Thank you.", size=20, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
 

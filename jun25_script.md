@@ -52,7 +52,7 @@ Next, to status meeting six on July 9: fold onset synchrony into the E(t) defini
 
 Retrospective: the best thing this iteration was that a wrong first method, constant delay, was caught by its own control and turned into a sharper one. We also corrected a stale note that had wrongly flagged the ESMUC dataset as restricted, it's open, and we used it. Limitations, stated plainly: injecting latency into pre-recorded audio tests transmission timing, not a live singer's adaptation; and the envelope E(t) on its own is latency-blind, which is exactly why onset synchrony matters.
 
-Two questions. To Professor Hacker: now that onset synchrony is the measure carrying the latency effect, should the report foreground it over the composite E(t)? To the coordinators: we've contacted ki-support about cluster access for the final full-scale run.
+Two questions. To Professor Hacker: now that onset synchrony is the measure carrying the latency effect, should the report foreground it over the composite E(t)? To Professor Gloor: the effect we found lives in attack timing, when singers land notes, not in loudness. That feels close to the Honest Signals idea that micro-timing carries the coordination. Does that reading fit, and would per-singer visual onset, the breath or sway just before a note, be the right next signal for us to test the visual hypothesis?
 
 Thank you. Questions.
 
@@ -63,5 +63,5 @@ Thank you. Questions.
 - **If asked why E(t) is flat but H1 holds**: E(t) here is dominated by the loudness-envelope term, which is lag-tolerant. The latency effect lives in attack timing (onset synchrony). Next iteration folds onset synchrony into E(t) so the composite becomes latency-sensitive too.
 - **If asked "did you tune the jitter to get this"**: no. Jitter SDs are the measured P-11 inter-chorister timing SDs (46 ms LAN, 57 ms WAN). Onset synchrony was chosen a priori as the physical quantity latency breaks. The constant-delay null result is reported.
 - **If asked about ChoralSynth being synthetic**: its absolute coupling is weaker (machine-rendered voices), but the relative degradation with latency is the strongest of the three (−76%), and two real human datasets bracket it (−57%, −66%).
-- **If asked about p-values**: per-cell null is 100 circular-shift shuffles (p-resolution 0.01); the paper-scale run uses 2000 (the cluster request).
+- **If asked about p-values**: per-cell null is 100 circular-shift shuffles (p-resolution 0.01); the paper-scale rerun would use 2000, which still fits an overnight laptop run (~160 CPU-hours), so no cluster is needed.
 - **Deflect**: audio/integration internals → Zuraiz; pose/MediaPipe → Hammad; dashboard → Kumaran.
