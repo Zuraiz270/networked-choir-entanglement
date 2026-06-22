@@ -48,13 +48,13 @@ The dashboard now runs on real outputs, not mock data. The timeline shows the re
 
 Next, to status meeting six on July 9: fold onset synchrony into the E(t) definition as its timing-sensitive component; finish the cross-dataset corpus and per-window networks; pose-process all the remaining Tier-1 videos; and start writing up the report. The hard milestone is a first report draft with this latency result written up.
 
-## Slide 8: Retrospective and questions (45 sec)
+## Slide 8: Retrospective and open problems (40 sec)
 
-Retrospective: the best thing this iteration was that a wrong first method, constant delay, was caught by its own control and turned into a sharper one. We also corrected a stale note that had wrongly flagged the ESMUC dataset as restricted, it's open, and we used it. Limitations, stated plainly: injecting latency into pre-recorded audio tests transmission timing, not a live singer's adaptation; and the envelope E(t) on its own is latency-blind, which is exactly why onset synchrony matters.
+Retrospective: the best thing this iteration was that a wrong first method, constant delay, was caught by its own control and turned into a sharper one. We also corrected a stale note that had wrongly flagged the ESMUC dataset as restricted, it's open, and we used it.
 
-Two questions. To Professor Hacker: now that onset synchrony is the measure carrying the latency effect, should the report foreground it over the composite E(t)? To Professor Gloor: the effect we found lives in attack timing, when singers land notes, not in loudness. That feels close to the Honest Signals idea that micro-timing carries the coordination. Does that reading fit, and would per-singer visual onset, the breath or sway just before a note, be the right next signal for us to test the visual hypothesis?
+And three open problems, stated plainly. One: our H1 result rests on simulated latency injected into studio recordings, which models transmission delay but not a live singer's adaptation, so real latency-varied recordings would test it more directly. Two: the visual hypothesis H3 is still data-blocked, no piece has audio and video together, so a visual-onset signal is our next step. Three: the network-topology question H2 isn't cleanly measured yet. None of these changes the H1 result; they're where we go next.
 
-Thank you. Questions.
+Thank you. We're happy to take questions.
 
 ---
 

@@ -149,17 +149,17 @@ def s7_next(prs):
 
 
 def s8_retro(prs):
-    slide = _content_slide(prs, 8, "Retrospective · questions", "Retrospective and open questions")
+    slide = _content_slide(prs, 8, "Retrospective · open problems", "Retrospective and open problems")
     col = Inches(3.95)
     _card(slide, MARGIN, Inches(1.5), col, Inches(3.4), "What worked",
           ["A wrong first method (constant delay) was caught by its own control and became a sharper one.",
            "", "Every dataset claim traces to a verified file."], size=12.5)
-    _card(slide, MARGIN + col + Inches(0.18), Inches(1.5), col, Inches(3.4), "Limitations",
-          ["Injection tests transmission timing, not a live singer's adaptation.",
-           "", "Envelope E(t) alone is latency-blind (why onset synchrony matters)."], size=12.5)
-    _card(slide, MARGIN + 2 * (col + Inches(0.18)), Inches(1.5), col, Inches(3.4), "Questions",
-          ["Hacker: foreground onset synchrony over composite E(t) in the report?",
-           "", "Gloor: the effect is in attack timing, not loudness. Does this fit Honest Signals, and is visual-onset lead (breath/sway) the right next signal for H3?"], size=12.5)
+    _card(slide, MARGIN + col + Inches(0.18), Inches(1.5), col, Inches(3.4), "What we fixed",
+          ["The stale 'ESMUC proprietary' note: it is open on Zenodo, and we used it.",
+           "", "Curation now filters on singer visibility, not just NMP regime."], size=12.5)
+    _card(slide, MARGIN + 2 * (col + Inches(0.18)), Inches(1.5), col, Inches(3.4), "Open problems",
+          ["H1 rests on simulated latency (transmission delay, not live adaptation); real latency-varied recordings would test it directly.",
+           "", "H3 visual still data-blocked; H2 topology not cleanly measured yet."], size=12.5)
     _text(slide, MARGIN, Inches(5.3), SLIDE_W - 2 * MARGIN, Inches(0.5),
           "Thank you.", size=20, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
 

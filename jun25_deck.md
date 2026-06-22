@@ -124,18 +124,17 @@ Honest by construction: Dagstuhl pieces show audio+network; Tier-1 videos show v
 
 ---
 
-## Slide 8: Retrospective + problems / questions
+## Slide 8: Retrospective + open problems
 
-**Kicker**: RETROSPECTIVE · QUESTIONS
+**Kicker**: RETROSPECTIVE · OPEN PROBLEMS
 
 **What worked**: a wrong first manipulation (constant delay) was caught by its own null and turned into a sharper method; every dataset claim traces to a verified file.
 
 **What we fixed**: the "ESMUC proprietary" stale note (it is open on Zenodo); curation now filters on singer visibility.
 
-**Known limitations**: injecting latency into pre-recorded studio audio simulates transmission timing, not live behavioural adaptation; envelope E(t) alone is latency-blind; ChoralSynth coupling is weak (synthetic).
-
-**Questions for the room**:
-1. **Prof. Hacker**: with onset-synchrony now the H1-bearing measure, should the report foreground it over the composite E(t)?
-2. **Prof. Gloor**: the latency effect lives in *attack timing*, not loudness. Does that fit the Honest Signals reading, and is per-singer *visual onset* (breath/sway preceding the note) the right next signal to test H3?
+**Open problems (honest)**:
+- **H1 rests on *simulated* latency** injected into studio audio, this models transmission delay, not a live singer's behavioural adaptation. Real latency-varied recordings would test it directly.
+- **H3 (visual) is still data-blocked**: no piece has audio and video together; envelope E(t) alone is latency-blind, so a visual-onset signal is the next step.
+- **H2 (topology vs latency)** is not cleanly measured yet (fixed-lag density artifact).
 
 Thank you.

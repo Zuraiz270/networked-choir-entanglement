@@ -45,8 +45,8 @@ Private prep. Each Q: short answer (read cold), backup detail, if-pressed depth.
 ### Q8: Do you need a cluster / more compute?
 **Short**: No. Everything to date ran on a laptop, and the report's analysis (static networks, even at the 2000-permutation null) is ~160 CPU-hours, an overnight laptop run. We are not requesting cluster resources. Only the optional per-window network analysis would need more, and it is not load-bearing for the H1 result.
 
-### Q9 (the Gloor question we are asking): why visual onset next?
-**Short**: Because our latency effect is in attack timing, the same micro-timing channel Honest Signals treats as the coordination carrier. The natural V(t) is therefore a *visual* onset, the breath or sway that precedes a sung note, rather than generic sway energy. We are asking Prof. Gloor whether that framing fits and whether it is the right next signal for H3.
+### Q9 (if Gloor asks how this relates to Honest Signals / what's next for visual): 
+**Short**: Our latency effect is in attack timing, the same micro-timing channel Honest Signals treats as a coordination carrier, so the finding fits cleanly. The natural next V(t) is a *visual* onset, the breath or sway that precedes a sung note, rather than generic sway energy.
 **Backup**: H3 is still data-blocked (no piece has audio + video together). A visual-onset measure on the 18 usable Tier-1 videos, paired with their audio onsets, is the most promising path to a first V(t) contribution.
 
 ### Q9: Is the dashboard real or mock now?
