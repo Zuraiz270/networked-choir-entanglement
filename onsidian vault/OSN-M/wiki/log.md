@@ -1133,3 +1133,17 @@ Sprint-4 plan: `C:\Users\zurai\.claude\plans\ok-plan-for-the-virtual-pnueli.md`.
 Tests 38/38. Commits: feat(datasets), feat(tier3)×3, feat(wp4)×2, feat(wp3), data(tier3), docs. **Deck (Phase 4) held until the cross-dataset grid lands.**
 
 **Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+---
+
+## [2026-06-30] schema | H2 redone + report draft v1
+
+Post-Status-V remediation. Prof. Hacker pressed "what do you mean by leader dominance in H2?" at Status Meeting V; the term had no metric, a genuine Sprint-1 operationalization gap.
+
+**H2 redone** (`scripts/h2_centralization_test.py` -> `_h2_centralization.csv`): leadership = out-degree centralization (Gini of node out-degree) vs a density-matched Erdős-Rényi null (1000 draws). Result on 28 clean pieces: observed Gini 0.154 vs null 0.139; significant in human data only (Dagstuhl 3/5, ESMUC 2/3) and not synthetic (ChoralSynth 2/20). The original latency-driven form is data-blocked (injection can't create a behavioural leader; fixed-lag Granger saturates under delay).
+
+**Report draft v1**: `report_draft_v1.md` (internal seminar report, Jul-7 deliverable). H1 (onset-synchrony latency signature) is the headline; H2 partially supported (human leadership structure); H3 data-blocked. Methods journey + limitations stated plainly.
+
+**PROJECT_GUIDE**: §11 Claims 1-3 rewritten with operational metric + direction + status each; lesson logged (every hypothesis needs metric + direction + threshold + measurement-validity check before building).
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.

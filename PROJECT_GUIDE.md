@@ -162,11 +162,11 @@ Three concrete deliverables. In plain words:
 
 **What we will claim, specifically**, if the results support it (note on test bed: H1 and H2 are tested on Tier 2 multitrack plus Tier 3 controlled latency injection; Tier 1 YouTube serves as a visual-feature sanity check for H3, not as the latency-discrimination test bed):
 
-- **Claim 1 (H1).** E(t) distinguishes Zoom-class from SoundJack-class performance with a statistical effect size of Cohen's d ≥ 0.5 on at least two of the three sub-scores (audio, visual, network).
-- **Claim 2 (H2).** The network topology (how dense, how modular, how leader-dominated) differs between the two regimes at p < 0.05 vs. a 200-permutation null.
-- **Claim 3 (H3).** Honest-Signals visual features (body sway plus breathing) add meaningfully (ΔR² ≥ 0.10) to E(t) beyond what audio alignment alone can predict.
+- **Claim 1 (H1).** Higher latency lowers coordination. Metric: zero-lag onset synchrony (and E(t) sub-scores). Status (2026-06-22): **supported in the timing channel**, jitter degrades onset synchrony 57% (Dagstuhl) / 66% (ESMUC) / 76% (ChoralSynth) clean→Zoom across 28 pieces; the loudness-envelope term is latency-robust. Caveat: latency is injected into pre-recorded audio, not recorded live.
+- **Claim 2 (H2), redefined 2026-06-22.** Choir influence networks carry leadership structure. Metric: **out-degree centralization (Gini of node out-degree) vs a density-matched Erdős-Rényi null** (0 = democratic, →1 = one leader). Status: **partially supported in real human choirs only** (Dagstuhl 3/5, ESMUC 2/3 pieces significant; ChoralSynth 2/20 ≈ chance; mean Gini 0.154 vs null 0.139, a modest effect). The original "topology shifts democratic→leader-dominated *as latency rises*" form is **data-blocked**: injecting a uniform delay into already-coordinated audio cannot create a behavioural leader, and fixed-lag Granger saturates under delay. Testing the latency form needs real low-vs-high-latency *live* recordings. Test: `scripts/h2_centralization_test.py`.
+- **Claim 3 (H3).** Honest-Signals visual features (body sway plus breathing) add meaningfully (ΔR² ≥ 0.10) to E(t) beyond audio alone. Status: **data-blocked** (no corpus piece has audio and video together); integration code is ready for V(t). First attempt planned: pair pose onsets with audio onsets on the 18 pose-usable Tier-1 videos.
 
-If any claim fails, we report the failure honestly — a negative result is a valid contribution.
+If any claim fails, we report the failure honestly: a negative result is a valid contribution. (Lesson logged 2026-06-22: every hypothesis must carry an operational metric, predicted direction, threshold, and a validity check on the *measurement* before any pipeline is built on it. H2 originally lacked this, hence its rework.)
 
 ---
 
