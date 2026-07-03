@@ -88,13 +88,13 @@ Every technical word used in sections 1–10 is explained once here. Keep this o
 
 ---
 
-## 4. Where We Are Today (2026-06-22)
+## 4. Where We Are Today (2026-07-03)
 
 **Concrete status**, no spin. (Status Meeting V is Jun 25; the headline below is the iteration's result.)
 
 - **Team**: 4 members, Zuraiz, Hammad Anwar, Hassan Ahmed, Kumaran Vasu (all Uni Bamberg).
-- **Seminar progress**: Status meetings I-IV done (Apr 16, Apr 30, May 21, Jun 11). Status V on Jun 25 (Zuraiz + Kumaran presenting).
-- **Headline result (Sprint 4)**: the **H1 latency test** succeeded. Injecting realistic network jitter into clean choir audio degrades **attack-timing synchrony** by **57% (Dagstuhl) / 66% (ESMUC) / 76% (ChoralSynth)** from clean to Zoom-class, monotonically, across **28 pieces in 3 datasets**. The loudness-envelope E(t) stays flat, so the effect lives specifically in attack timing (zero-lag onset synchrony). Figure: `data/figures/tier3_corpus_summary.png`. Narrative: `sprint3_results.md`, deck: `jun25_deck.md`.
+- **Seminar progress**: Status meetings I-V done / prepared through Jun 25. Status VI materials for Jul 9 are ready (`jul09_deck.md`, `jul09_script.md`, `jul09_qa_prep.md`, `output/jul09_status_meeting_vi.pptx`). Final presentation is Jul 23; final report is Jul 31.
+- **Headline result (Sprint 4 / report draft v1)**: the **H1 latency test** succeeded. Injecting realistic network jitter into clean choir audio degrades **attack-timing synchrony** by **57% (Dagstuhl) / 66% (ESMUC) / 76% (ChoralSynth)** from clean to Zoom-class, monotonically, across **28 pieces in 3 datasets**. The loudness-envelope E(t) stays flat, so the effect lives specifically in attack timing (zero-lag onset synchrony). Figure: `data/figures/tier3_corpus_summary.png`. Narrative: `report_draft_v1.md`; Status VI package: `jul09_*`.
 
 - **Code** (uv-only repo; scaffold 2026-04-25, WP-scoped deps, pinned `uv.lock`, CI, pre-commit; Docker dropped as over-engineered). All four WP modules under `src/choir_entanglement/`. Built over three sprints:
   - **Sprint 2 (May 17)**, first milestone per WP: WP1 audio (pyin F0 + onsets + RMS, pairwise A(t)); WP2 video (MediaPipe pose/face + shoulder-rise/head-sway/trunk-lean); WP3 network (Granger + influence graph, circular-shift null); WP4 dashboard wireframe.
@@ -792,7 +792,7 @@ Empirical literature (Kortli et al. 2020; Xu et al. 2022) shows 3D-face landmark
 | **L-F-4 ★** | ~~Docker Desktop WSL2 GPU passthrough fragile on Win 11~~ | M × Gate D | **Resolved 2026-04-25** | **Resolved by dropping Docker entirely from scaffold** (semester project does not need containerization; `uv.lock` + host `ffmpeg` is sufficient reproducibility). CPU-only execution remains canonical; GPU optional via `torch` runtime detection if a member has CUDA available. |
 | **L-F-5 ★** | MediaPipe 0.10.14 × Py 3.11 × Win 11 wheel                  | H × Gate A | Resolved  | **RESOLVED 2026-04-24**. Smoke-test passed: `mediapipe==0.10.14` installs cleanly on Win 11 × Py 3.11.0; `mp.solutions.pose.Pose()` instantiates and TFLite XNNPACK delegate initialises. No fallback to 0.10.9 needed. Note: mediapipe 0.10.14 pulls numpy 2.4.4 rather than §11.8's pinned 1.26.4 — version drift logged to L-H-3. |
 | L-F-6              | 15-min reproducibility claim un-tested                              | L × Gate D | Mitigated | Monthly fresh-laptop test · WP1                                                                       |
-| L-F-7              | `make all` referenced but no Makefile yet                         | M × Gate D | Resolved  | **RESOLVED 2026-04-25**. Makefile landed on `scaffold` branch with sync / smoke / all (stub) / reproduce (stub) / lint / typecheck / test / clean targets.                                               |
+| L-F-7              | `make all` referenced but no Makefile yet                         | M × Gate D | Resolved  | **RESOLVED 2026-07-03**. Makefile has sync / smoke / lint / typecheck / test plus non-stub `all` and `reproduce` targets for report-stage artefacts.                                               |
 | **L-F-8 ★** | Compute budget undisclosed (~10 to 20 GPU-h at N = 30) [v2.2 rescope]                          | L × Gate D | Mitigated | Hetzner spot T4 ~€10 personal OR CPU-only OR Bamberg HPC · Zuraiz · 2026-05-01                      |
 
 ---
@@ -802,7 +802,7 @@ Empirical literature (Kortli et al. 2020; Xu et al. 2022) shows 3D-face landmark
 | ID                 | Title                                         | Severity    | Status    | Action · Owner · Date                                                    |
 | :----------------- | :-------------------------------------------- | :---------- | :-------- | :------------------------------------------------------------------------- |
 | L-G-1              | Hacker-rigor vs Gloor-narrative divergence    | L × Gate C | Mitigated | Two stakeholder-specific artefacts (§5)                                   |
-| **L-G-2 ★** | **Apr 30 joint-deck not started**       | H × Gate C | Open      | Draft 2026-04-25; team critique 2026-04-28; rehearsal 2026-04-29 · Zuraiz |
+| **L-G-2 ★** | **Apr 30 joint-deck not started**       | H × Gate C | Resolved  | **RESOLVED 2026-07-03**. Apr 30, Jun 11, Jun 25, and Jul 9 status packages exist in repo/output. |
 | L-G-3              | Paper venue undecided                         | L × Gate C | Mitigated | Decide by 2026-06-01: IEEE Access default / LNCS ICCCN fallback            |
 | L-G-4              | Hacker Tier-0 URLs may violate §3.2 criteria | L × Gate C | Mitigated | Tier-0 own analysis track; §3.2 applies to Tier-1 self-sourced            |
 
@@ -812,7 +812,7 @@ Empirical literature (Kortli et al. 2020; Xu et al. 2022) shows 3D-face landmark
 
 | ID                 | Title                                            | Severity    | Status    | Action · Owner · Date                                                               |
 | :----------------- | :----------------------------------------------- | :---------- | :-------- | :------------------------------------------------------------------------------------ |
-| **L-H-1 ★** | Parquet schemas (WP2 → WP3) not specified       | M × Gate D | Open      | `features/schema.md` + pydantic model before 2026-05-08 · Zuraiz                   |
+| **L-H-1 ★** | Parquet schemas (WP2 → WP3) not specified       | M × Gate D | Resolved  | **RESOLVED 2026-07-03**. Current WP1/WP2/WP3 parquet and GEXF contracts documented in `features/schema.md`. |
 | **L-H-2 ★** | Dashboard live-demo feasibility (60 s)           | M × Gate D | Mitigated | Pre-baked results for 3 videos; "live" = animate pre-computed · Zuraiz · 2026-06-21 |
 | L-H-3              | Version skew (mediapipe × opencv × tensorflow) | L × Gate A | Mitigated | Pin all via `uv.lock`; Docker fresh-build per commit                                |
 | L-H-4              | Vault merge conflicts (4 concurrent editors)     | L × Gate D | Mitigated | One-owner-per-page + Obsidian merge plugin                                            |
@@ -825,9 +825,9 @@ Added from the 2026-04-24 deep-read audit of all 27 primary and secondary source
 
 | ID | Title | Severity | Status | Action · Owner · Date |
 | :--- | :--- | :--- | :--- | :--- |
-| **L-H-5 ★** | S-02 entanglement formula validated on email, not music | M × Gate B | Open | Paper must explicitly frame E(t) as a novel domain transfer; do not cite S-02 as prior validation of an acoustic entanglement metric · Zuraiz · paper draft v1 (2026-07-07) |
-| **L-H-6 ★** | P-23 XR-vs-baseline QoE advantage confounded with 70 ms lower latency (144 ms vs 74 ms A2S) | M × H1 | Open | Do not cite P-23 as evidence for H1 without explicit latency-equalisation caveat; paper Methods must acknowledge the confound · Zuraiz · paper draft v1 (2026-07-07) |
-| **L-H-7 ★** | P-11 "100 ms threshold" is a Jamulus design target, not an empirical coordination cliff | L × H1 | Open | Paper and Apr 30 deck must not quote 100 ms as a phase transition; use P-11's measured 83±57 / 47±46 ms inter-chorister timing instead · Zuraiz · 2026-04-30 |
+| **L-H-5 ★** | S-02 entanglement formula validated on email, not music | M × Gate B | Resolved | **RESOLVED 2026-07-03**. `report_draft_v1.md` frames E(t) as this project's operational metric and does not claim prior validation for acoustic entanglement. |
+| **L-H-6 ★** | P-23 XR-vs-baseline QoE advantage confounded with 70 ms lower latency (144 ms vs 74 ms A2S) | M × H1 | Mitigated | `report_draft_v1.md` grounds H1 in Tier-3 latency injection and latency-threshold literature, not XR-vs-baseline QoE claims. |
+| **L-H-7 ★** | P-11 "100 ms threshold" is a Jamulus design target, not an empirical coordination cliff | L × H1 | Resolved | **RESOLVED 2026-07-03**. Status VI and report draft use measured jitter/onset results and do not present 100 ms as a phase transition. |
 | **L-H-8 ★** | P-18 / P-19 false vocal-to-limb causal analogy | L × Gate A | Mitigated | V(t) pipeline does not use voice as a pose prior; stated explicitly in §11.1 and [[entanglement_index]] — confirms Project 8 is not affected · Zuraiz · 2026-04-24 |
 | **L-H-9 ★** | `py-feat==0.6.2` deferred from scaffold: transitive `nltools>=0.5.1 → numpy<1.24` conflicts with §11.8 `numpy==1.26.4` pin | L × H3 | Mitigated | V5 FFI-proxy is a §11.2 secondary feature; WP2 sub-plan adds py-feat with a resolved numpy strategy (likely a dedicated `wp2-face` extra with a relaxed numpy range) · Zuraiz · WP2 kick-off (≈ 2026-05-22) |
 

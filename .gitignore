@@ -42,6 +42,9 @@ htmlcov/
 # Project runtime artefacts (created at runtime, not committed)
 /processed/
 features/
+!features/
+features/*
+!features/schema.md
 results/
 # data/processed/ subtree: ignore everything except summary CSVs (_*.csv) + network GEXFs
 data/processed/**

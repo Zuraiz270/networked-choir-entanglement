@@ -58,7 +58,7 @@ All Tier-2 archives were downloaded from Zenodo and verified against the upstrea
 
 E(t) is computed on a common time grid as the mean of the available sub-signals, so it is defined even when one is missing (which is the realistic case here):
 
-- **A(t), audio coupling**: mean absolute windowed Pearson correlation of per-singer RMS envelopes over a 10 s sliding window.
+- **A(t), audio coupling**: mean pairwise audio coordination over a 10 s sliding window. When onset columns are available, this combines lag-tolerant RMS-envelope coupling with zero-lag onset synchrony; older audio frames without onsets use the envelope term only.
 - **V(t), visual coupling**: variance of pose-derived honest-signal features (shoulder rise, head sway, trunk lean) over the same window. Absent for audio-only datasets.
 - **N(t), network coherence**: density of the Granger influence graph.
 - **E(t) = mean(A, V, N)** over whichever signals are present (`src/choir_entanglement/entanglement.py`).
@@ -67,7 +67,7 @@ Significance uses a circular-shift null (200 shuffles), which preserves within-s
 
 ### 4.2 Onset synchrony (the timing channel)
 
-Because A(t) cross-correlation searches over lags, it is by design tolerant to a constant offset. To measure whether singers attack notes *at the same instant*, we add a zero-lag measure: each binary onset train is smoothed with a +/- tolerance box (about 70 ms, near the Ensemble Performance Threshold) and the two smoothed trains are compared by zero-lag Pearson correlation (`onset_synchrony` in `audio/coupling.py`). Unlike A(t), this cannot absorb a timing shift.
+Because the original envelope coupling searches over lags, it is by design tolerant to a constant offset. To measure whether singers attack notes *at the same instant*, we add a zero-lag measure: each binary onset train is smoothed with a +/- tolerance box (about 70 ms, near the Ensemble Performance Threshold) and the two smoothed trains are compared by zero-lag Pearson correlation (`onset_synchrony` in `audio/coupling.py`). Unlike the envelope term, this cannot absorb a timing shift. In the current implementation, onset synchrony is folded into the audio component `A(t)` whenever onset columns are present.
 
 ### 4.3 Tier-3 latency injection
 

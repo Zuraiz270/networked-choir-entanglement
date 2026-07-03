@@ -27,6 +27,14 @@ def _write_audio_parquet(
     return path
 
 
+def _write_audio_parquet_with_onsets(
+    path: Path, time_sec: np.ndarray, rms: np.ndarray, onset: np.ndarray
+) -> Path:
+    df = pd.DataFrame({"time_sec": time_sec, "rms": rms, "onset": onset})
+    pq.write_table(pa.Table.from_pandas(df, preserve_index=False), path)
+    return path
+
+
 def _coupled_audio(tmp_path: Path, n_singers: int = 4, duration_sec: float = 30.0) -> dict[str, Path]:
     """Singers driven by a shared RMS envelope plus per-singer noise."""
     tmp_path.mkdir(parents=True, exist_ok=True)
@@ -93,6 +101,33 @@ def test_independent_audio_yields_low_E_relative_to_coupled(tmp_path: Path) -> N
     assert e_coupled.mean() > e_indep.mean() + 0.1, (
         f"coupled A({e_coupled.mean():.3f}) should exceed independent A({e_indep.mean():.3f})"
     )
+
+
+def test_audio_component_includes_onset_synchrony_when_available(tmp_path: Path) -> None:
+    n = int(30.0 * FRAME_RATE_HZ)
+    time_sec = np.arange(n, dtype=np.float64) / FRAME_RATE_HZ
+    rms = 0.5 + 0.2 * np.sin(2 * np.pi * 0.5 * time_sec)
+    aligned = np.zeros(n, dtype=bool)
+    aligned[::80] = True
+    shifted = np.roll(aligned, 25)
+
+    audio_aligned = {
+        "S0": _write_audio_parquet_with_onsets(tmp_path / "a0.parquet", time_sec, rms, aligned),
+        "S1": _write_audio_parquet_with_onsets(tmp_path / "a1.parquet", time_sec, rms, aligned),
+    }
+    audio_shifted = {
+        "S0": _write_audio_parquet_with_onsets(tmp_path / "s0.parquet", time_sec, rms, aligned),
+        "S1": _write_audio_parquet_with_onsets(tmp_path / "s1.parquet", time_sec, rms, shifted),
+    }
+
+    a_aligned = compute_entanglement(
+        audio_aligned, None, window_sec=8.0, step_sec=1.0
+    )["A"].dropna()
+    a_shifted = compute_entanglement(
+        audio_shifted, None, window_sec=8.0, step_sec=1.0
+    )["A"].dropna()
+
+    assert a_aligned.mean() > a_shifted.mean() + 0.2
 
 
 def test_missing_signals_reallocate_E_weight(tmp_path: Path) -> None:

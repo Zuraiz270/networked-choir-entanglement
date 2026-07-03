@@ -30,6 +30,8 @@ import numpy as np
 import numpy.typing as npt
 import pandas as pd
 
+from choir_entanglement.audio.coupling import onset_synchrony
+
 
 FloatArray = npt.NDArray[np.float64]
 
@@ -163,35 +165,90 @@ def _common_duration(
 def _audio_series(
     audio_frames: Mapping[str, pd.DataFrame], grid: FloatArray, window_sec: float
 ) -> FloatArray:
-    """Mean absolute pairwise Pearson correlation of RMS envelopes per window.
+    """Mean pairwise audio coordination per window.
 
-    For E(t)'s scalar A(t) we don't need the full lag-aware cross-correlation
-    machinery in ``audio.coupling``; a windowed Pearson on the aligned RMS
-    samples is the natural reduction and is two orders of magnitude faster.
+    The audio component combines the lag-tolerant RMS envelope coupling with
+    zero-lag onset synchrony when onset columns are available. The second term
+    is what Sprint 4 showed to be latency-sensitive; older fixtures without
+    onsets still use the envelope term only.
     """
     if len(audio_frames) < 2:
         return np.full(len(grid), np.nan, dtype=np.float64)
 
     arrays = {name: df["rms"].to_numpy(dtype=np.float64) for name, df in audio_frames.items()}
     times = {name: df["time_sec"].to_numpy(dtype=np.float64) for name, df in audio_frames.items()}
+    onsets = _onset_arrays(audio_frames)
     pairs = list(combinations(sorted(audio_frames), 2))
 
     out = np.full(len(grid), np.nan, dtype=np.float64)
     for i, t in enumerate(grid):
         t_lo, t_hi = t - window_sec / 2, t + window_sec / 2
-        couplings: list[float] = []
-        for a, b in pairs:
-            slice_a = _slice_by_time(arrays[a], times[a], t_lo, t_hi)
-            slice_b = _slice_by_time(arrays[b], times[b], t_lo, t_hi)
-            n = min(slice_a.size, slice_b.size)
-            if n < 10:
-                continue
-            r = _pearson_r(slice_a[:n], slice_b[:n])
-            if r is not None:
-                couplings.append(abs(r))
+        couplings = _window_audio_couplings(arrays, times, onsets, pairs, t_lo, t_hi)
         if couplings:
             out[i] = float(np.mean(couplings))
     return out
+
+
+def _onset_arrays(audio_frames: Mapping[str, pd.DataFrame]) -> dict[str, npt.NDArray[np.bool_]]:
+    return {
+        name: df["onset"].fillna(False).to_numpy(dtype=bool)
+        for name, df in audio_frames.items()
+        if "onset" in df.columns
+    }
+
+
+def _window_audio_couplings(
+    rms_arrays: Mapping[str, FloatArray],
+    times: Mapping[str, FloatArray],
+    onsets: Mapping[str, npt.NDArray[np.bool_]],
+    pairs: list[tuple[str, str]],
+    t_lo: float,
+    t_hi: float,
+) -> list[float]:
+    couplings: list[float] = []
+    for a, b in pairs:
+        envelope_r = _window_envelope_coupling(rms_arrays, times, a, b, t_lo, t_hi)
+        onset_r = _window_onset_coupling(onsets, times, a, b, t_lo, t_hi)
+        pair_terms = [v for v in (envelope_r, onset_r) if v is not None]
+        if pair_terms:
+            couplings.append(float(np.mean(pair_terms)))
+    return couplings
+
+
+def _window_envelope_coupling(
+    arrays: Mapping[str, FloatArray],
+    times: Mapping[str, FloatArray],
+    a: str,
+    b: str,
+    t_lo: float,
+    t_hi: float,
+) -> float | None:
+    slice_a = _slice_by_time(arrays[a], times[a], t_lo, t_hi)
+    slice_b = _slice_by_time(arrays[b], times[b], t_lo, t_hi)
+    n = min(slice_a.size, slice_b.size)
+    if n < 10:
+        return None
+    r = _pearson_r(slice_a[:n], slice_b[:n])
+    return None if r is None else abs(r)
+
+
+def _window_onset_coupling(
+    onsets: Mapping[str, npt.NDArray[np.bool_]],
+    times: Mapping[str, FloatArray],
+    a: str,
+    b: str,
+    t_lo: float,
+    t_hi: float,
+) -> float | None:
+    if a not in onsets or b not in onsets:
+        return None
+    slice_a = _slice_by_time(onsets[a], times[a], t_lo, t_hi)
+    slice_b = _slice_by_time(onsets[b], times[b], t_lo, t_hi)
+    n = min(slice_a.size, slice_b.size)
+    if n < 10 or not (slice_a[:n].any() or slice_b[:n].any()):
+        return None
+    r = onset_synchrony(slice_a[:n], slice_b[:n])
+    return float(r) if np.isfinite(r) else None
 
 
 def _pearson_r(a: FloatArray, b: FloatArray) -> float | None:
