@@ -2,13 +2,13 @@
 
 **Project 8 - Entanglement in Online Choir - 2026-07-09 - 14:00 CET**
 
-> 9 slides, about 9 minutes spoken. Presenter: Zuraiz. Tone: clear, factual, presentation-ready.
+> 9 slides, about 9 minutes spoken. Presenters: Hammad and Zuraiz. Tone: clear, factual, presentation-ready.
 
 ---
 
 ## Slide 1: Title
 
-Hello, I am Zuraiz, presenting Status Meeting Six for Project 8, Entanglement in Online Choir. This is our final status meeting before the Jul 23 final presentation.
+Hello, we are Hammad and Zuraiz, presenting Status Meeting Six for Project 8, Entanglement in Online Choir. This is our final status meeting before the Jul 23 final presentation.
 
 ## Slide 2: Goals and plan
 
@@ -24,7 +24,7 @@ Today I will connect that project goal to the latest results and the final-prese
 
 Since Status Meeting Five, we completed the Jul-9 report checkpoint.
 
-The report draft v1 now writes up the H1 result. H1 is ready to use in the report as the main timing result. H2 has a cleaner interpretation: weak leadership signal in human choir networks. H3 remains open because the needed paired audio-video data is unavailable. We also prepared the Status Meeting Six slides, script, and Q&A notes.
+The report draft v1 now writes up the H1 result. H1 is ready to use in the report as the main timing result. H2 has a cleaner interpretation: weak leadership signal in human choir networks. H3 remains open because the needed paired audio-video data is unavailable.
 
 The main shift is that the work moved from finding results to preparing the final presentation and report.
 
@@ -62,7 +62,7 @@ The honest demo structure is two examples. One audio/network example shows E(t) 
 
 ## Slide 8: Plan for the next iteration
 
-The next iteration is the final presentation and report phase. The plan is to build the 20-minute Jul-23 deck, finish the final report from draft v1, run the final reproducibility checks, and rehearse the dashboard path on the presentation laptop.
+The next iteration is the final presentation and report phase. The plan is to build the 20-minute Jul-23 deck, finish the final report from draft v1, run the final reproducibility checks, and prepare the dashboard for the presentation with a few final demo tests.
 
 The scientific framing should stay consistent: H1 is the main finding, H2 is a partial human-leadership result, and H3 remains open until the required paired audio-video data exists.
 
@@ -74,7 +74,7 @@ For the retrospective part, I will explain what we fixed during the project.
 
 The first latency method was replaced after the control check showed it was not strong enough. Dataset selection now uses verified availability, not memory. The dashboard wording is also clearer now: it separates current results from final-demo planning.
 
-The other question is about the dashboard. Since we created the dashboard, I want to ask whether adding a screenshot in the slides is enough, or whether we should open the dashboard and show it live during the final presentation.
+For feedback, I want to ask three things. First, what should the final presentation structure be? Second, which part should receive the most attention in the final presentation? Third, because we created the dashboard, is a screenshot enough in the slides, or should we open the dashboard and show it live?
 
 Thank you. I am happy to take questions.
 
