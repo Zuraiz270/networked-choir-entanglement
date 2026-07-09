@@ -23,13 +23,15 @@ mkdir -p scripts/hpc/logs data/processed/tier3/shards
 CELL=$(sed -n "${SLURM_ARRAY_TASK_ID}p" scripts/hpc/cells.txt)
 DATASET=$(echo "$CELL" | cut -d' ' -f1)
 PIECE=$(echo "$CELL" | cut -d' ' -f2)
+LEVEL=$(echo "$CELL" | cut -d' ' -f3)
 
-echo "[$(date)] task ${SLURM_ARRAY_TASK_ID}: ${DATASET} / ${PIECE}"
+echo "[$(date)] task ${SLURM_ARRAY_TASK_ID}: ${DATASET} / ${PIECE} / ${LEVEL}"
 
 uv run python -m scripts.tier3_latency_grid \
   --dataset "${DATASET}" \
   --pieces "${PIECE}" \
+  --levels "${LEVEL}" \
   --shuffles 2000 \
-  --out "data/processed/tier3/shards/${DATASET}__${PIECE}.csv"
+  --out "data/processed/tier3/shards/${DATASET}__${PIECE}__${LEVEL}.csv"
 
 echo "[$(date)] done"
