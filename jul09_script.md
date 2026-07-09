@@ -76,7 +76,7 @@ For the retrospective part, I will explain what we fixed during the project.
 
 The first latency method was replaced after the control check showed it was not strong enough. Dataset selection now uses verified availability, not memory. The dashboard wording is also clearer now: it separates current results from final-demo planning.
 
-For feedback, I want to ask three things. First, what should the final presentation structure be? Second, which part should receive the most attention in the final presentation? Third, because we created the dashboard, is a screenshot enough in the slides, or should we open the dashboard and show it live?
+For feedback, I want to ask three things. First, which specific format should we follow for the final report, and what main headings should the report include? Second, which part should receive the most attention in the final presentation? Third, because we created the dashboard, is a screenshot enough in the slides, or should we open the dashboard and show it live?
 
 Thank you. I am happy to take questions.
 
