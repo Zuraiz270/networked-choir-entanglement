@@ -46,6 +46,7 @@ def compute_entanglement(
     video_parquet: Path | None = None,
     window_sec: float = DEFAULT_WINDOW_SEC,
     step_sec: float = DEFAULT_STEP_SEC,
+    include_onsets: bool = True,
 ) -> pd.DataFrame:
     """Time-align A(t), V(t), N(t) on a step_sec grid and emit E(t).
 
@@ -53,6 +54,12 @@ def compute_entanglement(
     ``time_sec``. ``E`` is ``np.nanmean([A, V, N])`` (weight is reallocated
     across available signals). ``n_available`` records how many of the three
     sub-signals are non-NaN at that timestamp.
+
+    ``include_onsets=False`` reproduces the pre-2026-07 envelope-only A(t)
+    (the definition all published Sprint-3/4 numbers were computed with);
+    ``True`` (default) folds zero-lag onset synchrony into A(t) when onset
+    columns are present. Keep both reproducible: the report's dissociation
+    argument needs the envelope-only series.
     """
     audio_frames = _load_audio_frames(audio_parquets)
     video_frame = _load_video_frame(video_parquet)
@@ -65,7 +72,7 @@ def compute_entanglement(
         )
 
     grid = np.arange(window_sec / 2, duration_sec - window_sec / 2, step_sec)
-    a_series = _audio_series(audio_frames, grid, window_sec)
+    a_series = _audio_series(audio_frames, grid, window_sec, include_onsets=include_onsets)
     v_series = _video_series(video_frame, grid, window_sec)
     n_series = _network_series(network_density, grid)
 
@@ -94,6 +101,7 @@ def compute_entanglement_null(
     step_sec: float = DEFAULT_STEP_SEC,
     n_shuffles: int = 200,
     seed: int = 0,
+    include_onsets: bool = True,
 ) -> FloatArray:
     """Mean-E(t) distribution under circular-shift permutations of audio.
 
@@ -116,7 +124,7 @@ def compute_entanglement_null(
     null_means = np.zeros(n_shuffles, dtype=np.float64)
     for i in range(n_shuffles):
         shuffled = {s: _circular_shift_frame(df, rng) for s, df in audio_frames.items()}
-        a = _audio_series(shuffled, grid, window_sec)
+        a = _audio_series(shuffled, grid, window_sec, include_onsets=include_onsets)
         v = _video_series(video_frame, grid, window_sec)
         n = _network_series(network_density, grid)
         stacked = np.vstack([a, v, n])
@@ -163,21 +171,24 @@ def _common_duration(
 
 
 def _audio_series(
-    audio_frames: Mapping[str, pd.DataFrame], grid: FloatArray, window_sec: float
+    audio_frames: Mapping[str, pd.DataFrame],
+    grid: FloatArray,
+    window_sec: float,
+    include_onsets: bool = True,
 ) -> FloatArray:
     """Mean pairwise audio coordination per window.
 
-    The audio component combines the lag-tolerant RMS envelope coupling with
-    zero-lag onset synchrony when onset columns are available. The second term
-    is what Sprint 4 showed to be latency-sensitive; older fixtures without
-    onsets still use the envelope term only.
+    With ``include_onsets=True`` the audio component combines the lag-tolerant
+    RMS envelope coupling with zero-lag onset synchrony when onset columns are
+    available (the Sprint-4 latency-sensitive term). ``False`` reproduces the
+    pre-2026-07 envelope-only definition used for all published numbers.
     """
     if len(audio_frames) < 2:
         return np.full(len(grid), np.nan, dtype=np.float64)
 
     arrays = {name: df["rms"].to_numpy(dtype=np.float64) for name, df in audio_frames.items()}
     times = {name: df["time_sec"].to_numpy(dtype=np.float64) for name, df in audio_frames.items()}
-    onsets = _onset_arrays(audio_frames)
+    onsets = _onset_arrays(audio_frames) if include_onsets else {}
     pairs = list(combinations(sorted(audio_frames), 2))
 
     out = np.full(len(grid), np.nan, dtype=np.float64)
@@ -307,12 +318,16 @@ def _slice_by_time(values: FloatArray, times: FloatArray, t_lo: float, t_hi: flo
 
 
 def _circular_shift_frame(df: pd.DataFrame, rng: np.random.Generator) -> pd.DataFrame:
+    """Circular-shift one singer's stream for the null. The onset train must be
+    rolled by the SAME offset as rms: dropping it would make the null
+    envelope-only while the observed statistic includes onset synchrony, an
+    invalid (anti-conservative) comparison under the combined A(t)."""
     rms = df["rms"].to_numpy(dtype=np.float64)
     n = rms.size
     if n < 4:
         return df
     shift = int(rng.integers(2, n - 2))
-    shifted = pd.DataFrame(
-        {"time_sec": df["time_sec"].to_numpy(), "rms": np.roll(rms, shift)}
-    )
-    return shifted
+    data = {"time_sec": df["time_sec"].to_numpy(), "rms": np.roll(rms, shift)}
+    if "onset" in df.columns:
+        data["onset"] = np.roll(df["onset"].fillna(False).to_numpy(dtype=bool), shift)
+    return pd.DataFrame(data)
