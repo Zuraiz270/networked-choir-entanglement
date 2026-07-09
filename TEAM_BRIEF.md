@@ -1,6 +1,6 @@
 # Team Brief — Project 8
 
-**SNA-OSN-M Summer 2026 · Uni Bamberg · Last updated 2026-06-22**
+**SNA-OSN-M Summer 2026 · Uni Bamberg · Last updated 2026-07-09**
 
 > Read this once before doing anything else on the project. About 20 minutes. After this, your role section in §4 is the page you re-read each iteration.
 
@@ -67,6 +67,8 @@ Sprint 2 milestones slipped 9 to 17 days on intermediate dates but all landed be
 ---
 
 **Sprint 5 / Status Meeting VI ready (2026-07-03)**: report draft v1 exists for the Jul-9 review (`report_draft_v1.md`), Status Meeting VI materials are ready (`jul09_deck.md`, `jul09_script.md`, `jul09_qa_prep.md`, `output/jul09_status_meeting_vi.pptx`), and the remaining work has shifted to final-presentation packaging, report polish, reproducibility checks, and dashboard rehearsal. Technical cleanup before Status VI: `features/schema.md` now documents the WP1/WP2/WP3 parquet/GEXF contracts; `make reproduce` is no longer a stub and regenerates the report-stage H2 table, H1 corpus figure, and Status VI deck; `E(t)` now folds onset synchrony into the audio component when onset columns are present.
+
+**Status VI day (2026-07-09)**: H2's "leader dominance" now has its operational definition on the slide itself (out-degree centralization, Gini of out-degree, vs 1000 density-matched random graphs; corpus mean 0.154 vs null 0.139), directly answering Prof. Hacker's Status-V question. Branch audit passed: all deck numbers verified against `_latency_grid.csv` / `_h2_centralization.csv`, tests 39/39. One tracked follow-up for report stage: stored E(t) CSVs predate the onset-folding change and need an envelope-only flag or regeneration before reruns are cited.
 
 ## 4. Who owns what — your role in detail
 

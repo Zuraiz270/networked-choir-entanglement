@@ -1147,3 +1147,15 @@ Post-Status-V remediation. Prof. Hacker pressed "what do you mean by leader domi
 **PROJECT_GUIDE**: §11 Claims 1-3 rewritten with operational metric + direction + status each; lesson logged (every hypothesis needs metric + direction + threshold + measurement-validity check before building).
 
 **Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+---
+
+## [2026-07-09] schema | Status VI package (Hammad) + operational H2 definition on the slide
+
+Two work streams since the Jun-30 entry, both audited against data before this log:
+
+**Hammad's branch work (commit d3ce2c5, 2026-07-03)**: Status Meeting VI package (`jul09_deck.md` / `jul09_script.md` / `jul09_qa_prep.md` / `output/jul09_status_meeting_vi.pptx`, 9 slides); implemented the planned E(t) upgrade (onset synchrony folded into the audio component A(t) when onset columns exist, `entanglement.py`, +1 test, suite 39/39); `features/schema.md` documents the WP1/WP2/WP3 parquet/GEXF contracts; `make reproduce` de-stubbed; PROJECT_GUIDE risk rows L-F-7/L-G-2/L-H-1/L-H-5/6/7 closed. Audit findings: all deck numbers verified against `_latency_grid.csv` + `_h2_centralization.csv`; one open item, the stored `_et_corpus.csv` / grid `E_mean` were computed with the pre-onset-folding A(t), so E(t) reruns will differ from stored CSVs until an envelope-only flag or regeneration lands (tracked for report stage; deck unaffected, it cites only metric-independent numbers).
+
+**H2 operational definition (commit 85cd8ff, 2026-07-09)**: Prof. Hacker's Status-V question ("what do you mean by leader dominance?") is now answered on the slide itself: leader dominance = out-degree centralization of the directed influence graph (Gini of node out-degree; 0 = democratic, toward 1 = single driver), tested vs 1000 density-matched random graphs; corpus mean 0.154 vs null 0.139. Script closes the loop explicitly; Q&A adds the Gini-vs-eigenvector rationale (near-tie instability) with per-dataset numbers.
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.

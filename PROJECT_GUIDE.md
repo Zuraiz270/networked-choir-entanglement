@@ -88,7 +88,9 @@ Every technical word used in sections 1–10 is explained once here. Keep this o
 
 ---
 
-## 4. Where We Are Today (2026-07-03)
+## 4. Where We Are Today (2026-07-09, Status VI day)
+
+**Latest (2026-07-09)**: H2's operational definition (out-degree centralization, Gini of out-degree vs density-matched null; corpus 0.154 vs 0.139) is now on the Status-VI slide, answering Prof. Hacker's Status-V question. Branch audit clean (deck numbers verified vs CSVs, tests 39/39). Tracked for report stage: stored E(t) CSVs predate the onset-folding A(t) change; add an envelope-only flag or regenerate before citing reruns.
 
 **Concrete status**, no spin. (Status Meeting V is Jun 25; the headline below is the iteration's result.)
 
