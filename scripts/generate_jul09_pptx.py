@@ -174,9 +174,13 @@ def s6_h2(prs: Presentation) -> None:
           "Interpretation: leadership appears as a weak human coordination signal, "
           "not as a synthetic-rendering artifact. We do not claim strong hierarchy.",
           size=14, color=TEAL)
-    _text(slide, MARGIN, Inches(5.82), Inches(6.0), Inches(0.45),
-          "Note: leader-dominated means influence is concentrated around one singer or section instead of shared across the choir.",
-          size=11, color=MUTED)
+    _text(slide, MARGIN, Inches(5.55), SLIDE_W - 2 * MARGIN, Inches(0.85),
+          "Definition (operational): leader dominance = out-degree centralization of the directed "
+          "influence graph, measured as the Gini coefficient of node out-degree. 0 = every singer "
+          "exerts equal outgoing influence (democratic); toward 1 = one singer Granger-causes the "
+          "others without following back (a leader). Test: observed Gini vs 1000 random graphs of "
+          "identical size and density. Observed corpus mean 0.154 vs null 0.139.",
+          size=11.5, color=MUTED)
     _takeaway(slide, "Leadership appears as a human coordination signal, not a synthetic-rendering artifact.")
 
 

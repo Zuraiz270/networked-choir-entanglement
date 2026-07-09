@@ -46,7 +46,9 @@ The key methodological point is that an envelope-only metric would have missed t
 
 ## Slide 6: H2 result summary
 
-The original H2 asked whether networks become more leader-dominated as latency rises. By leader-dominated, I mean influence is concentrated around one singer or one section, instead of being shared across the choir. Our current design cannot test the latency part cleanly, because injected delay on pre-recorded audio cannot create a real behavioral leader.
+At the last status meeting, Professor Hacker asked what exactly we mean by leader dominance. We took that seriously, and here is the precise answer. Leader dominance is out-degree centralization of the directed influence graph: the Gini coefficient of each singer's outgoing influence. Zero means every singer exerts equal outgoing influence on the others, a fully democratic ensemble. Values toward one mean a single singer Granger-causes the rest while not following them back, in other words a leader. We test it against one thousand random graphs with the same number of singers and edges, so density cannot fake the result.
+
+The original H2 asked whether networks become more leader-dominated as latency rises. That latency part our current design cannot test cleanly, because injected delay on pre-recorded audio cannot create a real behavioral leader.
 
 The result we can support is this: clean human choir influence networks show weak leadership structure above a density-matched random null. Dagstuhl has 3 of 5 significant pieces, ESMUC has 2 of 3, and ChoralSynth has 2 of 20, approximately chance.
 

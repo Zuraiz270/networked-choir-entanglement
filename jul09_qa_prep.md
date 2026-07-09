@@ -44,6 +44,14 @@ Private prep for Status Meeting VI. Use short answers first; only expand if pres
 
 **Backup**: The report reframes H2 to the part the data can test: whether clean human choir networks contain leadership structure beyond a density-matched random graph.
 
+### Q5b: Why Gini of out-degree, and not eigenvector centrality or Freeman centralization?
+
+**Short**: Out-degree captures exactly the "who drives whom" asymmetry that leadership means here: outgoing Granger influence. The Gini turns its distribution into one number between 0 (equal, democratic) and 1 (one driver, a leader).
+
+**Backup**: Freeman degree centralization would be an equivalent choice; Gini and Freeman rank the same graphs similarly, and we can report both in the final report if preferred. We avoided single-node labels like "the most central singer is X" deliberately: on near-complete graphs, eigenvector centralities are close to tied and the top-node label is unstable (we observed a Soprano/Alto near-tie at 0.53 flip purely with node ordering). A distribution-level measure over the whole graph is robust to that.
+
+**If pressed (numbers)**: observed corpus mean Gini 0.154 vs density-matched null 0.139 across 28 clean pieces; per dataset Dagstuhl 0.064 vs 0.052, ESMUC 0.109 vs 0.082, ChoralSynth 0.184 vs 0.169. Null = 1000 Erdős-Rényi digraphs with the same node and edge counts per piece, so density differences cannot fake the effect. The effect is modest and we say so.
+
 ---
 
 ## H3

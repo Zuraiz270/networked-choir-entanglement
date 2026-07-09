@@ -112,7 +112,7 @@ Cross-dataset drop from clean to Zoom-class jitter:
 
 The original H2 asked whether networks become more leader-dominated as latency rises. This cannot be tested cleanly with injected delay on pre-recorded audio.
 
-**Note**: leader-dominated means influence is concentrated around one singer or section instead of shared across the choir.
+**Definition (operational, answering the Status-V question)**: leader dominance = **out-degree centralization of the directed influence graph**, measured as the **Gini coefficient of node out-degree**. 0 = every singer exerts equal outgoing influence (democratic); toward 1 = one singer Granger-causes the others without following back (a leader). Test: observed Gini vs 1000 random graphs of identical size and density. Observed corpus mean 0.154 vs null 0.139.
 
 **Current H2 result**:
 
