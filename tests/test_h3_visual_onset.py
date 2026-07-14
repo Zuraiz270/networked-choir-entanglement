@@ -40,6 +40,16 @@ def test_circular_null_p_coupled_vs_independent() -> None:
     assert circular_null_p(a, independent, grid_hz=10.0, n_shuffles=200, seed=0) > 0.05
 
 
+def test_max_lag_correlation_degenerate_input_returns_nan() -> None:
+    # A digitally silent audio window (VJ3TLIFHBGw, first 90 s) has a constant
+    # onset envelope; the statistic is undefined and must say so, not -inf.
+    a = np.zeros(600)
+    v = _smooth_noise(600, 5)
+    r, lag = max_lag_correlation(a, v, grid_hz=10.0, max_lag_s=2.0)
+    assert np.isnan(r)
+    assert np.isnan(lag)
+
+
 def test_visual_motion_signal_grid_and_motion() -> None:
     t = np.arange(0, 60, 0.12)
     pose = pd.DataFrame(

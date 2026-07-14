@@ -111,13 +111,15 @@ def max_lag_correlation(
     At lag k > 0 the audio sample at t+k is paired with the visual sample at t,
     so a positive best lag means the visual gesture anticipates the sung onset.
     NaN pairs are dropped per lag; lags with < MIN_VALID_PAIRS valid pairs skip.
+    Returns (nan, nan) when no lag yields a defined correlation (e.g. a silent
+    audio window makes the envelope constant).
     """
     a = np.asarray(audio_env, dtype=float)
     v = np.asarray(visual_env, dtype=float)
     n = min(len(a), len(v))
     a, v = a[:n], v[:n]
     max_shift = int(round(max_lag_s * grid_hz))
-    best_r, best_lag = -np.inf, 0.0
+    best: tuple[float, float] | None = None
     for k in range(-max_shift, max_shift + 1):
         if k >= 0:
             a_seg, v_seg = a[k:], v[: n - k]
@@ -131,9 +133,36 @@ def max_lag_correlation(
         if sx == 0 or sy == 0:
             continue
         r = float(np.mean((x - x.mean()) / sx * (y - y.mean()) / sy))
-        if r > best_r:
-            best_r, best_lag = r, k / grid_hz
-    return best_r, best_lag
+        if best is None or r > best[0]:
+            best = (r, k / grid_hz)
+    if best is None:
+        return float("nan"), float("nan")
+    return best
+
+
+def circular_null_rs(
+    audio_env: np.ndarray,
+    visual_env: np.ndarray,
+    grid_hz: float = GRID_HZ,
+    max_lag_s: float = MAX_LAG_S,
+    n_shuffles: int = N_SHUFFLES,
+    seed: int = 0,
+) -> np.ndarray:
+    """Null distribution of the max-lag r under circular shifts of the visual signal.
+
+    Shift offsets follow the project null convention (rng.integers(2, n-2),
+    preserving within-stream autocorrelation). Each null draw undergoes the
+    SAME max-over-lags search as the observed statistic, so lag selection
+    cannot inflate significance.
+    """
+    v = np.asarray(visual_env, dtype=float)
+    n = len(v)
+    rng = np.random.default_rng(seed)
+    rs = np.empty(n_shuffles, dtype=np.float64)
+    for i in range(n_shuffles):
+        shift = int(rng.integers(2, n - 2))
+        rs[i], _ = max_lag_correlation(audio_env, np.roll(v, shift), grid_hz, max_lag_s)
+    return rs
 
 
 def circular_null_p(
@@ -144,24 +173,15 @@ def circular_null_p(
     n_shuffles: int = N_SHUFFLES,
     seed: int = 0,
 ) -> float:
-    """Empirical p for the max-lag r under circular shifts of the visual signal.
+    """Empirical p for the max-lag r: (1 + exceedances) / (1 + n_shuffles).
 
-    Shift offsets follow the project null convention (rng.integers(2, n-2),
-    preserving within-stream autocorrelation). Each null draw undergoes the
-    SAME max-over-lags search as the observed statistic, so lag selection
-    cannot inflate significance. p = (1 + exceedances) / (1 + n_shuffles).
+    NaN when the observed statistic is undefined (degenerate input).
     """
     r_obs, _ = max_lag_correlation(audio_env, visual_env, grid_hz, max_lag_s)
-    v = np.asarray(visual_env, dtype=float)
-    n = len(v)
-    rng = np.random.default_rng(seed)
-    exceed = 0
-    for _ in range(n_shuffles):
-        shift = int(rng.integers(2, n - 2))
-        r_null, _ = max_lag_correlation(audio_env, np.roll(v, shift), grid_hz, max_lag_s)
-        if r_null >= r_obs:
-            exceed += 1
-    return (1 + exceed) / (1 + n_shuffles)
+    if not np.isfinite(r_obs):
+        return float("nan")
+    rs = circular_null_rs(audio_env, visual_env, grid_hz, max_lag_s, n_shuffles, seed)
+    return float((1 + int(np.nansum(rs >= r_obs))) / (1 + n_shuffles))
 
 
 def _load_mp4_audio(mp4: Path, max_seconds: float = AUDIO_WINDOW_S) -> np.ndarray:
@@ -182,3 +202,115 @@ def _load_mp4_audio(mp4: Path, max_seconds: float = AUDIO_WINDOW_S) -> np.ndarra
         subprocess.run(cmd, check=True, capture_output=True)
         y, _ = librosa.load(str(wav), sr=SAMPLE_RATE_HZ, mono=True)
     return y
+
+
+def _figure(results: pd.DataFrame, nulls: dict[str, np.ndarray], out: Path) -> None:
+    """Observed max-lag r per video against its circular-shift null distribution."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    results = results[results.usable_audio].reset_index(drop=True)
+    order = results.sort_values("r_obs").reset_index(drop=True)
+    fig, ax = plt.subplots(figsize=(9, 7))
+    ax.boxplot(
+        [nulls[v] for v in order.video_id],
+        positions=range(len(order)),
+        vert=False,
+        widths=0.6,
+        showfliers=False,
+        medianprops={"color": "#999999"},
+        boxprops={"color": "#999999"},
+        whiskerprops={"color": "#999999"},
+        capprops={"color": "#999999"},
+    )
+    sig = order.significant.astype(bool)
+    ax.scatter(
+        order.r_obs[sig], np.flatnonzero(sig), color="#d62728", zorder=3,
+        label=f"observed r, p < 0.05 (n={int(sig.sum())})",
+    )
+    ax.scatter(
+        order.r_obs[~sig], np.flatnonzero(~sig), facecolors="none",
+        edgecolors="#d62728", zorder=3,
+        label=f"observed r, n.s. (n={int((~sig).sum())})",
+    )
+    ax.set_yticks(range(len(order)))
+    ax.set_yticklabels(order.video_id, fontsize=8)
+    ax.set_xlabel("Max-lag Pearson r (audio onset envelope vs visual motion)")
+    ax.grid(True, alpha=0.3, axis="x")
+    ax.legend(fontsize=9, loc="lower right")
+    fig.suptitle(
+        f"H3 first visual-onset attempt: {len(order)} analyzable of 18 pose-usable "
+        "Tier-1 videos\n"
+        f"first-minute window, ±{MAX_LAG_S:.0f} s lag search, "
+        f"{N_SHUFFLES} circular-shift nulls (grey boxes)",
+        fontsize=12,
+    )
+    fig.tight_layout()
+    out.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+
+
+def run() -> None:
+    import time
+
+    summary = pd.read_csv(POSE_SUMMARY)
+    usable = summary[summary["quality_pass"]].sort_values("video_id").reset_index(drop=True)
+    if len(usable) != 18:
+        raise SystemExit(f"expected 18 quality-pass videos, found {len(usable)}")
+
+    rows: list[dict[str, object]] = []
+    nulls: dict[str, np.ndarray] = {}
+    for rec in usable.itertuples():
+        vid = str(rec.video_id)
+        t0 = time.perf_counter()
+        pose = pd.read_parquet(PROCESSED_DIR / vid / "pose.parquet")
+        grid, motion = visual_motion_signal(pose)
+        y = _load_mp4_audio(RAW_DIR / vid / f"{vid}.mp4")
+        audio_env = audio_onset_envelope(y, grid)
+        # A silent pose window (e.g. VJ3TLIFHBGw: first 90 s digitally silent)
+        # makes AV coupling undefined for this video; report it, don't fake it.
+        usable_audio = bool(np.nanstd(audio_env) > 0)
+        if usable_audio:
+            r_obs, best_lag = max_lag_correlation(audio_env, motion)
+            null_rs = circular_null_rs(audio_env, motion)
+            p = float((1 + int(np.nansum(null_rs >= r_obs))) / (1 + len(null_rs)))
+            nulls[vid] = null_rs
+        else:
+            r_obs = best_lag = p = float("nan")
+        rows.append(
+            {
+                "video_id": vid,
+                "singer_count_est": int(rec.singer_count_est),
+                "pose_coverage": float(rec.pose_detection_rate),
+                "analysis_window_s": round(float(grid[-1] - grid[0]), 1),
+                "usable_audio": usable_audio,
+                "r_obs": round(r_obs, 4) if usable_audio else r_obs,
+                "best_lag_s": round(best_lag, 2) if usable_audio else best_lag,
+                "p_null": round(p, 4) if usable_audio else p,
+                "significant": bool(usable_audio and p < 0.05),
+            }
+        )
+        note = "" if usable_audio else " [silent audio window, excluded]"
+        print(
+            f"{vid}: r={r_obs:.3f} lag={best_lag:+.1f}s p={p:.4f} "
+            f"({time.perf_counter() - t0:.1f}s){note}"
+        )
+
+    results = pd.DataFrame(rows)
+    OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
+    results.to_csv(OUT_CSV, index=False)
+    _figure(results, nulls, FIGURE_OUT)
+    n_sig = int(results.significant.sum())
+    n_analyzable = int(results.usable_audio.sum())
+    print(
+        f"\nWrote {OUT_CSV} ({len(results)} rows; {n_analyzable} analyzable; "
+        f"{n_sig}/{n_analyzable} significant)"
+    )
+    print(f"Wrote {FIGURE_OUT}")
+
+
+if __name__ == "__main__":
+    run()
