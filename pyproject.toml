@@ -94,3 +94,6 @@ files = ["src", "tests"]
 minversion = "8.0"
 testpaths = ["tests"]
 addopts = "-ra --strict-markers --strict-config"
+# Repo root on sys.path so tests can import analysis scripts (scripts.*),
+# mirroring how scripts import each other at runtime (python -m scripts.<name>).
+pythonpath = ["."]
