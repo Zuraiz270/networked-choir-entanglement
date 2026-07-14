@@ -26,6 +26,7 @@ wp1-audio = [
     "demucs==4.0.1",
     "soundfile==0.12.1",
     "ffmpeg-python==0.2.0",
+    "imageio-ffmpeg==0.6.0",
 ]
 wp2-video = [
     "mediapipe==0.10.14",
