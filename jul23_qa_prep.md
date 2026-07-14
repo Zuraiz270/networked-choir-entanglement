@@ -33,9 +33,9 @@ Private prep. Short answers first; expand only if pressed. Numbers updated to th
 
 **Short**: Partially. Human influence networks show weak but real leadership structure above a density-matched random null; the original latency-driven form is untestable with injected delay.
 
-**Backup**: Observed corpus mean out-degree Gini 0.154 vs null 0.138 (1000 matched random digraphs per piece). Dagstuhl 3/5 significant, ESMUC 2/3, ChoralSynth 2/20 (chance).
+**Backup**: Observed corpus mean out-degree Gini 0.154 vs null 0.139 (1000 matched random digraphs per piece). Dagstuhl 3/5 significant, ESMUC 2/3, ChoralSynth 2/20 (chance).
 
-**If pressed on 0.138 vs 0.139 in older docs**: rounding; the committed CSV mean is 0.1381. The deck cites the CSV.
+**If pressed on the null mean's precision**: the committed CSV mean is exactly 0.1385; we cite it half-up as 0.139, consistent across all materials since Status VI.
 
 ### Q5: Why Gini of out-degree rather than eigenvector centrality?
 

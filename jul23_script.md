@@ -58,7 +58,7 @@ We kept the null result in the report. The dissociation itself, timing collapses
 
 H2 asks whether choir networks have leaders. Prof. Hacker pushed us in May to define leader dominance operationally, and this slide is that answer. Leader dominance is the Gini coefficient of out-degree in the Granger-causal influence graph: zero means democratic, one means a single driver.
 
-Human choirs sit measurably above a density-matched random null: observed mean zero point one five four against zero point one three eight. Three of five Dagstuhl pieces and two of three ESMUC pieces are individually significant. The synthetic corpus sits at chance, two of twenty.
+Human choirs sit measurably above a density-matched random null: observed mean zero point one five four against zero point one three nine. Three of five Dagstuhl pieces and two of three ESMUC pieces are individually significant. The synthetic corpus sits at chance, two of twenty.
 
 That contrast matters: leadership shows up in human singing and not in synthetic renderings of the same kind of music. So it is a human coordination signal, not an artifact of our pipeline. H2 is partially supported; its original latency-driven form cannot be tested with injected delay, and we say so.
 

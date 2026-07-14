@@ -139,12 +139,12 @@ The fix was chosen a priori: zero-lag onset synchrony is the physical quantity t
 
 Leader dominance, operationally: **Gini coefficient of out-degree** in the Granger-causal influence graph. 0 = democratic; toward 1 = one singer drives the rest.
 
-Observed corpus mean **0.154** vs density-matched random null **0.138** (1000 draws per piece):
+Observed corpus mean **0.154** vs density-matched random null **0.139** (1000 draws per piece):
 
 - Dagstuhl: **3 / 5** pieces significant.
 - ESMUC: **2 / 3** pieces significant.
 - ChoralSynth: **2 / 20** pieces, approximately chance.
-<!-- source: data/processed/tier3/_h2_centralization.csv: mean obs_gini_outdeg 0.154, mean null_gini_mean 0.138, sig counts by dataset at p_more_centralized < 0.05 -->
+<!-- source: data/processed/tier3/_h2_centralization.csv: mean obs_gini_outdeg 0.15443, mean null_gini_mean 0.1385 (cited half-up as 0.139, consistent with all prior materials), sig counts by dataset at p_more_centralized < 0.05 -->
 
 **Visual**: `data/figures/wp3_flagship_LI_QuartetA_Take02_standard.png`
 

@@ -217,7 +217,7 @@ def s8_h2(prs: Presentation) -> None:
           size=14, bold=True, color=TEAL)
     stats = [
         ("0.154", "Observed corpus mean"),
-        ("0.138", "Matched random null"),
+        ("0.139", "Matched random null"),
         ("3/5 - 2/3", "Dagstuhl - ESMUC significant"),
         ("2/20", "ChoralSynth (chance)"),
     ]
