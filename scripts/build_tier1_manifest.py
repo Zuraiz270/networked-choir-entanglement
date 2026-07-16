@@ -53,9 +53,13 @@ def fetch_metadata(url: str) -> dict:
     """Run yt-dlp --simulate -j to get YouTube metadata as JSON."""
     result = subprocess.run(
         [
-            YT_DLP, "--simulate", "--no-warnings",
-            "--extractor-args", "youtube:player_client=web,android",
-            "-j", url,
+            YT_DLP,
+            "--simulate",
+            "--no-warnings",
+            "--extractor-args",
+            "youtube:player_client=web,android",
+            "-j",
+            url,
         ],
         capture_output=True,
         text=True,
@@ -146,7 +150,9 @@ def main() -> int:
         writer.writerows(rows_out)
 
     n_ok = sum(1 for r in rows_out if "yt-dlp failed" not in r["notes"])
-    print(f"\nWrote {len(rows_out)} rows to {OUTPUT_CSV} ({n_ok} validated, {len(rows_out) - n_ok} failed)")
+    print(
+        f"\nWrote {len(rows_out)} rows to {OUTPUT_CSV} ({n_ok} validated, {len(rows_out) - n_ok} failed)"
+    )
     return 0
 
 

@@ -59,8 +59,8 @@ class LatencyConfig:
     """One latency regime: mean delay + per-frame jitter SD + dropout fraction."""
 
     delay_ms: float
-    jitter_sd_ms: float = 0.0   # per-frame Gaussian jitter (the real H1 driver)
-    dropout_rate: float = 0.0   # fraction of frames blanked to NaN (packet loss)
+    jitter_sd_ms: float = 0.0  # per-frame Gaussian jitter (the real H1 driver)
+    dropout_rate: float = 0.0  # fraction of frames blanked to NaN (packet loss)
     seed: int = 0
 
 
@@ -71,11 +71,11 @@ class LatencyConfig:
 # "+- SD" IS the network jitter. Dropout rates are illustrative (increasing).
 # See wiki/06_failure_modes/latency_thresholds.md.
 LATENCY_REGIMES: dict[str, LatencyConfig] = {
-    "clean":       LatencyConfig(delay_ms=0.0,   jitter_sd_ms=0.0,  dropout_rate=0.00),
-    "ept":         LatencyConfig(delay_ms=25.0,  jitter_sd_ms=10.0, dropout_rate=0.00),
-    "jamulus_lan": LatencyConfig(delay_ms=47.0,  jitter_sd_ms=46.0, dropout_rate=0.01),  # measured
-    "jamulus_wan": LatencyConfig(delay_ms=83.0,  jitter_sd_ms=57.0, dropout_rate=0.03),  # measured
-    "zoom":        LatencyConfig(delay_ms=150.0, jitter_sd_ms=80.0, dropout_rate=0.08),  # illustrative
+    "clean": LatencyConfig(delay_ms=0.0, jitter_sd_ms=0.0, dropout_rate=0.00),
+    "ept": LatencyConfig(delay_ms=25.0, jitter_sd_ms=10.0, dropout_rate=0.00),
+    "jamulus_lan": LatencyConfig(delay_ms=47.0, jitter_sd_ms=46.0, dropout_rate=0.01),  # measured
+    "jamulus_wan": LatencyConfig(delay_ms=83.0, jitter_sd_ms=57.0, dropout_rate=0.03),  # measured
+    "zoom": LatencyConfig(delay_ms=150.0, jitter_sd_ms=80.0, dropout_rate=0.08),  # illustrative
 }
 
 

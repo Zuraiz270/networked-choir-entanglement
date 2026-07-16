@@ -116,3 +116,15 @@ Before task completion:
 - **Accessibility/UX**: WCAG 2.1 AA (baseline). Semantic HTML. Keyboard nav. Loading/Error states.
 - **Docs**: README (New dev run in 15min). ADRs for archi choices. OpenAPI for REST.
 - **Mobile**: Deep links registered. Offline-first. Lazy-load assets. Contextual permissions.
+
+## 9. Mistake Log
+
+### 2026-07-16: Statistical claims must trace to the exact tested variable
+
+- The Jul-23 materials initially described deterministic onset-synchrony drops as surviving a 2000-shuffle null. Code inspection showed that the grid applies those shifts to envelope E(t) and Granger-network calculations, not onset synchrony.
+- Fix: H1 now uses a within-piece clean-to-Zoom exact sign test plus a seeded bootstrap interval. Presentation and report language separates this test from the 2000-shift cell nulls.
+
+### 2026-07-16: Do not compare rounded observations with unrounded nulls directly
+
+- H2 read four-decimal observed Gini values from the grid and compared them with unrounded null values. Mathematically equal values could differ by rounding and produce false p = 0 results.
+- Fix: the upper-tail empirical p-value uses the known rounding tolerance and the standard plus-one correction. H2 was regenerated from the final grid and all final materials were updated.

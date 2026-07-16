@@ -12,17 +12,24 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
 import pandas as pd
 
-GRID_CSV = Path("data/processed/tier3/_latency_grid.csv")
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt  # noqa: E402
+
+GRID_CSV = Path("data/processed/tier3/_latency_grid_2000.csv")
 OUT = Path("data/figures/tier3_corpus_summary.png")
 ORDER = ["clean", "ept", "jamulus_lan", "jamulus_wan", "zoom"]
 XLABEL = {"clean": 0, "ept": 10, "jamulus_lan": 46, "jamulus_wan": 57, "zoom": 80}
 COLOR = {"dagstuhl": "#1f77b4", "esmuc": "#2ca02c", "choralsynth": "#d62728"}
-LABEL = {"dagstuhl": "Dagstuhl (real, n=5)", "esmuc": "ESMUC (real, n=3)",
-         "choralsynth": "ChoralSynth (synthetic, n=20)"}
+LABEL = {
+    "dagstuhl": "Dagstuhl (real, n=5)",
+    "esmuc": "ESMUC (real, n=3)",
+    "choralsynth": "ChoralSynth (synthetic, n=20)",
+}
 
 
 def _series(df: pd.DataFrame, ds: str, col: str) -> tuple[list[float], list[float], list[float]]:
@@ -46,8 +53,14 @@ def run() -> None:
         for ax, col in ((ax1, "onset_sync"), (ax2, "E_mean")):
             xs, m, sd = _series(df, ds, col)
             m_a, sd_a = np.array(m), np.array(sd)
-            ax.plot(xs, m_a, marker="o", color=COLOR[ds], linewidth=2,
-                    label=LABEL[ds] if ax is ax1 else None)
+            ax.plot(
+                xs,
+                m_a,
+                marker="o",
+                color=COLOR[ds],
+                linewidth=2,
+                label=LABEL[ds] if ax is ax1 else None,
+            )
             ax.fill_between(xs, m_a - sd_a, m_a + sd_a, color=COLOR[ds], alpha=0.15)
     ax1.set_title("Attack-timing onset synchrony (latency-sensitive)", fontsize=12)
     ax1.set_ylabel("Zero-lag onset synchrony")

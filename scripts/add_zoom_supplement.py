@@ -62,11 +62,17 @@ LATENCY_LABEL = {"Zoom": "Zoom-only"}
 def fetch_metadata(url: str) -> dict:
     result = subprocess.run(
         [
-            YT_DLP, "--simulate", "--no-warnings",
-            "--extractor-args", "youtube:player_client=web,android",
-            "-j", url,
+            YT_DLP,
+            "--simulate",
+            "--no-warnings",
+            "--extractor-args",
+            "youtube:player_client=web,android",
+            "-j",
+            url,
         ],
-        capture_output=True, text=True, timeout=60,
+        capture_output=True,
+        text=True,
+        timeout=60,
     )
     if result.returncode != 0:
         return {"_error": result.stderr.strip()[:200] or "unknown yt-dlp error"}
@@ -90,11 +96,13 @@ def build_row(c: dict, meta: dict, fieldnames: list[str], ingest_date: str) -> d
     row = {col: "" for col in fieldnames}
     row["video_id"] = c["video_id"]
     row["url"] = c["url"]
-    row["title"] = (meta.get("title") if not is_dead else "UNAVAILABLE")
-    row["channel"] = (meta.get("uploader") if not is_dead else "")
-    row["upload_date"] = (meta.get("upload_date") if not is_dead else "")
+    row["title"] = meta.get("title") if not is_dead else "UNAVAILABLE"
+    row["channel"] = meta.get("uploader") if not is_dead else ""
+    row["upload_date"] = meta.get("upload_date") if not is_dead else ""
     row["duration_s"] = str(meta.get("duration", "")) if not is_dead else ""
-    row["license"] = (meta.get("license") or "Standard YouTube License") if not is_dead else "UNAVAILABLE"
+    row["license"] = (
+        (meta.get("license") or "Standard YouTube License") if not is_dead else "UNAVAILABLE"
+    )
     row["singer_count_est"] = c["singer_count_est"]
     row["latency_regime_label"] = LATENCY_LABEL[c["nmp_system"]]
     row["satb_confirmed"] = "unknown"
@@ -136,7 +144,9 @@ def main() -> int:
         writer.writerows(rows)
 
     n_dead = sum(1 for r in new_rows if r["license"] == "UNAVAILABLE")
-    print(f"\nAppended {len(new_rows)} rows ({len(new_rows) - n_dead} validated, {n_dead} dead) to {MANIFEST}")
+    print(
+        f"\nAppended {len(new_rows)} rows ({len(new_rows) - n_dead} validated, {n_dead} dead) to {MANIFEST}"
+    )
     print(f"Manifest now contains {len(rows)} total rows")
     return 0
 

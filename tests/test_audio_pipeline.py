@@ -39,7 +39,9 @@ def _synth_sine_wav(
     n_silence = int(delay_sec * SAMPLE_RATE_HZ)
     n_tone = int(duration_sec * SAMPLE_RATE_HZ)
     t = np.arange(n_tone) / SAMPLE_RATE_HZ
-    envelope = 0.5 * (1 - np.cos(2 * np.pi * 1 * t))  # 1 Hz AM creates onsets without aliasing test lag
+    envelope = 0.5 * (
+        1 - np.cos(2 * np.pi * 1 * t)
+    )  # 1 Hz AM creates onsets without aliasing test lag
     if freq_end_hz is None:
         phase = 2 * np.pi * freq_hz * t
     else:
@@ -92,9 +94,9 @@ def test_pairwise_coupling_detects_known_lag(tmp_path: Path) -> None:
     result = compute_pairwise_coupling(df_a, df_b, max_lag_sec=1.0, signal="f0_hz")
 
     assert abs(result.peak_correlation) > 0.5
-    assert abs(abs(result.peak_lag_sec) - known_lag_sec) < 0.15, (
-        f"Expected lag near {known_lag_sec}s, got {result.peak_lag_sec}s"
-    )
+    assert (
+        abs(abs(result.peak_lag_sec) - known_lag_sec) < 0.15
+    ), f"Expected lag near {known_lag_sec}s, got {result.peak_lag_sec}s"
     assert result.overlap_sec > 0
 
 

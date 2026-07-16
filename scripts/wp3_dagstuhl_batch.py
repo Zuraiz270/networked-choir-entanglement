@@ -20,7 +20,6 @@ from __future__ import annotations
 import time
 from itertools import permutations
 from pathlib import Path
-from typing import Literal
 
 import community.community_louvain as community_louvain
 import matplotlib.pyplot as plt
@@ -43,10 +42,10 @@ FIGURE_OUT = Path("data/figures/wp3_influence_graphs_5pieces.png")
 # tuning/cadence exercises), so the original plan's SE_QuartetA_Take01 is
 # replaced with TP_FullChoir_Take01 — better stratification anyway.
 PIECES: list[str] = [
-    "LI_QuartetA_Take02",   # Sprint-2 reference (4 singers)
-    "LI_QuartetB_Take01",   # second quartet (4 singers)
+    "LI_QuartetA_Take02",  # Sprint-2 reference (4 singers)
+    "LI_QuartetB_Take01",  # second quartet (4 singers)
     "LI_FullChoir_Take01",  # full choir, same piece (8 singers)
-    "TP_QuartetA_Take01",   # contrasting piece, quartet (4 singers)
+    "TP_QuartetA_Take01",  # contrasting piece, quartet (4 singers)
     "TP_FullChoir_Take01",  # contrasting piece, full choir (8 singers)
 ]
 
@@ -78,8 +77,14 @@ def run_pairwise(
     for cause, effect in permutations(singers, 2):
         results.append(
             pairwise_granger(
-                series[cause], series[effect], cause, effect,
-                maxlag=maxlag, n_shuffles=n_shuffles, seed=42, method=method,
+                series[cause],
+                series[effect],
+                cause,
+                effect,
+                maxlag=maxlag,
+                n_shuffles=n_shuffles,
+                seed=42,
+                method=method,
             )
         )
     return results
@@ -143,12 +148,22 @@ def _draw_piece(ax: plt.Axes, graph: nx.DiGraph, title: str) -> None:
     if graph.number_of_edges() > 0:
         edges = list(graph.edges(data=True))
         weights = np.array([d.get("weight", 1.0) for _, _, d in edges])
-        widths = (0.5 + 2.0 * (weights / weights.max())).tolist() if weights.max() > 0 else [0.5] * len(edges)
+        widths = (
+            (0.5 + 2.0 * (weights / weights.max())).tolist()
+            if weights.max() > 0
+            else [0.5] * len(edges)
+        )
         nx.draw_networkx_edges(
-            graph, pos,
+            graph,
+            pos,
             edgelist=[(u, v) for u, v, _ in edges],
-            width=widths, edge_color="#444444", alpha=0.6,
-            arrows=True, arrowsize=10, connectionstyle="arc3,rad=0.1", ax=ax,
+            width=widths,
+            edge_color="#444444",
+            alpha=0.6,
+            arrows=True,
+            arrowsize=10,
+            connectionstyle="arc3,rad=0.1",
+            ax=ax,
         )
     ax.set_title(title, fontsize=9)
     ax.set_axis_off()
@@ -165,12 +180,13 @@ def render_grid_figure(graphs: dict[str, nx.DiGraph], output: Path) -> None:
         max_edges = nodes * (nodes - 1) if nodes > 1 else 1
         _draw_piece(ax, graph, f"{label}\n{edges}/{max_edges} significant edges")
     # Hide any unused panel
-    for ax in flat[len(graphs):]:
+    for ax in flat[len(graphs) :]:
         ax.set_axis_off()
     fig.suptitle(
         "WP3 directed influence graphs · Dagstuhl 5-piece batch (standard Granger, p_null<0.05) "
         "+ COP-GC method comparison",
-        fontsize=11, y=0.99,
+        fontsize=11,
+        y=0.99,
     )
     fig.tight_layout()
     fig.savefig(output, dpi=150, bbox_inches="tight")
@@ -238,7 +254,8 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--figure-only", action="store_true",
+        "--figure-only",
+        action="store_true",
         help="Skip the (expensive) Granger pass; just re-render the figure from saved GEXFs.",
     )
     args = parser.parse_args()

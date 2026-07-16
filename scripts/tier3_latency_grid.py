@@ -19,21 +19,18 @@ from __future__ import annotations
 import argparse
 import tempfile
 import time
+from itertools import combinations
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
-from itertools import combinations
-
-import numpy as np
+from scripts.wp3_dagstuhl_batch import run_pairwise
 
 from choir_entanglement.audio.coupling import onset_synchrony
 from choir_entanglement.entanglement import compute_entanglement, compute_entanglement_null
 from choir_entanglement.latency import LATENCY_REGIMES, inject_latency_take
 from choir_entanglement.network.influence_graph import build_influence_graph, graph_metrics
-from scripts.wp3_dagstuhl_batch import run_pairwise
 
 PROCESSED_BASE = Path("data/processed")
 OUT_DIR = Path("data/processed/tier3")
@@ -45,10 +42,7 @@ MAXLAG = 8
 
 
 def load_clean_frames(processed_root: Path, piece: str) -> dict[str, pd.DataFrame]:
-    return {
-        p.stem: pd.read_parquet(p)
-        for p in sorted((processed_root / piece).glob("*.parquet"))
-    }
+    return {p.stem: pd.read_parquet(p) for p in sorted((processed_root / piece).glob("*.parquet"))}
 
 
 def gini(values: np.ndarray) -> float:
@@ -62,7 +56,10 @@ def gini(values: np.ndarray) -> float:
 
 
 def process_cell(
-    dataset: str, piece: str, unit: str, level: str,
+    dataset: str,
+    piece: str,
+    unit: str,
+    level: str,
     clean: dict[str, pd.DataFrame],
     n_shuffles: int = N_NULL,
 ) -> dict[str, object]:
@@ -108,28 +105,42 @@ def process_cell(
             audio_paths[s] = p
         gexf = tmpdir / "g.gexf"
         import networkx as nx
+
         nx.write_gexf(graph, gexf)
         # E column semantics: envelope-only A(t) (include_onsets=False), the
         # definition every published Sprint-3/4 number used; E_comb_mean adds
         # the onset-folded A(t) (2026-07 definition) alongside, never instead.
-        timeline = compute_entanglement(audio_paths, gexf, window_sec=10.0,
-                                        step_sec=STEP_SEC, include_onsets=False)
+        timeline = compute_entanglement(
+            audio_paths, gexf, window_sec=10.0, step_sec=STEP_SEC, include_onsets=False
+        )
         e = timeline["E"].dropna().to_numpy()
         a = timeline["A"].dropna().to_numpy()
-        timeline_comb = compute_entanglement(audio_paths, gexf, window_sec=10.0,
-                                             step_sec=STEP_SEC, include_onsets=True)
+        timeline_comb = compute_entanglement(
+            audio_paths, gexf, window_sec=10.0, step_sec=STEP_SEC, include_onsets=True
+        )
         e_comb = timeline_comb["E"].dropna().to_numpy()
-        null = compute_entanglement_null(audio_paths, gexf, window_sec=10.0,
-                                         step_sec=STEP_SEC, n_shuffles=n_shuffles,
-                                         seed=42, include_onsets=False)
+        null = compute_entanglement_null(
+            audio_paths,
+            gexf,
+            window_sec=10.0,
+            step_sec=STEP_SEC,
+            n_shuffles=n_shuffles,
+            seed=42,
+            include_onsets=False,
+        )
 
     null = null[np.isfinite(null)]
     e_mean = float(e.mean()) if e.size else float("nan")
     p_null = float((null >= e_mean).mean()) if null.size else float("nan")
     return {
-        "dataset": dataset, "piece": piece, "unit": unit, "level": level,
-        "delay_ms": delay_ms, "jitter_sd_ms": config.jitter_sd_ms,
-        "dropout_rate": config.dropout_rate, "n_singers": len(rms_series),
+        "dataset": dataset,
+        "piece": piece,
+        "unit": unit,
+        "level": level,
+        "delay_ms": delay_ms,
+        "jitter_sd_ms": config.jitter_sd_ms,
+        "dropout_rate": config.dropout_rate,
+        "n_singers": len(rms_series),
         "A_mean": round(float(a.mean()) if a.size else float("nan"), 4),
         "onset_sync": round(onset_sync, 4),
         "N_density": round(float(m.density), 4),
@@ -158,13 +169,14 @@ def render_figure(df: pd.DataFrame, output: Path) -> None:
         for piece, g in df.groupby("piece"):
             g = g.sort_values(x)
             ax.plot(g[x], g[col], marker="o", label=piece, linewidth=1.2)
-        ax.set_xlabel(f"Injected jitter SD (ms)" if x == "jitter_sd_ms" else "Delay (ms)")
+        ax.set_xlabel("Injected jitter SD (ms)" if x == "jitter_sd_ms" else "Delay (ms)")
         ax.set_ylabel(ylab)
         ax.set_title(title)
         ax.grid(True, alpha=0.3)
     ax1.legend(fontsize=7, loc="best")
-    fig.suptitle("Tier-3 latency injection (jitter model, standard Granger, 100-shuffle null)",
-                 fontsize=12)
+    fig.suptitle(
+        "Tier-3 latency injection (jitter model, standard Granger, 100-shuffle null)", fontsize=12
+    )
     fig.tight_layout()
     fig.savefig(output, dpi=150, bbox_inches="tight")
     plt.close(fig)
@@ -172,7 +184,8 @@ def render_figure(df: pd.DataFrame, output: Path) -> None:
 
 def discover_pieces(processed_root: Path) -> list[str]:
     return sorted(
-        d.name for d in processed_root.iterdir()
+        d.name
+        for d in processed_root.iterdir()
         if d.is_dir() and len(list(d.glob("*.parquet"))) >= 2
     )
 
@@ -208,8 +221,10 @@ def run(
             t = time.perf_counter()
             row = process_cell(dataset, piece, unit, level, clean, n_shuffles=n_shuffles)
             rows.append(row)
-            print(f"  {piece} [{level:11s}] E={row['E_mean']} density={row['N_density']} "
-                  f"p_null={row['p_null']} ({time.perf_counter()-t:.0f}s)")
+            print(
+                f"  {piece} [{level:11s}] E={row['E_mean']} density={row['N_density']} "
+                f"p_null={row['p_null']} ({time.perf_counter()-t:.0f}s)"
+            )
 
     df = pd.DataFrame(rows)
     if out is not None:
@@ -231,13 +246,24 @@ def run(
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", required=True, choices=["dagstuhl", "esmuc", "choralsynth"])
-    parser.add_argument("--pieces", default=None, help="comma-separated piece ids (default: discover)")
-    parser.add_argument("--levels", default=",".join(LATENCY_REGIMES),
-                        help="comma-separated latency regimes")
-    parser.add_argument("--shuffles", type=int, default=N_NULL,
-                        help=f"null permutations for Granger + E(t) (default {N_NULL}; paper-grade 2000)")
-    parser.add_argument("--out", type=Path, default=None,
-                        help="shard mode: write rows to this CSV only (no merge, no figure)")
+    parser.add_argument(
+        "--pieces", default=None, help="comma-separated piece ids (default: discover)"
+    )
+    parser.add_argument(
+        "--levels", default=",".join(LATENCY_REGIMES), help="comma-separated latency regimes"
+    )
+    parser.add_argument(
+        "--shuffles",
+        type=int,
+        default=N_NULL,
+        help=f"null permutations for Granger + E(t) (default {N_NULL}; paper-grade 2000)",
+    )
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=None,
+        help="shard mode: write rows to this CSV only (no merge, no figure)",
+    )
     args = parser.parse_args()
     pieces = args.pieces.split(",") if args.pieces else None
     levels = [lv.strip() for lv in args.levels.split(",") if lv.strip()]

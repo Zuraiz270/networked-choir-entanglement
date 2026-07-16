@@ -17,11 +17,17 @@ YT_DLP = r"C:\Users\zurai\AppData\Local\Programs\Python\Python311\Scripts\yt-dlp
 def fetch(url: str) -> dict:
     result = subprocess.run(
         [
-            YT_DLP, "--simulate", "--no-warnings",
-            "--extractor-args", "youtube:player_client=web,android",
-            "-j", url,
+            YT_DLP,
+            "--simulate",
+            "--no-warnings",
+            "--extractor-args",
+            "youtube:player_client=web,android",
+            "-j",
+            url,
         ],
-        capture_output=True, text=True, timeout=60,
+        capture_output=True,
+        text=True,
+        timeout=60,
     )
     if result.returncode != 0:
         return {"_error": result.stderr.strip()[:200]}
@@ -53,7 +59,9 @@ def main() -> int:
         row["license"] = meta.get("license") or "Standard YouTube License"
         row["download_sha256"] = "pending-sprint3"
         old_notes = row["notes"].split(" | yt-dlp failed:")[0].rstrip()
-        row["notes"] = f"{old_notes} | revived 2026-05-19 via yt-dlp player_client=web,android workaround"
+        row["notes"] = (
+            f"{old_notes} | revived 2026-05-19 via yt-dlp player_client=web,android workaround"
+        )
         n_revived += 1
         print(f"REVIVED ({row['duration_s']}s)")
 

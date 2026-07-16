@@ -863,6 +863,22 @@ Full Python repo scaffold executed inline from plan `C:\Users\zurai\.claude\plan
 
 ---
 
+## [2026-07-16] schema | Final audit, report, corrected inference, and verified package
+
+Final audit completed after pulling `dev-hammad`.
+
+**H1 inference corrected**: the 2000 circular shifts in `_latency_grid_2000.csv` apply to envelope E(t) and Granger-network cells, not deterministic onset synchrony. Added `scripts/h1_paired_test.py` and `_h1_paired_test.csv`: all 28/28 pieces decrease clean-to-Zoom, mean drop 70.7%, exact one-sided sign-test p = 3.73 x 10^-9, seeded bootstrap 95% interval 66.8% to 74.4%.
+
+**H2 final-grid correction**: regenerated `_h2_centralization.csv` from `_latency_grid_2000.csv`. Fixed false significance caused by comparing four-decimal observed Gini values with unrounded null values; empirical p now uses rounding tolerance and a plus-one correction. Final result: corpus Gini 0.162 vs null 0.155; Dagstuhl 1/5, ESMUC 1/3, ChoralSynth 0/20 significant. Final framing is limited support, not general hierarchy.
+
+**Final report and presentation**: added `report_final.md` and the visually verified 10-page `output/pdf/networked_choir_final_report.pdf`. Updated and regenerated the 15-slide Jul-23 deck, script, and Q&A with the corrected H1/H2 claims. Full suite: 48/48 tests; Ruff and strict mypy pass.
+
+**Dashboard**: production build passes on Vite 8.1.5 and TypeScript 7.0.2; npm audit reports zero vulnerabilities. The live demo still requires gitignored media and feature parquets on the data-bearing presentation laptop; the committed screenshot remains the portable fallback.
+
+**Rule 1 N/A** (schema verb). **Rule 2** ingest counter unchanged.
+
+---
+
 ## [2026-04-25] schema | dropped Docker from scaffold
 
 Refactor on `scaffold` branch removing Docker as a mandatory dependency. Decision rationale: this is a 12-week semester project with one executor (Zuraiz) and three teammates who read presentation scripts but do not run code. Docker buys bit-exact OS reproducibility at the cost of a 30-min Docker Desktop install per teammate, ≈ 2.5 GB image, WSL2 setup pain on Win 11. `uv.lock` already pins every Python wheel exactly across Win+Linux x86_64; the only system dep is `ffmpeg`, installable via `winget install Gyan.FFmpeg` (one line).

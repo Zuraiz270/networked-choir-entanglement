@@ -3,12 +3,12 @@
 Networked choir entanglement measurement platform for SNA-OSN-M Project 8
 (Uni Bamberg x Uni Koeln x HSLU, Summer 2026).
 
-**Status:** report-stage prototype. The audio, video, network, Tier-3 latency,
-and dashboard-alpha paths are implemented; Status Meeting VI materials are in
-`jul09_*` and `output/jul09_status_meeting_vi.pptx`. The current scientific
-claim is H1 support in the onset-timing channel, partial H2 support in human
-datasets, and H3 data-blocked because no corpus item has audio and video
-together.
+**Status:** final seminar package complete. H1 is supported in the onset-timing
+channel: all 28 pieces decrease from clean to Zoom (paired sign-test p =
+3.73e-9). H2 has limited human-only evidence after final-grid correction (2 of
+8 human pieces, 0 of 20 synthetic pieces). The exploratory H3 coupling is null
+(1 of 17 significant); the full visual incremental-value claim still requires
+paired per-singer audio and video.
 
 ---
 
@@ -55,7 +55,7 @@ data/raw/                   # source-data manifests and checksums
 data/processed/             # committed report-stage summaries and selected outputs
 data/figures/               # generated figures for decks and report
 features/                   # parquet schema documentation
-output/                     # rendered status-meeting decks
+output/                     # rendered decks and final report PDF
 onsidian vault/             # LLM-maintained project wiki and research evidence
 PROJECT_GUIDE.md            # technical source of truth
 TEAM_BRIEF.md               # human-readable team status
@@ -69,8 +69,8 @@ uv.lock                     # frozen resolution
 - `make sync` - install deps from lockfile.
 - `make smoke` - run canary smoke tests.
 - `make lint` / `make typecheck` / `make test` - quality gates.
-- `make all` - run tests and rebuild report-stage artefacts.
-- `make reproduce` - rebuild committed report figures and the Status VI deck.
+- `make all` - run tests and rebuild final report artifacts.
+- `make reproduce` - rebuild final statistics, the H1 figure, and the report PDF.
 
 ## Dependency Groups
 
@@ -93,11 +93,16 @@ This is an academic semester project, not a production deployment. Full raw
 extraction depends on large gitignored media, but report-stage reproducibility
 is handled by `uv.lock`, committed processed summaries, and `make reproduce`.
 
-The current report-stage pass regenerates:
+The final report-stage pass regenerates:
 
+- H1 paired summary: `data/processed/tier3/_h1_paired_test.csv`
 - H2 centralization table: `data/processed/tier3/_h2_centralization.csv`
 - H1 corpus figure: `data/figures/tier3_corpus_summary.png`
-- Status Meeting VI deck: `output/jul09_status_meeting_vi.pptx`
+- Final report: `output/pdf/networked_choir_final_report.pdf`
+
+The live dashboard needs the gitignored media and feature parquets on the
+presentation laptop. The committed screenshot is the portable fallback; full
+raw extraction is outside `make reproduce`.
 
 ## Licence
 
@@ -107,7 +112,7 @@ MIT.
 
 - Team guide: `PROJECT_GUIDE.md`
 - Current team status: `TEAM_BRIEF.md`
-- Status VI deck source: `jul09_deck.md`
-- Status VI speaker script: `jul09_script.md`
-- Status VI Q&A prep: `jul09_qa_prep.md`
+- Final report source: `report_final.md`
+- Jul-23 deck source: `jul23_deck.md`
+- Jul-23 speaker script and Q&A: `jul23_script.md`, `jul23_qa_prep.md`
 - Obsidian vault: `onsidian vault/OSN-M/wiki/`

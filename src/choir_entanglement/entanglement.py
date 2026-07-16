@@ -32,8 +32,8 @@ import pandas as pd
 
 from choir_entanglement.audio.coupling import onset_synchrony
 
-
 FloatArray = npt.NDArray[np.float64]
+BoolArray = npt.NDArray[np.bool_]
 
 DEFAULT_WINDOW_SEC = 10.0
 DEFAULT_STEP_SEC = 0.1  # 10 Hz output grid
@@ -67,9 +67,7 @@ def compute_entanglement(
 
     duration_sec = _common_duration(audio_frames, video_frame)
     if duration_sec <= window_sec:
-        raise ValueError(
-            f"piece duration {duration_sec:.1f}s shorter than window {window_sec}s"
-        )
+        raise ValueError(f"piece duration {duration_sec:.1f}s shorter than window {window_sec}s")
 
     grid = np.arange(window_sec / 2, duration_sec - window_sec / 2, step_sec)
     a_series = _audio_series(audio_frames, grid, window_sec, include_onsets=include_onsets)
@@ -200,7 +198,7 @@ def _audio_series(
     return out
 
 
-def _onset_arrays(audio_frames: Mapping[str, pd.DataFrame]) -> dict[str, npt.NDArray[np.bool_]]:
+def _onset_arrays(audio_frames: Mapping[str, pd.DataFrame]) -> dict[str, BoolArray]:
     return {
         name: df["onset"].fillna(False).to_numpy(dtype=bool)
         for name, df in audio_frames.items()
@@ -211,7 +209,7 @@ def _onset_arrays(audio_frames: Mapping[str, pd.DataFrame]) -> dict[str, npt.NDA
 def _window_audio_couplings(
     rms_arrays: Mapping[str, FloatArray],
     times: Mapping[str, FloatArray],
-    onsets: Mapping[str, npt.NDArray[np.bool_]],
+    onsets: Mapping[str, BoolArray],
     pairs: list[tuple[str, str]],
     t_lo: float,
     t_hi: float,
@@ -244,7 +242,7 @@ def _window_envelope_coupling(
 
 
 def _window_onset_coupling(
-    onsets: Mapping[str, npt.NDArray[np.bool_]],
+    onsets: Mapping[str, BoolArray],
     times: Mapping[str, FloatArray],
     a: str,
     b: str,
@@ -253,8 +251,8 @@ def _window_onset_coupling(
 ) -> float | None:
     if a not in onsets or b not in onsets:
         return None
-    slice_a = _slice_by_time(onsets[a], times[a], t_lo, t_hi)
-    slice_b = _slice_by_time(onsets[b], times[b], t_lo, t_hi)
+    slice_a = _slice_bool_by_time(onsets[a], times[a], t_lo, t_hi)
+    slice_b = _slice_bool_by_time(onsets[b], times[b], t_lo, t_hi)
     n = min(slice_a.size, slice_b.size)
     if n < 10 or not (slice_a[:n].any() or slice_b[:n].any()):
         return None
@@ -313,6 +311,13 @@ def _network_series(network_density: float, grid: FloatArray) -> FloatArray:
 
 
 def _slice_by_time(values: FloatArray, times: FloatArray, t_lo: float, t_hi: float) -> FloatArray:
+    mask = (times >= t_lo) & (times <= t_hi)
+    return values[mask]
+
+
+def _slice_bool_by_time(
+    values: BoolArray, times: FloatArray, t_lo: float, t_hi: float
+) -> BoolArray:
     mask = (times >= t_lo) & (times <= t_hi)
     return values[mask]
 

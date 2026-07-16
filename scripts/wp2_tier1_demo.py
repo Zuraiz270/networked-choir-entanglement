@@ -35,9 +35,9 @@ def pick_shortest_with_singers_visible() -> dict:
     """
     with MANIFEST.open(encoding="utf-8") as f:
         rows = [
-            r for r in csv.DictReader(f)
-            if r["download_sha256"] != "url-unavailable"
-            and "tile" in r["notes"].lower()
+            r
+            for r in csv.DictReader(f)
+            if r["download_sha256"] != "url-unavailable" and "tile" in r["notes"].lower()
         ]
     if not rows:
         raise RuntimeError("No tile-containing videos in manifest")
@@ -108,8 +108,10 @@ def run() -> None:
     if not MANIFEST.exists():
         raise FileNotFoundError(f"Manifest missing: {MANIFEST}")
     meta = pick_shortest_with_singers_visible()
-    print(f"Picked shortest video with visible singers: {meta['video_id']} "
-          f"({meta['duration_s']}s, {meta['latency_regime_label']}, {meta['singer_count_est']} singers)")
+    print(
+        f"Picked shortest video with visible singers: {meta['video_id']} "
+        f"({meta['duration_s']}s, {meta['latency_regime_label']}, {meta['singer_count_est']} singers)"
+    )
 
     with tempfile.TemporaryDirectory(prefix="wp2_tier1_") as tmp:
         print(f"  Downloading {meta['url']}...")
@@ -119,7 +121,7 @@ def run() -> None:
         out_dir = OUTPUT_BASE / meta["video_id"]
         parquet = out_dir / "pose.parquet"
         print(f"  Extracting MediaPipe Pose + FaceMesh -> {parquet}")
-        print(f"  (sampling every 3rd frame, cap 600 frames for Sprint-2 pilot)")
+        print("  (sampling every 3rd frame, cap 600 frames for Sprint-2 pilot)")
         df = extract_pose_to_parquet(
             mp4, parquet, singer_id=meta["video_id"], frame_skip=3, max_frames=600
         )
@@ -127,7 +129,7 @@ def run() -> None:
 
     CALIBRATION_NOTE.write_text(summarize(df, meta), encoding="utf-8")
     print(f"\n  Calibration note: {CALIBRATION_NOTE}")
-    print(f"  mp4 deleted (per data sourcing policy §1)")
+    print("  mp4 deleted (per data sourcing policy §1)")
 
 
 if __name__ == "__main__":

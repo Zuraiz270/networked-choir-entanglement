@@ -84,7 +84,9 @@ def process_take(take_id: str) -> tuple[dict[str, object], pd.DataFrame, np.ndar
         "take_id": take_id,
         "n_singers": len(audio),
         "n_windows": len(timeline),
-        "duration_sec": round(float(timeline["time_sec"].iloc[-1]) - float(timeline["time_sec"].iloc[0]) + STEP_SEC, 2),
+        "duration_sec": round(
+            float(timeline["time_sec"].iloc[-1]) - float(timeline["time_sec"].iloc[0]) + STEP_SEC, 2
+        ),
         "A_mean": round(float(a_values.mean()) if a_values.size else float("nan"), 4),
         "A_std": round(float(a_values.std()) if a_values.size else float("nan"), 4),
         "N_density": round(n_value, 4),
@@ -112,12 +114,22 @@ def render_figure(rows: list[dict[str, object]], nulls: dict[str, np.ndarray]) -
             q025, q975 = np.quantile(null_arr, [0.025, 0.975])
             null_mean = float(null_arr.mean())
             ax.errorbar(
-                i, null_mean, yerr=[[null_mean - q025], [q975 - null_mean]],
-                fmt="o", color="#888888", markersize=5, capsize=6, alpha=0.7,
+                i,
+                null_mean,
+                yerr=[[null_mean - q025], [q975 - null_mean]],
+                fmt="o",
+                color="#888888",
+                markersize=5,
+                capsize=6,
+                alpha=0.7,
                 label="null mean (95% interval)" if i == 0 else None,
             )
     ax.scatter(
-        xs, df["E_mean"], color="#d62728", s=90, zorder=3,
+        xs,
+        df["E_mean"],
+        color="#d62728",
+        s=90,
+        zorder=3,
         label="observed mean E(t)",
     )
     for i, row in df.iterrows():
@@ -161,7 +173,9 @@ def run() -> None:
 
     df = pd.DataFrame(rows).sort_values("take_id").reset_index(drop=True)
     df.to_csv(CORPUS_CSV, index=False)
-    print(f"\nWrote {CORPUS_CSV} ({len(df)} rows; {(time.perf_counter() - total_start)/60:.1f} min total)")
+    print(
+        f"\nWrote {CORPUS_CSV} ({len(df)} rows; {(time.perf_counter() - total_start)/60:.1f} min total)"
+    )
 
     figure_path = render_figure(rows, nulls)
     print(f"Wrote {figure_path}")
@@ -171,7 +185,9 @@ def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dataset", default="dagstuhl", choices=["dagstuhl", "esmuc", "choralsynth"])
+    parser.add_argument(
+        "--dataset", default="dagstuhl", choices=["dagstuhl", "esmuc", "choralsynth"]
+    )
     args = parser.parse_args()
 
     global PROCESSED_ROOT, CORPUS_CSV, FIGURE_OUT

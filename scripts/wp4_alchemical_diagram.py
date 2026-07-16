@@ -78,30 +78,42 @@ def run() -> None:
     for i, stage in enumerate(STAGES):
         x = x0 + i * (box_w + gap)
         rect = mpatches.FancyBboxPatch(
-            (x, -box_h / 2), box_w, box_h,
+            (x, -box_h / 2),
+            box_w,
+            box_h,
             boxstyle="round,pad=0.05,rounding_size=0.15",
-            facecolor=stage["color"], edgecolor="#333333", linewidth=1.5,
+            facecolor=stage["color"],
+            edgecolor="#333333",
+            linewidth=1.5,
         )
         ax.add_patch(rect)
         ax.text(
-            x + box_w / 2, box_h / 2 - 0.35,
+            x + box_w / 2,
+            box_h / 2 - 0.35,
             stage["name"],
-            ha="center", va="top",
-            fontsize=18, fontweight="bold",
+            ha="center",
+            va="top",
+            fontsize=18,
+            fontweight="bold",
             color=stage["text_color"],
         )
         ax.text(
-            x + box_w / 2, box_h / 2 - 0.85,
+            x + box_w / 2,
+            box_h / 2 - 0.85,
             stage["subtitle"],
-            ha="center", va="top",
-            fontsize=10, style="italic",
+            ha="center",
+            va="top",
+            fontsize=10,
+            style="italic",
             color=stage["text_color"],
         )
         for j, bullet in enumerate(stage["bullets"]):
             ax.text(
-                x + 0.15, 0.45 - j * 0.45,
+                x + 0.15,
+                0.45 - j * 0.45,
                 f"• {bullet}",
-                ha="left", va="top",
+                ha="left",
+                va="top",
                 fontsize=9,
                 color=stage["text_color"],
             )
@@ -112,7 +124,7 @@ def run() -> None:
                 "",
                 xy=(arrow_x + gap - 0.1, 0),
                 xytext=(arrow_x, 0),
-                arrowprops=dict(arrowstyle="->", color="#555555", lw=2.5),
+                arrowprops={"arrowstyle": "->", "color": "#555555", "lw": 2.5},
             )
 
     ax.set_xlim(x0 - 0.5, -x0 + 0.5)
@@ -121,17 +133,27 @@ def run() -> None:
     ax.set_title(
         "WP4 alchemical-stage Honest Signals pipeline (Gloor flagship, draft)\n"
         "Cybernetic Alchemy applied to networked choir performance",
-        fontsize=13, pad=15,
+        fontsize=13,
+        pad=15,
     )
     ax.text(
-        0, -box_h / 2 - 0.9,
+        0,
+        -box_h / 2 - 0.9,
         "Raw audio + video → reproducible features → cross-singer patterns → quantified group flow",
-        ha="center", va="top", fontsize=10, style="italic", color="#444444",
+        ha="center",
+        va="top",
+        fontsize=10,
+        style="italic",
+        color="#444444",
     )
     ax.text(
-        0, -box_h / 2 - 1.3,
+        0,
+        -box_h / 2 - 1.3,
         "Source: Gloor, *Cybernetic Alchemy* (Ch. 14, Data as Prima Materia). Pipeline implementation: this project, Sprint 2.",
-        ha="center", va="top", fontsize=8, color="#666666",
+        ha="center",
+        va="top",
+        fontsize=8,
+        color="#666666",
     )
 
     FIGURE_OUT.parent.mkdir(parents=True, exist_ok=True)

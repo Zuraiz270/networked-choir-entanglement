@@ -130,9 +130,15 @@ def process_take(manifest: TakeManifest) -> dict[str, object]:
         "n_singers": len(singers),
         "n_pairs": len(couplings),
         "duration_sec": round(duration_sec, 2),
-        "mean_coupling": round(float(coupling_series.mean()), 4) if len(coupling_series) else float("nan"),
-        "max_coupling": round(float(coupling_series.max()), 4) if len(coupling_series) else float("nan"),
-        "min_coupling": round(float(coupling_series.min()), 4) if len(coupling_series) else float("nan"),
+        "mean_coupling": round(float(coupling_series.mean()), 4)
+        if len(coupling_series)
+        else float("nan"),
+        "max_coupling": round(float(coupling_series.max()), 4)
+        if len(coupling_series)
+        else float("nan"),
+        "min_coupling": round(float(coupling_series.min()), 4)
+        if len(coupling_series)
+        else float("nan"),
         "singers_extracted": extracted,
         "singers_reused": reused,
     }

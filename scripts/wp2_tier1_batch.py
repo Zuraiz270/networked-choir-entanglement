@@ -90,9 +90,7 @@ def summarise(
     shoulder_std = (
         float(np.nanstd(df["shoulder_rise"])) if df["shoulder_rise"].notna().any() else 0.0
     )
-    head_sway_std = (
-        float(np.nanstd(df["head_sway"])) if df["head_sway"].notna().any() else 0.0
-    )
+    head_sway_std = float(np.nanstd(df["head_sway"])) if df["head_sway"].notna().any() else 0.0
     quality_pass = pose_detection >= DETECTION_THRESHOLD
     return {
         "video_id": video_id,
@@ -143,10 +141,7 @@ def render_v2_figure(summary: pd.DataFrame, lookup: dict[str, dict[str, str]]) -
 
 def discover_on_disk_videos(lookup: dict[str, dict[str, str]]) -> list[str]:
     """Every manifest video whose mp4 is present under data/raw/tier1/."""
-    return sorted(
-        vid for vid in lookup
-        if (RAW_ROOT / vid / f"{vid}.mp4").exists()
-    )
+    return sorted(vid for vid in lookup if (RAW_ROOT / vid / f"{vid}.mp4").exists())
 
 
 def run(all_videos: bool = False) -> None:
@@ -193,7 +188,8 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--all", action="store_true",
+        "--all",
+        action="store_true",
         help="Process every Tier-1 mp4 on disk (default: the 10 stratified picks).",
     )
     args = parser.parse_args()

@@ -30,17 +30,17 @@ The honest constraint: no piece anywhere has audio, video, and network signals t
 
 The latency grid works like this. Each clean piece is degraded through five regimes, from the in-person threshold at twenty-five milliseconds, through two Jamulus settings, up to a Zoom-class regime with one hundred fifty milliseconds delay, eighty milliseconds jitter, and eight percent dropout. Then every metric is recomputed for every piece in every regime. Because the same piece appears in all regimes, each piece is its own control.
 
-Statistics: every coordination number is tested against a circular-shift null. We rotate each stream against the others, which preserves each stream's internal structure but destroys the alignment between them. The final grid uses two thousand shuffles per cell; that rerun finished on the Erlangen cluster last week.
+Statistics match each measurement. Envelope and influence-network results use circular-shift nulls. We rotate streams to preserve their internal structure while destroying alignment, and the final grid uses two thousand shifts per cell. For the onset result, every piece is its own control: we compare clean with Zoom and use an exact paired sign test.
 
 ## Slide 5: Reproducibility (Hammad)
 
-Before results, one slide on trust. One command regenerates the summary results from committed data. Forty-four automated tests cover every pipeline stage. The cluster submission script for the two-thousand-shuffle grid is committed and validated. And every number on the next slides traces to a committed CSV file. Zuraiz takes it from here.
+Before results, one slide on trust. One command regenerates the summary results from committed data. Forty-eight automated tests cover every pipeline stage and report generation. The cluster submission script for the two-thousand-shuffle grid is committed and validated. And every number on the next slides traces to a committed CSV file. Zuraiz takes it from here.
 
 ## Slide 6: H1 result (Zuraiz)
 
 Thank you, Hammad. Here is the headline.
 
-When we push clean recordings toward Zoom-class conditions, onset synchrony, whether singers land their notes together, collapses. Minus fifty-six point five percent on Dagstuhl. Minus sixty-five point one on ESMUC. Minus seventy-five point one on the synthetic corpus. Across all twenty-eight pieces, about minus seventy-one percent, and the fall is monotonic: every step of added jitter costs timing.
+When we push clean recordings toward Zoom-class conditions, onset synchrony, whether singers land their notes together, collapses. Minus fifty-six point five percent on Dagstuhl. Minus sixty-five point one on ESMUC. Minus seventy-five point one on the synthetic corpus. Across all twenty-eight pieces, about minus seventy-one percent. Every one of the twenty-eight pieces decreases, and the exact paired sign-test p-value is three point seven three times ten to the minus nine.
 
 Loudness coupling, in contrast, barely moves. On Dagstuhl it is flat to within half a percent.
 
@@ -58,9 +58,9 @@ We kept the null result in the report. The dissociation itself, timing collapses
 
 H2 asks whether choir networks have leaders. Prof. Hacker pushed us in May to define leader dominance operationally, and this slide is that answer. Leader dominance is the Gini coefficient of out-degree in the Granger-causal influence graph: zero means democratic, one means a single driver.
 
-Human choirs sit measurably above a density-matched random null: observed mean zero point one five four against zero point one three nine. Three of five Dagstuhl pieces and two of three ESMUC pieces are individually significant. The synthetic corpus sits at chance, two of twenty.
+Across the corpus, observed mean Gini is zero point one six two against a matched-null mean of zero point one five five. One of five Dagstuhl pieces and one of three ESMUC pieces are individually significant. None of the twenty synthetic pieces is significant.
 
-That contrast matters: leadership shows up in human singing and not in synthetic renderings of the same kind of music. So it is a human coordination signal, not an artifact of our pipeline. H2 is partially supported; its original latency-driven form cannot be tested with injected delay, and we say so.
+That is limited support, not a general hierarchy claim. Two human recordings show concentrated influence and no synthetic recording does, but the pooled difference is small. The original latency-driven form cannot be tested with injected delay, and we say so.
 
 ## Slide 9: H3 result (Zuraiz)
 
@@ -76,7 +76,7 @@ Now sixty seconds of the platform itself.
 
 [Demo choreography: dashboard already open. Piece 1, Dagstuhl quartet: press play, let E(t) draw for ~20 seconds, point at the influence graph edges. Switch to the Tier-1 piece: play video, pose overlay tracks the singer, ~20 seconds. Close with the metadata panel showing per-piece signal availability.]
 
-What you saw is real committed data, running locally, no mock content. The metadata panel is the honesty layer: it shows which signals each piece truly has.
+What you saw is real local data, running on the presentation laptop, with no mock content. The metadata panel is the honesty layer: it shows which signals each piece truly has.
 
 ## Slide 11: Fallback (Zuraiz, only if demo fails)
 
@@ -88,10 +88,10 @@ Five limitations, stated plainly. Injected latency models transmission, not how 
 
 ## Slide 13: Contributions (Zuraiz)
 
-Four things we hand over. A latency signature for online choirs, timing collapse between fifty-six and seventy-five percent at a paper-grade null. An operational leadership measure that separates human from synthetic choirs. A demonstrated, no longer hypothetical, data requirement for visual entanglement. And a reproducible pipeline: one command, forty-four tests, every claim traceable.
+Four things we hand over. A latency signature for online choirs: all twenty-eight pieces lose timing, with a paired p-value below four times ten to the minus nine. An operational leadership measure with limited evidence in two human recordings and none of twenty synthetic recordings. A demonstrated, no longer hypothetical, data requirement for visual entanglement. And a reproducible pipeline: one command, forty-eight tests, every report claim traceable.
 
 ## Slide 14: Close (Zuraiz)
 
-Next steps are two recordings away: real latency-varied live sessions for H1 and H2 in their strong forms, and a small paired audio-video corpus for H3. The final report is due July thirty-first; draft one has been complete since June.
+Next steps are two recordings away: real latency-varied live sessions for H1 and H2 in their strong forms, and a small paired audio-video corpus for H3. The final report is now complete as Markdown and a ten-page PDF.
 
 Thank you. We are happy to take questions.

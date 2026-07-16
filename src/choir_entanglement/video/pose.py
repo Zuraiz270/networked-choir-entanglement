@@ -135,8 +135,10 @@ def _head_sway(row: FrameRow) -> np.float32:
 def _trunk_lean(row: FrameRow) -> np.float32:
     """Tilt angle (rad) of shoulder-hip line vs vertical."""
     keys = [
-        "pose_left_shoulder_x", "pose_left_shoulder_y",
-        "pose_left_hip_x", "pose_left_hip_y",
+        "pose_left_shoulder_x",
+        "pose_left_shoulder_y",
+        "pose_left_hip_x",
+        "pose_left_hip_y",
     ]
     if any(np.isnan(row[k]) for k in keys):
         return NULL_F32

@@ -55,11 +55,13 @@ def run() -> None:
 
     graph = build_influence_graph(results, significance=0.05)
     metrics = graph_metrics(graph)
-    print(f"\n--- Graph metrics ---")
+    print("\n--- Graph metrics ---")
     print(f"  nodes={metrics.n_nodes}  edges={metrics.n_edges}  density={metrics.density:.3f}")
     print(f"  avg in-deg={metrics.avg_in_degree:.2f}  avg out-deg={metrics.avg_out_degree:.2f}")
-    print(f"  most central: {VOICE_LABEL[metrics.most_central]} "
-          f"(score {metrics.most_central_score:.3f})")
+    print(
+        f"  most central: {VOICE_LABEL[metrics.most_central]} "
+        f"(score {metrics.most_central_score:.3f})"
+    )
 
     _plot(graph, metrics, FIGURE_OUT)
     print(f"\n  Figure: {FIGURE_OUT}")
@@ -76,9 +78,13 @@ def _plot(graph: nx.DiGraph, metrics, out: Path) -> None:
     node_colors = [VOICE_COLOR[n] for n in graph.nodes]
     nx.draw_networkx_nodes(graph, pos, node_color=node_colors, node_size=2500, alpha=0.85, ax=ax)
     nx.draw_networkx_labels(
-        graph, pos,
+        graph,
+        pos,
         labels={n: VOICE_LABEL[n] for n in graph.nodes},
-        font_size=11, font_color="white", font_weight="bold", ax=ax,
+        font_size=11,
+        font_color="white",
+        font_weight="bold",
+        ax=ax,
     )
 
     if graph.number_of_edges() > 0:
@@ -86,11 +92,16 @@ def _plot(graph: nx.DiGraph, metrics, out: Path) -> None:
         weights = np.array([d["weight"] for _, _, d in edges])
         widths = 1.0 + 4.0 * (weights / weights.max()) if weights.max() > 0 else [1.0] * len(edges)
         nx.draw_networkx_edges(
-            graph, pos,
+            graph,
+            pos,
             edgelist=[(u, v) for u, v, _ in edges],
             width=widths.tolist() if hasattr(widths, "tolist") else widths,
-            edge_color="#444444", alpha=0.7, arrows=True, arrowsize=22,
-            connectionstyle="arc3,rad=0.12", ax=ax,
+            edge_color="#444444",
+            alpha=0.7,
+            arrows=True,
+            arrowsize=22,
+            connectionstyle="arc3,rad=0.12",
+            ax=ax,
         )
         edge_labels = {(u, v): f"F={d['weight']:.1f}\nlag={d['lag']}" for u, v, d in edges}
         nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_labels, font_size=8, ax=ax)

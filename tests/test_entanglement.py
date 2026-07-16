@@ -6,6 +6,7 @@ from pathlib import Path
 
 import networkx as nx
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -20,7 +21,7 @@ FRAME_RATE_HZ = 43.0  # matches the WP1 pipeline (sr=22050, hop=512)
 
 
 def _write_audio_parquet(
-    path: Path, time_sec: np.ndarray, rms: np.ndarray
+    path: Path, time_sec: npt.NDArray[np.float64], rms: npt.NDArray[np.float64]
 ) -> Path:
     df = pd.DataFrame({"time_sec": time_sec, "rms": rms})
     pq.write_table(pa.Table.from_pandas(df, preserve_index=False), path)
@@ -28,14 +29,19 @@ def _write_audio_parquet(
 
 
 def _write_audio_parquet_with_onsets(
-    path: Path, time_sec: np.ndarray, rms: np.ndarray, onset: np.ndarray
+    path: Path,
+    time_sec: npt.NDArray[np.float64],
+    rms: npt.NDArray[np.float64],
+    onset: npt.NDArray[np.bool_],
 ) -> Path:
     df = pd.DataFrame({"time_sec": time_sec, "rms": rms, "onset": onset})
     pq.write_table(pa.Table.from_pandas(df, preserve_index=False), path)
     return path
 
 
-def _coupled_audio(tmp_path: Path, n_singers: int = 4, duration_sec: float = 30.0) -> dict[str, Path]:
+def _coupled_audio(
+    tmp_path: Path, n_singers: int = 4, duration_sec: float = 30.0
+) -> dict[str, Path]:
     """Singers driven by a shared RMS envelope plus per-singer noise."""
     tmp_path.mkdir(parents=True, exist_ok=True)
     n = int(duration_sec * FRAME_RATE_HZ)
@@ -49,7 +55,9 @@ def _coupled_audio(tmp_path: Path, n_singers: int = 4, duration_sec: float = 30.
     return parquets
 
 
-def _independent_audio(tmp_path: Path, n_singers: int = 4, duration_sec: float = 30.0) -> dict[str, Path]:
+def _independent_audio(
+    tmp_path: Path, n_singers: int = 4, duration_sec: float = 30.0
+) -> dict[str, Path]:
     tmp_path.mkdir(parents=True, exist_ok=True)
     n = int(duration_sec * FRAME_RATE_HZ)
     time_sec = np.arange(n, dtype=np.float64) / FRAME_RATE_HZ
@@ -92,15 +100,11 @@ def test_independent_audio_yields_low_E_relative_to_coupled(tmp_path: Path) -> N
     indep_audio = _independent_audio(tmp_path / "indep")
     gexf = _network_gexf(tmp_path, density=0.5)
 
-    e_coupled = compute_entanglement(
-        coupled_audio, gexf, window_sec=5.0, step_sec=0.5
-    )["A"]
-    e_indep = compute_entanglement(
-        indep_audio, gexf, window_sec=5.0, step_sec=0.5
-    )["A"]
-    assert e_coupled.mean() > e_indep.mean() + 0.1, (
-        f"coupled A({e_coupled.mean():.3f}) should exceed independent A({e_indep.mean():.3f})"
-    )
+    e_coupled = compute_entanglement(coupled_audio, gexf, window_sec=5.0, step_sec=0.5)["A"]
+    e_indep = compute_entanglement(indep_audio, gexf, window_sec=5.0, step_sec=0.5)["A"]
+    assert (
+        e_coupled.mean() > e_indep.mean() + 0.1
+    ), f"coupled A({e_coupled.mean():.3f}) should exceed independent A({e_indep.mean():.3f})"
 
 
 def test_audio_component_includes_onset_synchrony_when_available(tmp_path: Path) -> None:
@@ -120,20 +124,21 @@ def test_audio_component_includes_onset_synchrony_when_available(tmp_path: Path)
         "S1": _write_audio_parquet_with_onsets(tmp_path / "s1.parquet", time_sec, rms, shifted),
     }
 
-    a_aligned = compute_entanglement(
-        audio_aligned, None, window_sec=8.0, step_sec=1.0
-    )["A"].dropna()
-    a_shifted = compute_entanglement(
-        audio_shifted, None, window_sec=8.0, step_sec=1.0
-    )["A"].dropna()
+    a_aligned = compute_entanglement(audio_aligned, None, window_sec=8.0, step_sec=1.0)[
+        "A"
+    ].dropna()
+    a_shifted = compute_entanglement(audio_shifted, None, window_sec=8.0, step_sec=1.0)[
+        "A"
+    ].dropna()
 
     assert a_aligned.mean() > a_shifted.mean() + 0.2
 
 
 def test_missing_signals_reallocate_E_weight(tmp_path: Path) -> None:
     audio = _coupled_audio(tmp_path, n_singers=2)
-    df = compute_entanglement(audio, network_gexf=None, video_parquet=None,
-                              window_sec=5.0, step_sec=0.5)
+    df = compute_entanglement(
+        audio, network_gexf=None, video_parquet=None, window_sec=5.0, step_sec=0.5
+    )
     # No N, no V -> E should equal A and n_available should be 1 wherever A is defined
     valid = df.dropna(subset=["A"])
     assert (valid["E"] == valid["A"]).all()

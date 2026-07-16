@@ -48,15 +48,18 @@ app.add_middleware(
 
 
 def _nan_to_none(values: list[float]) -> list[float | None]:
-    return [None if (v is None or (isinstance(v, float) and math.isnan(v))) else round(float(v), 4)
-            for v in values]
+    return [
+        None if (v is None or (isinstance(v, float) and math.isnan(v))) else round(float(v), 4)
+        for v in values
+    ]
 
 
 def _dagstuhl_pieces() -> list[str]:
     if not DAGSTUHL_ROOT.exists():
         return []
     return sorted(
-        d.name for d in DAGSTUHL_ROOT.iterdir()
+        d.name
+        for d in DAGSTUHL_ROOT.iterdir()
         if d.is_dir() and (d / f"influence_graph_{NETWORK_METHOD}.gexf").exists()
     )
 
@@ -101,8 +104,13 @@ def _entanglement_cached(video_id: str) -> dict[str, Any]:
     take_dir = DAGSTUHL_ROOT / video_id
     audio = {p.stem: p for p in sorted(take_dir.glob("*.parquet"))}
     gexf = take_dir / f"influence_graph_{NETWORK_METHOD}.gexf"
-    df = compute_entanglement(audio, gexf if gexf.exists() else None,
-                              video_parquet=None, window_sec=10.0, step_sec=STEP_SEC)
+    df = compute_entanglement(
+        audio,
+        gexf if gexf.exists() else None,
+        video_parquet=None,
+        window_sec=10.0,
+        step_sec=STEP_SEC,
+    )
     return {
         "video_id": video_id,
         "window_sec": 10.0,
@@ -134,9 +142,12 @@ def get_influence_graph(video_id: str) -> dict[str, Any]:
     g = nx.read_gexf(gexf)
     nodes = [{"id": n, "label": n, "section": str(n)[:1]} for n in g.nodes]
     edges = [
-        {"source": u, "target": v,
-         "weight": round(float(d.get("weight", 1.0)), 3),
-         "lag": int(d.get("lag", 0))}
+        {
+            "source": u,
+            "target": v,
+            "weight": round(float(d.get("weight", 1.0)), 3),
+            "lag": int(d.get("lag", 0)),
+        }
         for u, v, d in g.edges(data=True)
     ]
     return {"video_id": video_id, "nodes": nodes, "edges": edges}
@@ -153,8 +164,12 @@ def get_pose(video_id: str, max_frames: int = 600) -> dict[str, Any]:
         df = df.iloc[:: max(1, len(df) // max_frames)].head(max_frames)
     keypoint_cols = [c for c in df.columns if c.startswith("pose_") and c.endswith(("_x", "_y"))]
     frames = [
-        {"time_sec": round(float(r["time_sec"]), 3),
-         "keypoints": {c: (None if pd.isna(r[c]) else round(float(r[c]), 4)) for c in keypoint_cols}}
+        {
+            "time_sec": round(float(r["time_sec"]), 3),
+            "keypoints": {
+                c: (None if pd.isna(r[c]) else round(float(r[c]), 4)) for c in keypoint_cols
+            },
+        }
         for _, r in df.iterrows()
     ]
     return {"video_id": video_id, "n_frames": len(frames), "frames": frames}

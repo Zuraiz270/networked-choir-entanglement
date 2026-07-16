@@ -31,7 +31,9 @@ def coupled_pair() -> FloatPair:
 @pytest.fixture
 def independent_pair() -> FloatPair:
     rng = np.random.default_rng(7)
-    return rng.normal(0, 1, 500).cumsum().astype(np.float64), rng.normal(0, 1, 500).cumsum().astype(np.float64)
+    return rng.normal(0, 1, 500).cumsum().astype(np.float64), rng.normal(0, 1, 500).cumsum().astype(
+        np.float64
+    )
 
 
 @pytest.fixture
@@ -63,14 +65,22 @@ def test_granger_detects_coupling(coupled_pair: FloatPair) -> None:
 def test_granger_does_not_falsely_flag_independent(independent_pair: FloatPair) -> None:
     cause, effect = independent_pair
     result = pairwise_granger(cause, effect, "A", "B", maxlag=5, n_shuffles=50)
-    assert result.p_value_null > 0.05, f"Should not flag independent, got p_null={result.p_value_null}"
+    assert (
+        result.p_value_null > 0.05
+    ), f"Should not flag independent, got p_null={result.p_value_null}"
 
 
 def test_build_influence_graph_includes_significant_edges_only() -> None:
     results = [
-        type("R", (), {"cause": "A", "effect": "B", "f_stat": 10.0, "p_value_null": 0.01, "lag": 1})(),
-        type("R", (), {"cause": "B", "effect": "C", "f_stat": 5.0, "p_value_null": 0.40, "lag": 1})(),
-        type("R", (), {"cause": "C", "effect": "A", "f_stat": 8.0, "p_value_null": 0.001, "lag": 2})(),
+        type(
+            "R", (), {"cause": "A", "effect": "B", "f_stat": 10.0, "p_value_null": 0.01, "lag": 1}
+        )(),
+        type(
+            "R", (), {"cause": "B", "effect": "C", "f_stat": 5.0, "p_value_null": 0.40, "lag": 1}
+        )(),
+        type(
+            "R", (), {"cause": "C", "effect": "A", "f_stat": 8.0, "p_value_null": 0.001, "lag": 2}
+        )(),
     ]
     graph = build_influence_graph(results, significance=0.05)
     assert graph.number_of_nodes() == 3
@@ -97,7 +107,9 @@ def test_cop_gc_detects_nonlinear_coupling(nonlinear_coupled_pair: FloatPair) ->
         cause, effect, "A", "B", maxlag=5, n_shuffles=50, method="cop_gc", ordinal_order=3
     )
     assert result.method == "cop_gc"
-    assert result.p_value_null < 0.05, f"Should detect non-linear coupling, got p_null={result.p_value_null}"
+    assert (
+        result.p_value_null < 0.05
+    ), f"Should detect non-linear coupling, got p_null={result.p_value_null}"
     assert result.f_stat > 0
 
 
@@ -107,14 +119,22 @@ def test_cop_gc_does_not_falsely_flag_independent(independent_pair: FloatPair) -
         cause, effect, "A", "B", maxlag=5, n_shuffles=50, method="cop_gc", ordinal_order=3
     )
     assert result.method == "cop_gc"
-    assert result.p_value_null > 0.05, f"COP-GC should not flag independent, got p_null={result.p_value_null}"
+    assert (
+        result.p_value_null > 0.05
+    ), f"COP-GC should not flag independent, got p_null={result.p_value_null}"
 
 
 def test_graph_metrics_computes_density_and_centrality() -> None:
     results = [
-        type("R", (), {"cause": "A", "effect": "B", "f_stat": 10.0, "p_value_null": 0.01, "lag": 1})(),
-        type("R", (), {"cause": "A", "effect": "C", "f_stat": 9.0, "p_value_null": 0.02, "lag": 1})(),
-        type("R", (), {"cause": "B", "effect": "C", "f_stat": 7.0, "p_value_null": 0.01, "lag": 1})(),
+        type(
+            "R", (), {"cause": "A", "effect": "B", "f_stat": 10.0, "p_value_null": 0.01, "lag": 1}
+        )(),
+        type(
+            "R", (), {"cause": "A", "effect": "C", "f_stat": 9.0, "p_value_null": 0.02, "lag": 1}
+        )(),
+        type(
+            "R", (), {"cause": "B", "effect": "C", "f_stat": 7.0, "p_value_null": 0.01, "lag": 1}
+        )(),
     ]
     graph = build_influence_graph(results, significance=0.05)
     m = graph_metrics(graph)

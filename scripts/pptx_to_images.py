@@ -8,9 +8,9 @@ Falls back gracefully if PowerPoint is not available.
 
 from __future__ import annotations
 
-import os
 import sys
 import time
+from contextlib import suppress
 from pathlib import Path
 
 
@@ -38,10 +38,8 @@ def main() -> int:
     try:
         app = win32com.client.Dispatch("PowerPoint.Application")
         # PowerPoint requires the window to be createable; some installs need Visible=True
-        try:
+        with suppress(Exception):
             app.Visible = False
-        except Exception:
-            pass
 
         prs = app.Presentations.Open(
             str(in_path),

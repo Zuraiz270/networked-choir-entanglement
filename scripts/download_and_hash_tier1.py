@@ -40,16 +40,23 @@ def download_video(video_id: str, url: str) -> Path | None:
     result = subprocess.run(
         [
             YT_DLP,
-            "-f", "worst[ext=mp4]/worst",
+            "-f",
+            "worst[ext=mp4]/worst",
             "--continue",
-            "--retries", "50",
-            "--fragment-retries", "50",
-            "--extractor-args", "youtube:player_client=web,android",
+            "--retries",
+            "50",
+            "--fragment-retries",
+            "50",
+            "--extractor-args",
+            "youtube:player_client=web,android",
             "--no-warnings",
-            "-o", output_template,
+            "-o",
+            output_template,
             url,
         ],
-        capture_output=True, text=True, timeout=1800,
+        capture_output=True,
+        text=True,
+        timeout=1800,
     )
     if result.returncode != 0:
         print(f"    yt-dlp failed: {result.stderr.strip().splitlines()[-1][:120]}")

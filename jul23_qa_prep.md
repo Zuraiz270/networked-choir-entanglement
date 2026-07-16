@@ -11,7 +11,7 @@ Private prep. Short answers first; expand only if pressed. Numbers updated to th
 
 **Short**: H1 is supported in the timing channel. Jitter strongly degrades zero-lag onset synchrony while loudness-envelope coupling stays flat.
 
-**Backup**: Clean to Zoom-class drops at the 2000-shuffle null: 56.5% Dagstuhl, 65.1% ESMUC, 75.1% ChoralSynth, 70.7% across all 28 pieces, monotonic per piece.
+**Backup**: Clean to Zoom-class drops are 56.5% Dagstuhl, 65.1% ESMUC, 75.1% ChoralSynth, and 70.7% across all 28 pieces. All 28 decrease; exact paired sign-test p = 3.73 x 10^-9.
 
 **If pressed**: The contribution is the dissociation. A lag-tolerant envelope metric would have missed the latency effect entirely; onset timing is the physical channel latency damages.
 
@@ -19,7 +19,7 @@ Private prep. Short answers first; expand only if pressed. Numbers updated to th
 
 **Short**: They did not change; they got more precise. Earlier decks rounded to whole percent from the 100-shuffle grid; the paper-grade 2000-shuffle rerun (2026-07-14) gives the same values at one decimal: 56.5 / 65.1 / 75.1.
 
-**Backup**: Onset synchrony is deterministic; shuffles only sharpen the null distribution and p-values. The rerun changing nothing is itself a robustness check.
+**Backup**: Onset synchrony is deterministic, so the 2000 shifts do not test the onset values. They sharpen the envelope and influence-network nulls. The onset claim uses the within-piece sign test.
 
 ### Q3: Why did constant delay fail first?
 
@@ -31,11 +31,11 @@ Private prep. Short answers first; expand only if pressed. Numbers updated to th
 
 ### Q4: Is H2 supported?
 
-**Short**: Partially. Human influence networks show weak but real leadership structure above a density-matched random null; the original latency-driven form is untestable with injected delay.
+**Short**: Limited support. Two of eight human pieces are more centralized than their matched nulls, compared with none of twenty synthetic pieces; the original latency-driven form is untestable with injected delay.
 
-**Backup**: Observed corpus mean out-degree Gini 0.154 vs null 0.139 (1000 matched random digraphs per piece). Dagstuhl 3/5 significant, ESMUC 2/3, ChoralSynth 2/20 (chance).
+**Backup**: Observed corpus mean out-degree Gini 0.162 vs null 0.155 (1000 matched random digraphs per piece). Dagstuhl 1/5 significant, ESMUC 1/3, ChoralSynth 0/20.
 
-**If pressed on the null mean's precision**: the committed CSV mean is exactly 0.1385; we cite it half-up as 0.139, consistent across all materials since Status VI.
+**If pressed on the changed numbers**: the final H2 table was regenerated from the 2000-shift grid. We also fixed a rounding bug that made equal observed and null Gini values look significant.
 
 ### Q5: Why Gini of out-degree rather than eigenvector centrality?
 
@@ -83,7 +83,7 @@ Private prep. Short answers first; expand only if pressed. Numbers updated to th
 
 ### Q11: Can the results be reproduced?
 
-**Short**: Yes at the report level: `make reproduce` regenerates summary artifacts from committed outputs; 44 automated tests cover the pipeline; the 2000-shuffle grid protocol (SLURM array, merge, completeness check) is committed and was validated on NHR@FAU.
+**Short**: Yes at the report level: `make reproduce` regenerates summary artifacts and the PDF from committed outputs; 48 automated tests cover the pipeline and report renderer; the 2000-shuffle grid protocol is committed and was validated on NHR@FAU.
 
 **Backup**: Full raw extraction depends on large gitignored media by design (legal + size); the committed layer is summaries, figures, and code.
 
@@ -105,4 +105,4 @@ Private prep. Short answers first; expand only if pressed. Numbers updated to th
 
 ### Q15: Biggest final-presentation risk?
 
-**Short**: Demo reliability, mitigated by rehearsal on the presentation laptop and the fallback slide. The scientific results are stable and committed.
+**Short**: Demo reliability, mitigated by rehearsal on the data-bearing presentation laptop and the fallback slide. The report-stage scientific results are stable and committed.

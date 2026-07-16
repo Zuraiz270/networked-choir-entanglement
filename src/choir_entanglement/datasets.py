@@ -41,10 +41,16 @@ _ESMUC_SINGER_RE = re.compile(r"^[SATB][0-9]$")
 
 # --- ChoralSynth: map a voice-part name to an SATB section letter ---
 _CS_SECTION_BY_PREFIX = {
-    "cantus": "S", "soprano": "S", "superius": "S", "discantus": "S",
-    "altus": "A", "alto": "A", "contratenor": "A",
+    "cantus": "S",
+    "soprano": "S",
+    "superius": "S",
+    "discantus": "S",
+    "altus": "A",
+    "alto": "A",
+    "contratenor": "A",
     "tenor": "T",
-    "bassus": "B", "bass": "B",
+    "bassus": "B",
+    "bass": "B",
 }
 
 
@@ -79,9 +85,7 @@ def dagstuhl_adapter(raw_root: Path) -> list[PieceManifest]:
         by_take[key][m["singer"]].append((_DAGSTUHL_MIC_PRIORITY[m["mic"]], wav))
     manifests: list[PieceManifest] = []
     for (piece, section, take), singers in by_take.items():
-        canonical = {
-            s: min(cands, key=lambda pair: pair[0])[1] for s, cands in singers.items()
-        }
+        canonical = {s: min(cands, key=lambda pair: pair[0])[1] for s, cands in singers.items()}
         if len(canonical) < 2:
             continue
         manifests.append(
@@ -131,9 +135,7 @@ def choralsynth_adapter(raw_root: Path) -> list[PieceManifest]:
             section = _choralsynth_section(mp3.stem)
             section_counts[section] += 1
             singer_wavs[f"{section}{section_counts[section]}"] = mp3
-        manifests.append(
-            PieceManifest("choralsynth", piece_dir.name, singer_wavs, unit="part")
-        )
+        manifests.append(PieceManifest("choralsynth", piece_dir.name, singer_wavs, unit="part"))
     return manifests
 
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 from scripts.h3_visual_onset import (
     circular_null_p,
@@ -11,7 +12,7 @@ from scripts.h3_visual_onset import (
 )
 
 
-def _smooth_noise(n: int, seed: int) -> np.ndarray:
+def _smooth_noise(n: int, seed: int) -> npt.NDArray[np.float64]:
     rng = np.random.default_rng(seed)
     return np.convolve(rng.standard_normal(n), np.ones(5) / 5, mode="same")
 

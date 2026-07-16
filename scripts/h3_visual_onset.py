@@ -27,6 +27,7 @@ from pathlib import Path
 
 import librosa
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 
 from choir_entanglement.audio.pipeline import HOP_LENGTH_SAMPLES, SAMPLE_RATE_HZ
@@ -38,6 +39,8 @@ AUDIO_WINDOW_S = 90.0
 MOTION_COLUMNS = ("head_sway", "trunk_lean", "shoulder_rise")
 MIN_VALID_PAIRS = 10
 
+FloatArray = npt.NDArray[np.float64]
+
 POSE_SUMMARY = Path("data/processed/tier1/_pose_summary.csv")
 RAW_DIR = Path("data/raw/tier1")
 PROCESSED_DIR = Path("data/processed/tier1")
@@ -45,16 +48,16 @@ OUT_CSV = PROCESSED_DIR / "_h3_visual_onset.csv"
 FIGURE_OUT = Path("data/figures/h3_visual_onset.png")
 
 
-def _zscore(x: np.ndarray) -> np.ndarray:
+def _zscore(x: FloatArray) -> FloatArray:
     sd = np.nanstd(x)
     if not np.isfinite(sd) or sd == 0:
         return np.zeros_like(x)
-    return (x - np.nanmean(x)) / sd
+    return np.asarray((x - np.nanmean(x)) / sd, dtype=np.float64)
 
 
 def visual_motion_signal(
     pose: pd.DataFrame, grid_hz: float = GRID_HZ
-) -> tuple[np.ndarray, np.ndarray]:
+) -> tuple[FloatArray, FloatArray]:
     """Motion-energy signal on a uniform grid from pose-derived features.
 
     Per singer stream: sum of z-scored |Δ| of the derived columns (sway +
@@ -64,7 +67,7 @@ def visual_motion_signal(
     t0 = float(pose["time_sec"].min())
     t1 = float(pose["time_sec"].max())
     grid = np.arange(t0, t1, 1.0 / grid_hz)
-    per_stream: list[np.ndarray] = []
+    per_stream: list[FloatArray] = []
     for _, df in pose.groupby("singer_id"):
         df = df.sort_values("time_sec")
         t = df["time_sec"].to_numpy(dtype=float)
@@ -85,15 +88,13 @@ def visual_motion_signal(
     return grid, np.nanmean(np.vstack(per_stream), axis=0)
 
 
-def audio_onset_envelope(y: np.ndarray, times_grid: np.ndarray) -> np.ndarray:
+def audio_onset_envelope(y: FloatArray, times_grid: FloatArray) -> FloatArray:
     """Librosa onset-strength envelope resampled onto ``times_grid``.
 
     Grid points outside the audio's time range become NaN and are dropped
     pairwise in the correlation.
     """
-    env = librosa.onset.onset_strength(
-        y=y, sr=SAMPLE_RATE_HZ, hop_length=HOP_LENGTH_SAMPLES
-    )
+    env = librosa.onset.onset_strength(y=y, sr=SAMPLE_RATE_HZ, hop_length=HOP_LENGTH_SAMPLES)
     t_env = librosa.frames_to_time(
         np.arange(len(env)), sr=SAMPLE_RATE_HZ, hop_length=HOP_LENGTH_SAMPLES
     )
@@ -101,8 +102,8 @@ def audio_onset_envelope(y: np.ndarray, times_grid: np.ndarray) -> np.ndarray:
 
 
 def max_lag_correlation(
-    audio_env: np.ndarray,
-    visual_env: np.ndarray,
+    audio_env: FloatArray,
+    visual_env: FloatArray,
     grid_hz: float = GRID_HZ,
     max_lag_s: float = MAX_LAG_S,
 ) -> tuple[float, float]:
@@ -141,13 +142,13 @@ def max_lag_correlation(
 
 
 def circular_null_rs(
-    audio_env: np.ndarray,
-    visual_env: np.ndarray,
+    audio_env: FloatArray,
+    visual_env: FloatArray,
     grid_hz: float = GRID_HZ,
     max_lag_s: float = MAX_LAG_S,
     n_shuffles: int = N_SHUFFLES,
     seed: int = 0,
-) -> np.ndarray:
+) -> FloatArray:
     """Null distribution of the max-lag r under circular shifts of the visual signal.
 
     Shift offsets follow the project null convention (rng.integers(2, n-2),
@@ -166,8 +167,8 @@ def circular_null_rs(
 
 
 def circular_null_p(
-    audio_env: np.ndarray,
-    visual_env: np.ndarray,
+    audio_env: FloatArray,
+    visual_env: FloatArray,
     grid_hz: float = GRID_HZ,
     max_lag_s: float = MAX_LAG_S,
     n_shuffles: int = N_SHUFFLES,
@@ -184,7 +185,7 @@ def circular_null_p(
     return float((1 + int(np.nansum(rs >= r_obs))) / (1 + n_shuffles))
 
 
-def _load_mp4_audio(mp4: Path, max_seconds: float = AUDIO_WINDOW_S) -> np.ndarray:
+def _load_mp4_audio(mp4: Path, max_seconds: float = AUDIO_WINDOW_S) -> FloatArray:
     """Decode the first ``max_seconds`` of an MP4's audio to mono 22050 Hz."""
     import imageio_ffmpeg
 
@@ -192,11 +193,18 @@ def _load_mp4_audio(mp4: Path, max_seconds: float = AUDIO_WINDOW_S) -> np.ndarra
     with tempfile.TemporaryDirectory() as td:
         wav = Path(td) / "audio.wav"
         cmd = [
-            exe, "-y", "-v", "error",
-            "-i", str(mp4),
-            "-t", str(max_seconds),
-            "-ac", "1",
-            "-ar", str(SAMPLE_RATE_HZ),
+            exe,
+            "-y",
+            "-v",
+            "error",
+            "-i",
+            str(mp4),
+            "-t",
+            str(max_seconds),
+            "-ac",
+            "1",
+            "-ar",
+            str(SAMPLE_RATE_HZ),
             str(wav),
         ]
         subprocess.run(cmd, check=True, capture_output=True)
@@ -204,7 +212,7 @@ def _load_mp4_audio(mp4: Path, max_seconds: float = AUDIO_WINDOW_S) -> np.ndarra
     return y
 
 
-def _figure(results: pd.DataFrame, nulls: dict[str, np.ndarray], out: Path) -> None:
+def _figure(results: pd.DataFrame, nulls: dict[str, FloatArray], out: Path) -> None:
     """Observed max-lag r per video against its circular-shift null distribution."""
     import matplotlib
 
@@ -227,12 +235,18 @@ def _figure(results: pd.DataFrame, nulls: dict[str, np.ndarray], out: Path) -> N
     )
     sig = order.significant.astype(bool)
     ax.scatter(
-        order.r_obs[sig], np.flatnonzero(sig), color="#d62728", zorder=3,
+        order.r_obs[sig],
+        np.flatnonzero(sig),
+        color="#d62728",
+        zorder=3,
         label=f"observed r, p < 0.05 (n={int(sig.sum())})",
     )
     ax.scatter(
-        order.r_obs[~sig], np.flatnonzero(~sig), facecolors="none",
-        edgecolors="#d62728", zorder=3,
+        order.r_obs[~sig],
+        np.flatnonzero(~sig),
+        facecolors="none",
+        edgecolors="#d62728",
+        zorder=3,
         label=f"observed r, n.s. (n={int((~sig).sum())})",
     )
     ax.set_yticks(range(len(order)))
@@ -262,7 +276,7 @@ def run() -> None:
         raise SystemExit(f"expected 18 quality-pass videos, found {len(usable)}")
 
     rows: list[dict[str, object]] = []
-    nulls: dict[str, np.ndarray] = {}
+    nulls: dict[str, FloatArray] = {}
     for rec in usable.itertuples():
         vid = str(rec.video_id)
         t0 = time.perf_counter()

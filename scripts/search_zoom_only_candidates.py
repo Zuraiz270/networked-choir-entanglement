@@ -35,15 +35,29 @@ MIN_DURATION_SEC = 120
 MAX_DURATION_SEC = 1800
 
 DISQUALIFIER_KEYWORDS = (
-    "jamulus", "soundjack", "jacktrip",
-    "acapella", "smule", "charadi",
-    "official audio", "official video", "music video",
-    "compilation", "best of",
+    "jamulus",
+    "soundjack",
+    "jacktrip",
+    "acapella",
+    "smule",
+    "charadi",
+    "official audio",
+    "official video",
+    "music video",
+    "compilation",
+    "best of",
 )
 
 OUTPUT_COLUMNS = [
-    "video_id", "url", "title", "channel", "upload_date",
-    "duration_s", "view_count", "search_query", "reason_kept",
+    "video_id",
+    "url",
+    "title",
+    "channel",
+    "upload_date",
+    "duration_s",
+    "view_count",
+    "search_query",
+    "reason_kept",
 ]
 
 
@@ -60,7 +74,9 @@ def search(query: str, n_results: int) -> list[dict]:
     spec = f"ytsearch{n_results}:{query}"
     result = subprocess.run(
         [YT_DLP, "--simulate", "--no-warnings", "--flat-playlist", "-j", spec],
-        capture_output=True, text=True, timeout=120,
+        capture_output=True,
+        text=True,
+        timeout=120,
     )
     if result.returncode != 0:
         print(f"  WARN: yt-dlp failed for query '{query}': {result.stderr.strip()[:200]}")
@@ -116,17 +132,19 @@ def main() -> int:
             if not keep:
                 continue
             seen.add(video_id)
-            candidates.append({
-                "video_id": video_id,
-                "url": meta.get("url") or f"https://youtu.be/{video_id}",
-                "title": meta.get("title", ""),
-                "channel": meta.get("channel") or meta.get("uploader") or "",
-                "upload_date": meta.get("upload_date") or "",
-                "duration_s": str(meta.get("duration") or ""),
-                "view_count": str(meta.get("view_count") or ""),
-                "search_query": query,
-                "reason_kept": reason,
-            })
+            candidates.append(
+                {
+                    "video_id": video_id,
+                    "url": meta.get("url") or f"https://youtu.be/{video_id}",
+                    "title": meta.get("title", ""),
+                    "channel": meta.get("channel") or meta.get("uploader") or "",
+                    "upload_date": meta.get("upload_date") or "",
+                    "duration_s": str(meta.get("duration") or ""),
+                    "view_count": str(meta.get("view_count") or ""),
+                    "search_query": query,
+                    "reason_kept": reason,
+                }
+            )
             kept_this_query += 1
         print(f"  {kept_this_query} candidates kept (after de-dup + filters)")
 

@@ -6,8 +6,8 @@ help:
 	@echo "Targets:"
 	@echo "  sync           install deps from uv.lock (all WP groups + dev)"
 	@echo "  smoke          run canary smoke tests (< 90s)"
-	@echo "  all            run tests and rebuild report-stage artifacts"
-	@echo "  reproduce      rebuild committed report figures and status-VI deck"
+	@echo "  all            run tests and rebuild final report artifacts"
+	@echo "  reproduce      rebuild final statistics, figure, and PDF"
 	@echo "  lint           ruff format + check"
 	@echo "  typecheck      mypy strict"
 	@echo "  test           pytest with coverage"
@@ -24,9 +24,10 @@ all:
 	$(MAKE) reproduce
 
 reproduce:
+	$(UV_RUN) python -m scripts.h1_paired_test
 	$(UV_RUN) python -m scripts.h2_centralization_test
 	$(UV_RUN) python -m scripts.tier3_corpus_figure
-	$(UV_RUN) python scripts/generate_jul09_pptx.py
+	$(UV_RUN) python -m scripts.render_report
 
 lint:
 	$(UV_RUN) ruff format .

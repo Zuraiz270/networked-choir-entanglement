@@ -70,16 +70,42 @@ def _plot(timeline, observed_mean, null, p_null, output: Path) -> None:
     fig, axes = plt.subplots(2, 1, figsize=(11, 7), gridspec_kw={"height_ratios": [3, 1]})
 
     ax_ts = axes[0]
-    ax_ts.plot(timeline["time_sec"], timeline["A"], label="A(t) audio coupling",
-               color="#1f77b4", linewidth=1.1)
-    ax_ts.plot(timeline["time_sec"], timeline["N"], label="N(t) network density",
-               color="#2ca02c", linewidth=1.1, linestyle="--")
-    ax_ts.plot(timeline["time_sec"], timeline["V"], label="V(t) visual (NaN: Dagstuhl audio-only)",
-               color="#ff7f0e", linewidth=1.1)
-    ax_ts.plot(timeline["time_sec"], timeline["E"], label="E(t) composite (weight-reallocated)",
-               color="#d62728", linewidth=2.0)
-    ax_ts.axhline(observed_mean, color="#d62728", alpha=0.3, linestyle=":",
-                  label=f"mean E = {observed_mean:.3f}")
+    ax_ts.plot(
+        timeline["time_sec"],
+        timeline["A"],
+        label="A(t) audio coupling",
+        color="#1f77b4",
+        linewidth=1.1,
+    )
+    ax_ts.plot(
+        timeline["time_sec"],
+        timeline["N"],
+        label="N(t) network density",
+        color="#2ca02c",
+        linewidth=1.1,
+        linestyle="--",
+    )
+    ax_ts.plot(
+        timeline["time_sec"],
+        timeline["V"],
+        label="V(t) visual (NaN: Dagstuhl audio-only)",
+        color="#ff7f0e",
+        linewidth=1.1,
+    )
+    ax_ts.plot(
+        timeline["time_sec"],
+        timeline["E"],
+        label="E(t) composite (weight-reallocated)",
+        color="#d62728",
+        linewidth=2.0,
+    )
+    ax_ts.axhline(
+        observed_mean,
+        color="#d62728",
+        alpha=0.3,
+        linestyle=":",
+        label=f"mean E = {observed_mean:.3f}",
+    )
     ax_ts.set_xlabel("Time (s)")
     ax_ts.set_ylabel("Coupling / coherence")
     ax_ts.set_title(
@@ -93,8 +119,9 @@ def _plot(timeline, observed_mean, null, p_null, output: Path) -> None:
     ax_null = axes[1]
     finite_null = null[np.isfinite(null)]
     ax_null.hist(finite_null, bins=30, color="#888888", alpha=0.7, edgecolor="black")
-    ax_null.axvline(observed_mean, color="#d62728", linewidth=2.0,
-                    label=f"observed = {observed_mean:.3f}")
+    ax_null.axvline(
+        observed_mean, color="#d62728", linewidth=2.0, label=f"observed = {observed_mean:.3f}"
+    )
     ax_null.set_xlabel("Mean E(t) under 200 circular-shift permutations")
     ax_null.set_ylabel("Count")
     ax_null.set_title(f"Empirical null distribution · p_null = {p_null:.4f}")

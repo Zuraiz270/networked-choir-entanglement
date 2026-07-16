@@ -24,7 +24,7 @@ from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
-from pptx.util import Emu, Inches, Pt
+from pptx.util import Inches, Pt
 
 # --- Paths ---
 ROOT = Path(__file__).resolve().parent.parent
@@ -32,17 +32,17 @@ OUT_PATH = ROOT / "output" / "apr30_deck.pptx"
 
 # --- Color palette (Studio Acoustic) ---
 # Names are kept short for readability; values define the actual brand.
-TEAL = RGBColor(0x0E, 0x4D, 0x5E)          # primary, deep teal
-TEAL_DARK = RGBColor(0x07, 0x33, 0x40)     # title-slide background
-TEAL_MID = RGBColor(0x32, 0x80, 0x95)      # accents on dark backgrounds
-GOLD = RGBColor(0xC4, 0x90, 0x2A)          # warm gold accent (Citrinitas)
-GOLD_SOFT = RGBColor(0xE6, 0xC6, 0x70)     # secondary gold tint
-CREAM = RGBColor(0xFA, 0xF6, 0xEC)         # content slide background
-CREAM_DEEP = RGBColor(0xF1, 0xE9, 0xD3)    # alt row tint
-IVORY = RGBColor(0xFD, 0xFB, 0xF5)         # near-white body for cards
-CHARCOAL = RGBColor(0x24, 0x26, 0x2E)      # body text
-MUTED = RGBColor(0x6E, 0x6A, 0x60)         # warm muted grey for italics
-MIST = RGBColor(0xCB, 0xD9, 0xDD)          # subtle teal tint for dark-bg captions
+TEAL = RGBColor(0x0E, 0x4D, 0x5E)  # primary, deep teal
+TEAL_DARK = RGBColor(0x07, 0x33, 0x40)  # title-slide background
+TEAL_MID = RGBColor(0x32, 0x80, 0x95)  # accents on dark backgrounds
+GOLD = RGBColor(0xC4, 0x90, 0x2A)  # warm gold accent (Citrinitas)
+GOLD_SOFT = RGBColor(0xE6, 0xC6, 0x70)  # secondary gold tint
+CREAM = RGBColor(0xFA, 0xF6, 0xEC)  # content slide background
+CREAM_DEEP = RGBColor(0xF1, 0xE9, 0xD3)  # alt row tint
+IVORY = RGBColor(0xFD, 0xFB, 0xF5)  # near-white body for cards
+CHARCOAL = RGBColor(0x24, 0x26, 0x2E)  # body text
+MUTED = RGBColor(0x6E, 0x6A, 0x60)  # warm muted grey for italics
+MIST = RGBColor(0xCB, 0xD9, 0xDD)  # subtle teal tint for dark-bg captions
 
 # Status dots
 GREEN = RGBColor(0x4F, 0x8E, 0x5A)
@@ -1021,7 +1021,7 @@ def build_slide_5_plan(slide) -> None:
     headers = ["Milestone", "Phase", "Status"]
     rows = [(m, p, "") for m, p, _ in milestones]
 
-    table_shape = make_table(
+    make_table(
         slide,
         MARGIN,
         mile_top,
@@ -1036,11 +1036,8 @@ def build_slide_5_plan(slide) -> None:
     )
 
     # Overlay status dots into the third column
-    table = table_shape.table
     # Compute approximate positions for the status dots
-    third_col_x = MARGIN + int(mile_w * 0.89) + Inches(0.05)  # after 78+11=89%
     third_col_center_x = MARGIN + int(mile_w * 0.945)  # midpoint of 89-100
-    row_height_emu = Emu(int(Inches(0.27)))
     header_h = Inches(0.27)
     for i, (_, _, status) in enumerate(milestones):
         row_top = mile_top + header_h + i * Inches(0.27)

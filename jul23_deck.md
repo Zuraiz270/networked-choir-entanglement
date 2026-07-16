@@ -77,9 +77,9 @@ Latency grid: each clean multitrack piece is degraded through five regimes, then
 | Zoom-class | 150 | 80 | 8% |
 <!-- source: data/processed/tier3/_latency_grid_2000.csv, delay_ms/jitter_sd_ms/dropout_rate per level -->
 
-Statistical floor: every result is tested against a **circular-shift null** that preserves each stream's own autocorrelation; the final grid uses **2000 shuffles per cell** (paper-grade rerun on the NHR@FAU cluster, 2026-07-14).
+Statistical floor: envelope and influence-network results use a **circular-shift null** that preserves each stream's own autocorrelation; the final grid uses **2000 shuffles per cell** (paper-grade rerun on the NHR@FAU cluster, 2026-07-14). H1 onset inference uses a paired clean-to-Zoom sign test across pieces.
 
-**Takeaway**: known ground truth by construction, paired within piece, with a defensible null.
+**Takeaway**: known degradation by construction, with every piece serving as its own control.
 
 ---
 
@@ -88,7 +88,7 @@ Statistical floor: every result is tested against a **circular-shift null** that
 **Kicker**: METHOD
 
 - One command (`make reproduce`) regenerates the headline results from the committed data summaries.
-- 44 automated tests cover audio, video, network, latency, entanglement, and the H3 experiment.
+- 48 automated tests cover audio, video, network, latency, entanglement, H3, and report generation.
 - The 2000-shuffle grid ran as 140 SLURM array tasks; the submission script is committed and cluster-validated.
 - Every deck number traces to a committed CSV; the audit trail is in the repo.
 
@@ -110,6 +110,9 @@ Onset synchrony (do singers land notes together?) falls monotonically from clean
 
 Loudness-envelope coupling does **not** degrade: envelope E(t) stays flat on Dagstuhl (-0.4%) and even rises slightly at corpus level under jitter.
 <!-- source: same CSV, E_mean pivot: dagstuhl -0.4%, corpus -10.9% i.e. slight rise -->
+
+All **28 / 28 pieces** decrease; exact one-sided paired sign-test p = **3.73 x 10^-9**.
+<!-- source: data/processed/tier3/_h1_paired_test.csv -->
 
 **Visual**: `data/figures/tier3_corpus_summary.png`
 
@@ -133,22 +136,22 @@ The fix was chosen a priori: zero-lag onset synchrony is the physical quantity t
 
 ---
 
-## Slide 8: H2 result: weak but real leadership structure
+## Slide 8: H2 result: limited leadership evidence
 
 **Kicker**: RESULT
 
 Leader dominance, operationally: **Gini coefficient of out-degree** in the Granger-causal influence graph. 0 = democratic; toward 1 = one singer drives the rest.
 
-Observed corpus mean **0.154** vs density-matched random null **0.139** (1000 draws per piece):
+Observed corpus mean **0.162** vs density-matched random null **0.155** (1000 draws per piece):
 
-- Dagstuhl: **3 / 5** pieces significant.
-- ESMUC: **2 / 3** pieces significant.
-- ChoralSynth: **2 / 20** pieces, approximately chance.
-<!-- source: data/processed/tier3/_h2_centralization.csv: mean obs_gini_outdeg 0.15443, mean null_gini_mean 0.1385 (cited half-up as 0.139, consistent with all prior materials), sig counts by dataset at p_more_centralized < 0.05 -->
+- Dagstuhl: **1 / 5** pieces significant.
+- ESMUC: **1 / 3** pieces significant.
+- ChoralSynth: **0 / 20** pieces significant.
+<!-- source: data/processed/tier3/_h2_centralization.csv, regenerated from _latency_grid_2000.csv with rounding-safe plus-one p-values -->
 
 **Visual**: `data/figures/wp3_flagship_LI_QuartetA_Take02_standard.png`
 
-**Takeaway**: H2 is partially supported. Leadership appears in human choirs and not in synthetic renderings, so it is a human coordination signal, not a pipeline artifact. The latency-driven form of H2 stays untestable with injected delay.
+**Takeaway**: H2 receives limited support: two human pieces are centralized and no synthetic piece is, but the pooled effect is small. The latency-driven form remains untestable with injected delay.
 
 ---
 
@@ -184,7 +187,7 @@ The measurement itself is validated on synthetic coupled signals (it recovers kn
 
 The metadata panel shows which signals each piece really has; the demo does not pretend any piece has all three.
 
-**Takeaway**: the platform is real, local-first, and runs on committed outputs.
+**Takeaway**: the platform is real and local-first; the presentation laptop holds the required media and feature files.
 
 ---
 
@@ -216,10 +219,10 @@ The metadata panel shows which signals each piece really has; the demo does not 
 
 **Kicker**: CLOSE
 
-1. **A latency signature for online choirs**: timing collapses 56 to 75 percent while loudness coupling holds, across 28 pieces and three corpora at a 2000-shuffle null.
-2. **An operational leadership measure** for choir influence networks that separates human from synthetic singing.
+1. **A latency signature for online choirs**: timing collapses 56 to 75 percent while loudness coupling holds; all 28 pieces decrease (paired sign-test p = 3.73 x 10^-9).
+2. **An operational leadership measure** with limited evidence in two human pieces and none of 20 synthetic pieces.
 3. **A demonstrated data requirement for visual entanglement**: the first visual-onset experiment, honestly null.
-4. **An open, reproducible pipeline**: one command, 44 tests, cluster-validated batch protocol, every claim traceable to a committed artifact.
+4. **An open, reproducible pipeline**: one command, 48 tests, cluster-validated batch protocol, every report claim traceable to a committed artifact.
 
 **Takeaway**: supported, partially supported, honestly null, and all of it reproducible.
 
@@ -231,7 +234,7 @@ The metadata panel shows which signals each piece really has; the demo does not 
 
 - Record real latency-varied live sessions (the only way to test H1 without simulation and H2's latency form).
 - Build a small paired corpus (per-singer audio + video) to unlock the H3 ΔR² test.
-- Final seminar report due Jul 31 (draft v1 complete since Jun 30).
+- Final seminar report ready as Markdown and a 10-page PDF.
 
 Thank you. Questions welcome.
 
@@ -241,7 +244,8 @@ Thank you. Questions welcome.
 
 **Kicker**: BACKUP
 
-- `make reproduce` regenerates summary results from committed artifacts.
+- `make reproduce` regenerates report-stage results and the final PDF from committed artifacts.
+- H1 inference: `scripts/h1_paired_test.py`, exact paired sign test plus seeded bootstrap.
 - 2000-shuffle grid: `scripts/hpc/tier3_2000.sbatch`, 140 array tasks (28 pieces x 5 levels), merged and completeness-checked by `scripts/tier3_merge_shards.py`.
 - H3 experiment: `uv run python -m scripts.h3_visual_onset` (deterministic seeds).
 - Environments pinned: Python 3.11.9, locked dependencies, `uv sync --extra all`.

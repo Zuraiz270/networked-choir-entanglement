@@ -27,7 +27,9 @@ def main() -> None:
     df = df.sort_values(["dataset", "piece", "level"]).reset_index(drop=True)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(args.out, index=False)
-    print(f"Merged {len(files)} shards -> {args.out} ({len(df)} rows; {before - len(df)} duplicate rows dropped)")
+    print(
+        f"Merged {len(files)} shards -> {args.out} ({len(df)} rows; {before - len(df)} duplicate rows dropped)"
+    )
     # completeness check: expected 5 levels per (dataset, piece)
     counts = df.groupby(["dataset", "piece"]).size()
     incomplete = counts[counts != 5]

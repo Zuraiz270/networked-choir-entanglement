@@ -103,7 +103,8 @@ def main() -> None:
     parser.add_argument("--dataset", required=True, choices=["dagstuhl", "esmuc", "choralsynth"])
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument(
-        "--takes-only", action="store_true",
+        "--takes-only",
+        action="store_true",
         help="Dagstuhl/ESMUC: restrict to piece_ids containing 'take'.",
     )
     args = parser.parse_args()
