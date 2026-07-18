@@ -1,11 +1,4 @@
-"""Generate output/jul23_final_presentation.pptx from Jul-23 deck content.
-
-Content source: jul23_deck.md (every number traces to a committed CSV; see the
-HTML comments there). Layout follows the shared Studio Acoustic helpers.
-
-Run from the project root:
-    uv run python scripts/generate_jul23_pptx.py
-"""
+"""Generate the final Jul-23 presentation from the audited deck source."""
 
 from __future__ import annotations
 
@@ -43,7 +36,7 @@ from scripts.generate_jun11_pptx import (  # noqa: E402
 )
 
 OUT_PATH = Path("output/jul23_final_presentation.pptx")
-TOTAL_SLIDES = 15
+TOTAL_SLIDES = 19
 
 
 def _content_slide(prs: Presentation, n: int, kicker: str, title: str):
@@ -75,6 +68,22 @@ def _content_slide(prs: Presentation, n: int, kicker: str, title: str):
     return slide
 
 
+def _stack(slide, rows, *, y=1.5, height=0.92, gap=0.15, size=13.5):
+    current_y = Inches(y)
+    for heading, body in rows:
+        _card(
+            slide,
+            MARGIN,
+            current_y,
+            SLIDE_W - 2 * MARGIN,
+            Inches(height),
+            heading,
+            [body],
+            size=size,
+        )
+        current_y += Inches(height + gap)
+
+
 def s1_title(prs: Presentation) -> None:
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     _solid_bg(slide, TEAL_DARK)
@@ -83,9 +92,9 @@ def s1_title(prs: Presentation) -> None:
         MARGIN,
         Inches(1.55),
         SLIDE_W - 2 * MARGIN,
-        Inches(0.9),
-        "Final Presentation",
-        size=48,
+        Inches(1.2),
+        "Measuring Coordination in Online Choirs",
+        size=44,
         bold=True,
         color=IVORY,
         align=PP_ALIGN.CENTER,
@@ -93,32 +102,21 @@ def s1_title(prs: Presentation) -> None:
     _text(
         slide,
         MARGIN,
-        Inches(2.65),
+        Inches(2.95),
         SLIDE_W - 2 * MARGIN,
-        Inches(0.7),
+        Inches(0.55),
         "Project 8: Entanglement in Online Choir",
-        size=26,
+        size=25,
         color=GOLD_SOFT,
         align=PP_ALIGN.CENTER,
     )
     _text(
         slide,
         MARGIN,
-        Inches(3.75),
-        SLIDE_W - 2 * MARGIN,
-        Inches(0.45),
-        "SNA-OSN-M Summer 2026  -  Uni Bamberg x Uni Koeln x HSLU",
-        size=15,
-        color=MIST,
-        align=PP_ALIGN.CENTER,
-    )
-    _text(
-        slide,
-        MARGIN,
-        Inches(4.65),
+        Inches(4.15),
         SLIDE_W - 2 * MARGIN,
         Inches(0.4),
-        "Team: Zuraiz - Hammad Anwar - Hassan Ahmed - Kumaran Vasu",
+        "Zuraiz - Hammad Anwar - Hassan Ahmed - Kumaran Vasu",
         size=16,
         bold=True,
         color=IVORY,
@@ -127,18 +125,18 @@ def s1_title(prs: Presentation) -> None:
     _text(
         slide,
         MARGIN,
-        Inches(5.35),
+        Inches(4.85),
         SLIDE_W - 2 * MARGIN,
         Inches(0.4),
         "Supervisors: Prof. Janine Hacker - Prof. Peter Gloor",
-        size=13,
+        size=14,
         color=MIST,
         align=PP_ALIGN.CENTER,
     )
     _text(
         slide,
         MARGIN,
-        Inches(6.25),
+        Inches(5.65),
         SLIDE_W - 2 * MARGIN,
         Inches(0.4),
         "2026-07-23",
@@ -148,406 +146,461 @@ def s1_title(prs: Presentation) -> None:
     )
 
 
-def s2_question(prs: Presentation) -> None:
-    slide = _content_slide(prs, 2, "Question", "The network is part of the instrument")
+def s2_goals(prs: Presentation) -> None:
+    slide = _content_slide(prs, 2, "Goals", "What we set out to test")
     _text(
         slide,
         MARGIN,
-        Inches(1.45),
+        Inches(1.35),
         SLIDE_W - 2 * MARGIN,
-        Inches(0.6),
-        "We measured what latency does to choir togetherness, with one score over time: E(t).",
-        size=19,
+        Inches(0.55),
+        "Measure network effects on choir coordination and deliver an auditable analysis system.",
+        size=18,
         bold=True,
         color=TEAL,
     )
-    rows = [
-        (
-            "H1",
-            "Higher latency reduces coordination. Metric: zero-lag onset synchrony; "
-            "predicted to fall.",
-        ),
-        (
-            "H2",
-            "Influence networks show leadership structure. Metric: out-degree Gini vs a "
-            "matched random null; predicted above null.",
-        ),
-        (
-            "H3",
-            "Visual body signals add information beyond audio. Metric: first visual-onset "
-            "coupling; the full test needs paired data.",
-        ),
-    ]
-    y = Inches(2.35)
-    for title, body in rows:
-        _card(slide, MARGIN, y, SLIDE_W - 2 * MARGIN, Inches(0.95), title, [body], size=13.5)
-        y += Inches(1.1)
-    _takeaway(slide, "Three testable claims, each with a metric and a direction fixed in advance.")
-
-
-def s3_data(prs: Presentation) -> None:
-    slide = _content_slide(prs, 3, "Data", "Three tiers, one honest constraint")
-    rows = [
-        (
-            "Tier 1 - video",
-            "29 YouTube virtual-choir videos, 18 pose-usable. "
-            "Visual signals: sway and breathing gestures.",
-        ),
-        (
-            "Tier 2 - multitrack",
-            "Dagstuhl (5 pieces), ESMUC (3), ChoralSynth (20, synthetic). "
-            "Per-singer audio and influence networks.",
-        ),
-        (
-            "Tier 3 - injection",
-            "Controlled latency injection on Tier 2: ground-truth "
-            "latency variation, each piece its own control.",
-        ),
-    ]
-    y = Inches(1.5)
-    for title, body in rows:
-        _card(slide, MARGIN, y, SLIDE_W - 2 * MARGIN, Inches(0.95), title, [body], size=13.5)
-        y += Inches(1.1)
-    _text(
+    _stack(
         slide,
-        MARGIN,
-        Inches(5.0),
-        SLIDE_W - 2 * MARGIN,
-        Inches(1.2),
-        "The constraint: no piece has audio, video, and network signals together. "
-        "Tier 2 has audio without video; Tier 1 has video without per-singer audio. "
-        "Every claim respects that boundary.",
-        size=15,
-        bold=True,
-        color=TEAL,
+        [
+            (
+                "H1 - latency",
+                "Higher latency reduces coordination; primary outcome: zero-lag onset synchrony.",
+            ),
+            (
+                "H2 - leadership",
+                "Influence networks show leadership structure; outcome: out-degree Gini versus matched random graphs.",
+            ),
+            (
+                "H3 - visual information",
+                "Visual signals add information beyond audio; the full test compares audio-only with audio-plus-visual prediction.",
+            ),
+        ],
+        y=2.15,
+        height=1.0,
     )
     _takeaway(
         slide,
-        "Two real corpora, one synthetic control, one visual corpus, "
-        "each used for what it is good for.",
+        "Directions were declared at project start; metric revisions are dated and documented.",
     )
 
 
-def s4_method(prs: Presentation) -> None:
-    slide = _content_slide(prs, 4, "Method", "E(t) and the latency grid")
+def s3_related(prs: Presentation) -> None:
+    slide = _content_slide(prs, 3, "Related work", "Three foundations, one research gap")
+    _stack(
+        slide,
+        [
+            (
+                "Entanglement",
+                "Temporal alignment has been measured in organizational communication networks.",
+            ),
+            (
+                "Honest Signals",
+                "Activity, consistency, influence, and mimicry can reveal group coordination.",
+            ),
+            (
+                "Choir and NMP research",
+                "Multitrack corpora and latency studies provide audio evidence, but no integrated acoustic, visual, and influence measure.",
+            ),
+            (
+                "Research gap",
+                "Adapt these ideas to singing, test them against controlled degradation, and state where the data cannot support a claim.",
+            ),
+        ],
+        y=1.5,
+        height=1.0,
+    )
+
+
+def s4_structure(prs: Presentation) -> None:
+    slide = _content_slide(prs, 4, "Project", "Whole-project structure")
+    _picture_fit(
+        slide,
+        FIG_DIR / "project_structure.png",
+        MARGIN,
+        Inches(1.35),
+        SLIDE_W - 2 * MARGIN,
+        Inches(5.35),
+    )
+    _takeaway(slide, "Every result has a visible path from source data to tested claim.")
+
+
+def s5_data(prs: Presentation) -> None:
+    slide = _content_slide(prs, 5, "Data", "Three tiers and one multimodal constraint")
+    _stack(
+        slide,
+        [
+            (
+                "Tier 1 - video",
+                "29 virtual-choir videos; 18 pose-usable. Mixed audio plus visual features for exploratory H3.",
+            ),
+            (
+                "Tier 2 - multitrack",
+                "Dagstuhl 5, ESMUC 3, ChoralSynth 20. Per-singer audio and influence networks.",
+            ),
+            (
+                "Tier 3 - controlled degradation",
+                "Five regimes applied to all 28 Tier-2 pieces for the H1 latency experiment.",
+            ),
+        ],
+        y=1.5,
+        height=1.0,
+    )
     _text(
         slide,
         MARGIN,
-        Inches(1.4),
+        Inches(5.05),
         SLIDE_W - 2 * MARGIN,
-        Inches(0.5),
-        "Each clean piece is degraded through five regimes; every metric is recomputed "
-        "per piece and regime.",
-        size=15,
+        Inches(0.95),
+        "No item has synchronized per-singer audio and per-singer video. Tier 1 has mixed audio; Tier 2 has no video.",
+        size=16,
+        bold=True,
+        color=TEAL,
+    )
+    _takeaway(slide, "Each dataset is used only for the claims it can support.")
+
+
+def s6_method(prs: Presentation) -> None:
+    slide = _content_slide(prs, 6, "Method", "E(t) and the controlled latency grid")
+    _text(
+        slide,
+        MARGIN,
+        Inches(1.35),
+        SLIDE_W - 2 * MARGIN,
+        Inches(0.45),
+        "E(t) combines available acoustic A(t), visual V(t), and network N(t) coordination.",
+        size=16,
         bold=True,
         color=TEAL,
     )
     regimes = [
-        ("clean", "0 ms - 0 ms - 0%"),
-        ("in-person", "25 ms - 10 ms - 0%"),
-        ("Jamulus LAN", "47 ms - 46 ms - 1%"),
-        ("Jamulus WAN", "83 ms - 57 ms - 3%"),
-        ("Zoom-class", "150 ms - 80 ms - 8%"),
+        ("Clean", "0 / 0 / 0%"),
+        ("In-person", "25 / 10 / 0%"),
+        ("Jamulus LAN", "47 / 46 / 1%"),
+        ("Jamulus WAN", "83 / 57 / 3%"),
+        ("Zoom-class", "150 / 80 / 8%"),
     ]
     x = MARGIN
-    card_w = Inches(2.32)
-    for name, vals in regimes:
-        _stat_card(slide, x, Inches(2.1), card_w, Inches(1.35), name, vals, number_size=16)
-        x += card_w + Inches(0.12)
+    for name, values in regimes:
+        _stat_card(slide, x, Inches(2.05), Inches(2.32), Inches(1.35), name, values, number_size=16)
+        x += Inches(2.44)
     _text(
         slide,
         MARGIN,
-        Inches(3.7),
-        SLIDE_W - 2 * MARGIN,
-        Inches(0.35),
-        "Regime columns: delay - jitter SD - dropout.",
+        Inches(3.55),
+        Inches(5),
+        Inches(0.3),
+        "Delay ms / jitter SD ms / dropout",
         size=12,
         color=MUTED,
     )
     _card(
         slide,
         MARGIN,
-        Inches(4.25),
+        Inches(4.1),
         SLIDE_W - 2 * MARGIN,
-        Inches(1.85),
-        "Statistical floor",
+        Inches(1.65),
+        "Inference",
         [
-            "Envelope and influence-network results use a circular-shift null that "
-            "preserves each stream's own autocorrelation.",
-            "Final grid: 2000 shuffles per cell, rerun as 140 SLURM array tasks on the "
-            "NHR@FAU cluster (2026-07-14).",
+            "Envelope and network analyses use 2,000 circular shifts per cell. H1 onset inference uses a paired clean-to-Zoom sign test across pieces."
         ],
-        size=13.5,
+        size=14,
     )
-    _takeaway(slide, "Known degradation by construction; each piece is its own control.")
+    _takeaway(slide, "The same piece is evaluated in every regime and serves as its own control.")
 
 
-def s5_repro(prs: Presentation) -> None:
-    slide = _content_slide(prs, 5, "Method", "The pipeline is reproducible")
-    rows = [
-        (
-            "One command",
-            "`make reproduce` regenerates the headline results from committed " "data summaries.",
-        ),
-        (
-            "48 tests",
-            "Audio, video, network, latency, entanglement, H3, and report generation "
-            "run in the automated suite.",
-        ),
-        (
-            "Cluster protocol",
-            "The 2000-shuffle grid ran as 140 SLURM array tasks; the "
-            "submission script is committed and cluster-validated.",
-        ),
-        ("Audit trail", "Every deck number traces to a committed CSV."),
-    ]
-    y = Inches(1.5)
-    for title, body in rows:
-        _card(slide, MARGIN, y, SLIDE_W - 2 * MARGIN, Inches(0.98), title, [body], size=13.5)
-        y += Inches(1.13)
-    _takeaway(slide, "The numbers can be regenerated without us in the room.")
+def s7_process(prs: Presentation) -> None:
+    slide = _content_slide(prs, 7, "Work process", "How the team organized the project")
+    _stack(
+        slide,
+        [
+            (
+                "Four work packages",
+                "Acoustic/integration, visual extraction, influence networks, and dashboard/report integration.",
+            ),
+            (
+                "Iteration outputs",
+                "Every iteration ended in a schema, result table, test, figure, or presentation artifact.",
+            ),
+            (
+                "Review gates",
+                "Seeded scripts, committed summaries, and independent audits connected implementation to claims.",
+            ),
+            (
+                "Virtual Mirror",
+                "High shared meaning, low emotional exchange, medium relationship intensity; a weekly asynchronous check-in was adopted.",
+            ),
+        ],
+        y=1.45,
+        height=1.0,
+    )
 
 
-def s6_h1(prs: Presentation) -> None:
-    slide = _content_slide(prs, 6, "Result", "H1: latency breaks timing, not loudness")
+def s8_repro(prs: Presentation) -> None:
+    slide = _content_slide(prs, 8, "Method", "Reproducibility is part of the result")
+    _stack(
+        slide,
+        [
+            (
+                "One command",
+                "`make reproduce` regenerates report-stage statistics, figures, and the PDF.",
+            ),
+            (
+                "50 tests",
+                "Scientific pipelines, dashboard consistency, figure definitions, H3 controls, and report generation are covered.",
+            ),
+            ("Complete grid", "140 final cells from the committed 2,000-shuffle SLURM protocol."),
+            (
+                "Claim provenance",
+                "Every numerical statement in the deck traces to a committed CSV.",
+            ),
+        ],
+        y=1.5,
+        height=1.0,
+    )
+    _takeaway(slide, "The results can be audited without relying on the presentation.")
+
+
+def s9_h1(prs: Presentation) -> None:
+    slide = _content_slide(prs, 9, "Result", "H1: latency breaks note timing")
     stats = [
-        ("-56.5%", "Dagstuhl (real)"),
-        ("-65.1%", "ESMUC (real)"),
-        ("-75.1%", "ChoralSynth (synthetic)"),
+        ("-56.5%", "Dagstuhl"),
+        ("-65.1%", "ESMUC"),
+        ("-75.1%", "ChoralSynth"),
         ("-70.7%", "Corpus; 28/28 decrease"),
     ]
     x = MARGIN
     for number, label in stats:
-        _stat_card(slide, x, Inches(1.5), Inches(2.9), Inches(1.3), number, label)
+        _stat_card(slide, x, Inches(1.35), Inches(2.9), Inches(1.25), number, label)
         x += Inches(3.05)
     _picture_fit(
+        slide, FIG_DIR / "tier3_corpus_summary.png", MARGIN, Inches(2.85), Inches(7.5), Inches(3.55)
+    )
+    _card(
         slide,
-        FIG_DIR / "tier3_corpus_summary.png",
-        MARGIN,
-        Inches(3.05),
-        SLIDE_W - 2 * MARGIN,
-        Inches(3.4),
+        Inches(8.25),
+        Inches(2.95),
+        Inches(4.45),
+        Inches(3.25),
+        "Channel comparison",
+        [
+            "Pure envelope A(t): -7.9% Dagstuhl, -11.9% corpus. The envelope-plus-network E(t) composite can rise because network density offsets the envelope decline."
+        ],
+        size=13.5,
+    )
+    _takeaway(slide, "All 28 pieces decrease; exact one-sided sign-test p = 3.73 x 10^-9.")
+
+
+def s10_revision(prs: Presentation) -> None:
+    slide = _content_slide(prs, 10, "Result", "Why the measurement revision matters")
+    _stack(
+        slide,
+        [
+            (
+                "Initial null",
+                "Constant delay plus lag-tolerant envelope coupling showed little effect.",
+            ),
+            (
+                "Control diagnosis",
+                "The metric could absorb the lag, so it did not measure simultaneous note attacks.",
+            ),
+            (
+                "Operational revision",
+                "Zero-lag onset synchrony directly measures whether singers land attacks together.",
+            ),
+            (
+                "Dissociation",
+                "Timing falls 56% to 75%; pure envelope coupling falls roughly 6% to 14% across corpora.",
+            ),
+        ],
+        y=1.45,
+        height=1.0,
     )
     _takeaway(
-        slide,
-        "All 28 pieces decrease (paired p = 3.73 x 10^-9); envelope coupling stays flat.",
+        slide, "The hypothesis stayed fixed; the dated metric revision is part of the audit trail."
     )
 
 
-def s7_dissociation(prs: Presentation) -> None:
-    slide = _content_slide(prs, 7, "Result", "Why the dissociation is the finding")
-    rows = [
-        (
-            "The null we kept",
-            "Constant delay + envelope coupling showed no effect; the "
-            "control caught the confound (envelope coupling is lag-tolerant).",
-        ),
-        (
-            "The a-priori fix",
-            "Zero-lag onset synchrony is the physical quantity jitter should "
-            "break. It recovered the effect in every piece.",
-        ),
-        (
-            "The claim",
-            "Timing collapses while loudness holds. An envelope-only study would "
-            "have called latency harmless.",
-        ),
-        ("Replication", "Two real corpora and one independent synthetic corpus agree."),
-    ]
-    y = Inches(1.5)
-    for title, body in rows:
-        _card(slide, MARGIN, y, SLIDE_W - 2 * MARGIN, Inches(0.98), title, [body], size=13.5)
-        y += Inches(1.13)
-    _takeaway(slide, "The method audit trail is part of the result.")
-
-
-def s8_h2(prs: Presentation) -> None:
-    slide = _content_slide(prs, 8, "Result", "H2: limited leadership evidence")
-    _text(
-        slide,
-        MARGIN,
-        Inches(1.4),
-        SLIDE_W - 2 * MARGIN,
-        Inches(0.65),
-        "Leader dominance = Gini of out-degree in the Granger influence graph "
-        "(0 democratic, 1 single driver), vs 1000 density-matched random graphs.",
-        size=14,
-        bold=True,
-        color=TEAL,
-    )
+def s11_h2(prs: Presentation) -> None:
+    slide = _content_slide(prs, 11, "Result", "H2: limited leadership evidence")
     stats = [
-        ("0.162", "Observed corpus mean"),
-        ("0.155", "Matched random null"),
-        ("1/5 - 1/3", "Dagstuhl - ESMUC significant"),
-        ("0/20", "ChoralSynth significant"),
+        ("0.162", "Observed mean"),
+        ("0.155", "Matched null"),
+        ("1/5 - 1/3", "Dagstuhl - ESMUC"),
+        ("0/20", "ChoralSynth"),
     ]
     x = MARGIN
     for number, label in stats:
-        _stat_card(slide, x, Inches(2.25), Inches(2.9), Inches(1.3), number, label, number_size=26)
+        _stat_card(slide, x, Inches(1.35), Inches(2.9), Inches(1.25), number, label, number_size=25)
         x += Inches(3.05)
     _picture_fit(
         slide,
         FIG_DIR / "wp3_flagship_LI_QuartetA_Take02_standard.png",
         MARGIN,
-        Inches(3.8),
+        Inches(2.85),
         SLIDE_W - 2 * MARGIN,
-        Inches(2.65),
+        Inches(3.45),
     )
-    _takeaway(
-        slide,
-        "Limited support: two human pieces are centralized; no synthetic piece is.",
-    )
+    _takeaway(slide, "Two human pieces are significant; corpus-level evidence is not significant.")
 
 
-def s9_h3(prs: Presentation) -> None:
-    slide = _content_slide(prs, 9, "Result", "H3: an honest null, and what it teaches")
+def s12_h3(prs: Presentation) -> None:
+    slide = _content_slide(prs, 12, "Result", "H3: an informative exploratory null")
     stats = [
-        ("17 / 18", "videos analyzable (one silent window)"),
-        ("1 / 17", "significant at p < 0.05 = chance"),
-        ("0.068", "median max-lag r"),
+        ("17 / 18", "videos analyzable"),
+        ("1 / 17", "significant, consistent with chance"),
+        ("0.068", "median maximum-lag r"),
     ]
     x = MARGIN
     for number, label in stats:
-        _stat_card(slide, x, Inches(1.5), Inches(3.95), Inches(1.3), number, label, number_size=26)
+        _stat_card(
+            slide, x, Inches(1.35), Inches(3.95), Inches(1.25), number, label, number_size=25
+        )
         x += Inches(4.1)
     _picture_fit(
-        slide, FIG_DIR / "h3_visual_onset.png", MARGIN, Inches(3.0), Inches(7.4), Inches(3.45)
+        slide, FIG_DIR / "h3_visual_onset.png", MARGIN, Inches(2.85), Inches(7.35), Inches(3.5)
     )
-    _text(
+    _card(
         slide,
-        Inches(8.2),
-        Inches(3.1),
-        Inches(4.5),
+        Inches(8.15),
+        Inches(2.95),
+        Inches(4.55),
         Inches(3.2),
-        "The estimator recovers known lags on synthetic coupled signals (tested in CI), "
-        "so the null is informative: ensemble motion of one tracked stream does not "
-        "couple to a mixed audio envelope. H3's full test still needs per-singer "
-        "audio + video together.",
-        size=13.5,
-        color=TEAL,
+        "What was tested",
+        [
+            "Maximum signed correlation within 2 s over the first 60-72 s pose window, with 1,000 circular-shift nulls. Full H3 still needs synchronized per-singer audio and video."
+        ],
+        size=13.2,
     )
-    _takeaway(slide, "We ran the promised experiment, it said no, and we report that.")
-
-
-def s10_demo(prs: Presentation) -> None:
-    slide = _content_slide(prs, 10, "Demo", "Live: E(t) on real recordings (60 seconds)")
-    rows = [
-        (
-            "1. Audio/network piece",
-            "Dagstuhl quartet: E(t) timeline updating with the " "influence graph.",
-        ),
-        ("2. Video/pose piece", "Tier-1 video playback with the live pose overlay."),
-        (
-            "Honesty layer",
-            "The metadata panel shows which signals each piece really has; "
-            "no piece pretends to have all three.",
-        ),
-    ]
-    y = Inches(1.6)
-    for title, body in rows:
-        _card(slide, MARGIN, y, SLIDE_W - 2 * MARGIN, Inches(1.05), title, [body], size=14)
-        y += Inches(1.2)
-    _takeaway(slide, "Real local data on the presentation laptop, no mock content.")
-
-
-def s11_fallback(prs: Presentation) -> None:
-    slide = _content_slide(prs, 11, "Demo", "Fallback: dashboard on real outputs")
-    _picture_fit(
-        slide,
-        FIG_DIR / "wp4_dashboard_realdata.png",
-        MARGIN,
-        Inches(1.5),
-        SLIDE_W - 2 * MARGIN,
-        Inches(4.9),
-    )
-    _takeaway(slide, "Backup frame in case the live demo cannot run; same content, one frame.")
-
-
-def s12_limits(prs: Presentation) -> None:
-    slide = _content_slide(prs, 12, "Limits", "Limitations, stated plainly")
-    rows = [
-        (
-            "Simulated latency",
-            "Injection models transmission, not live behavioural " "adaptation of singers.",
-        ),
-        (
-            "Signal split",
-            "No piece carries audio + video + network together; full E(t) has "
-            "never run with all three channels.",
-        ),
-        ("H3 window", "Pose covers one tracked stream over each video's first minute."),
-        (
-            "Null caveats",
-            "A minority of individual grid cells are not significant; "
-            "corpus-level trends carry the claims.",
-        ),
-        (
-            "Domain transfer",
-            "The entanglement formula was validated on email networks; this "
-            "is its first music-domain test.",
-        ),
-    ]
-    y = Inches(1.45)
-    for title, body in rows:
-        _card(slide, MARGIN, y, SLIDE_W - 2 * MARGIN, Inches(0.86), title, [body], size=12.5)
-        y += Inches(0.99)
     _takeaway(
-        slide, "Registered, owned, and either mitigated or explicitly left as " "future work."
+        slide, "The mixed-audio substitute is null; the paired-data requirement is demonstrated."
     )
 
 
-def s13_contributions(prs: Presentation) -> None:
-    slide = _content_slide(prs, 13, "Close", "Contributions")
-    rows = [
-        (
-            "Latency signature",
-            "Timing collapses 56 to 75 percent while loudness holds; "
-            "28/28 pieces decrease (paired p = 3.73 x 10^-9).",
-        ),
-        (
-            "Leadership measure",
-            "Limited evidence in two human pieces and none of 20 synthetic pieces.",
-        ),
-        (
-            "Visual requirement",
-            "The first visual-onset experiment, honestly null: the "
-            "paired-corpus requirement is demonstrated, not assumed.",
-        ),
-        (
-            "Open pipeline",
-            "One command, 48 tests, cluster-validated protocol, every report claim "
-            "traceable to a committed artifact.",
-        ),
-    ]
-    y = Inches(1.5)
-    for title, body in rows:
-        _card(slide, MARGIN, y, SLIDE_W - 2 * MARGIN, Inches(0.98), title, [body], size=13.5)
-        y += Inches(1.13)
-    _takeaway(slide, "Supported, partially supported, honestly null, and all reproducible.")
+def s13_demo(prs: Presentation) -> None:
+    slide = _content_slide(prs, 13, "Demo", "Live dashboard demonstration - 60 seconds")
+    _stack(
+        slide,
+        [
+            ("1. Audio and network", "Dagstuhl piece: E(t) timeline and influence graph."),
+            ("2. Video and pose", "Tier-1 video: playback with pose overlay."),
+            (
+                "3. Signal availability",
+                "Metadata shows which channels each piece actually contains.",
+            ),
+        ],
+        y=1.65,
+        height=1.1,
+        gap=0.22,
+        size=14,
+    )
+    _takeaway(slide, "The dashboard uses the same envelope-only E(t) definition as the report.")
 
 
-def s14_close(prs: Presentation) -> None:
-    slide = _content_slide(prs, 14, "Next", "What comes next, and thanks")
-    rows = [
-        (
-            "Real latency sessions",
-            "Record live latency-varied sessions: the only way to test "
-            "H1 without simulation and H2's latency form.",
-        ),
-        ("Paired corpus", "A small per-singer audio + video corpus unlocks the H3 test."),
-        ("Report", "Final report ready as Markdown and a 10-page PDF."),
-    ]
-    y = Inches(1.6)
-    for title, body in rows:
-        _card(slide, MARGIN, y, SLIDE_W - 2 * MARGIN, Inches(1.0), title, [body], size=14)
-        y += Inches(1.15)
+def s14_limits(prs: Presentation) -> None:
+    slide = _content_slide(prs, 14, "Limits", "Weaknesses of the current evidence")
+    _stack(
+        slide,
+        [
+            ("Simulated latency", "Models transmission, not live singer adaptation."),
+            (
+                "Co-varying regimes",
+                "Delay, jitter, and dropout change together; individual effects are not isolated.",
+            ),
+            ("Multimodal gap", "No synchronized per-singer audio and video item exists."),
+            ("H2 strength", "Two individual results, but no corpus-level significance."),
+            (
+                "External validity",
+                "E(t) is not yet validated against perceived performance quality.",
+            ),
+        ],
+        y=1.35,
+        height=0.85,
+        gap=0.12,
+        size=12.5,
+    )
+
+
+def s15_results(prs: Presentation) -> None:
+    slide = _content_slide(prs, 15, "Results", "Main results and implementation")
+    _stack(
+        slide,
+        [
+            (
+                "H1 supported for timing",
+                "All 28 pieces lose onset synchrony; corpus mean drop 70.7%.",
+            ),
+            (
+                "H2 limited",
+                "Two human pieces show significant centralization; overall evidence remains weak.",
+            ),
+            (
+                "H3 exploratory null",
+                "Mixed audio plus one pose stream does not substitute for paired per-singer data.",
+            ),
+            (
+                "System delivered",
+                "Reproducible pipelines, tested dashboard, figures, report, and presentation package.",
+            ),
+        ],
+        y=1.5,
+        height=1.0,
+    )
+
+
+def s16_extensions(prs: Presentation) -> None:
+    slide = _content_slide(prs, 16, "Extensions", "What the next study should add")
+    _stack(
+        slide,
+        [
+            (
+                "Live latency sessions",
+                "Measure behavioral adaptation and latency-driven leadership.",
+            ),
+            ("Paired audio-video corpus", "Unlock the planned H3 incremental-validity test."),
+            ("Factorial network experiment", "Separate delay, jitter, and dropout effects."),
+            (
+                "External validation",
+                "Compare E(t) with expert ratings, singer experience, and score-alignment errors.",
+            ),
+        ],
+        y=1.5,
+        height=1.0,
+    )
+
+
+def s17_retrospective(prs: Presentation) -> None:
+    slide = _content_slide(prs, 17, "Retrospective", "What worked and what could improve")
+    _card(
+        slide,
+        MARGIN,
+        Inches(1.45),
+        Inches(5.85),
+        Inches(4.55),
+        "What worked well",
+        [
+            "Controls exposed the first metric mismatch.\n\nSeeded scripts, tests, and audits kept claims traceable.\n\nInstructor questions improved definitions and limitation framing."
+        ],
+        size=15,
+    )
+    _card(
+        slide,
+        Inches(6.85),
+        Inches(1.45),
+        Inches(5.85),
+        Inches(4.55),
+        "What could improve",
+        [
+            "Secure paired multimodal data earlier.\n\nResolve work-package dependencies before parallel implementation.\n\nConfirm final format and metric expectations earlier."
+        ],
+        size=15,
+    )
     _text(
         slide,
         MARGIN,
-        Inches(5.35),
+        Inches(6.25),
         SLIDE_W - 2 * MARGIN,
-        Inches(0.6),
-        "Thank you. Questions welcome.",
+        Inches(0.45),
+        "Thank you. Questions are welcome.",
         size=22,
         bold=True,
         color=TEAL,
@@ -555,26 +608,35 @@ def s14_close(prs: Presentation) -> None:
     )
 
 
-def s15_backup(prs: Presentation) -> None:
-    slide = _content_slide(prs, 15, "Backup", "Reproducibility protocol")
-    rows = [
-        (
-            "Regenerate",
-            "`make reproduce` rebuilds report results and PDF from committed artifacts.",
-        ),
-        (
-            "Grid protocol",
-            "`scripts/hpc/tier3_2000.sbatch`: 140 array tasks (28 pieces x 5 "
-            "levels), merged and completeness-checked by "
-            "`scripts/tier3_merge_shards.py`.",
-        ),
-        ("H3 experiment", "`uv run python -m scripts.h3_visual_onset` (deterministic seeds)."),
-        ("Environment", "Python 3.11.9 pinned, locked dependencies, `uv sync --extra all`."),
-    ]
-    y = Inches(1.5)
-    for title, body in rows:
-        _card(slide, MARGIN, y, SLIDE_W - 2 * MARGIN, Inches(0.98), title, [body], size=13.5)
-        y += Inches(1.13)
+def s18_dashboard_backup(prs: Presentation) -> None:
+    slide = _content_slide(prs, 18, "Backup", "Dashboard on real outputs")
+    _picture_fit(
+        slide,
+        FIG_DIR / "wp4_dashboard_realdata.png",
+        MARGIN,
+        Inches(1.4),
+        SLIDE_W - 2 * MARGIN,
+        Inches(5.2),
+    )
+    _takeaway(slide, "Use only if the live dashboard cannot run.")
+
+
+def s19_repro_backup(prs: Presentation) -> None:
+    slide = _content_slide(prs, 19, "Backup", "Reproducibility protocol")
+    _stack(
+        slide,
+        [
+            ("Regenerate", "`make reproduce` rebuilds report-stage results and the final PDF."),
+            ("H1", "Exact paired sign test plus seeded bootstrap."),
+            ("H2", "1,000 matched random graphs per piece with plus-one p-values."),
+            ("H3", "1,000 circular shifts per video with deterministic seeds."),
+            ("Environment", "Python 3.11.9 and locked dependencies."),
+        ],
+        y=1.35,
+        height=0.85,
+        gap=0.12,
+        size=12.5,
+    )
 
 
 def build() -> None:
@@ -583,20 +645,24 @@ def build() -> None:
     prs.slide_height = SLIDE_H
     for builder in (
         s1_title,
-        s2_question,
-        s3_data,
-        s4_method,
-        s5_repro,
-        s6_h1,
-        s7_dissociation,
-        s8_h2,
-        s9_h3,
-        s10_demo,
-        s11_fallback,
-        s12_limits,
-        s13_contributions,
-        s14_close,
-        s15_backup,
+        s2_goals,
+        s3_related,
+        s4_structure,
+        s5_data,
+        s6_method,
+        s7_process,
+        s8_repro,
+        s9_h1,
+        s10_revision,
+        s11_h2,
+        s12_h3,
+        s13_demo,
+        s14_limits,
+        s15_results,
+        s16_extensions,
+        s17_retrospective,
+        s18_dashboard_backup,
+        s19_repro_backup,
     ):
         builder(prs)
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)

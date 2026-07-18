@@ -110,6 +110,8 @@ def _entanglement_cached(video_id: str) -> dict[str, Any]:
         video_parquet=None,
         window_sec=10.0,
         step_sec=STEP_SEC,
+        # Match the envelope-only definition used by every published E(t) value.
+        include_onsets=False,
     )
     return {
         "video_id": video_id,

@@ -2,7 +2,7 @@
 
 The raw tier3 grid figure plots all 28 pieces (unreadable legend). This makes
 the publication/deck version: one line per dataset (mean across pieces) with a
-shaded +-1 SD band, plus the envelope-E(t) panel for the dissociation.
+shaded +-1 SD band, plus the pure envelope A(t) panel for the dissociation.
 
 Usage:
     python -m scripts.tier3_corpus_figure
@@ -30,15 +30,18 @@ LABEL = {
     "esmuc": "ESMUC (real, n=3)",
     "choralsynth": "ChoralSynth (synthetic, n=20)",
 }
+SECOND_PANEL_COLUMN = "A_mean"
 
 
 def _series(df: pd.DataFrame, ds: str, col: str) -> tuple[list[float], list[float], list[float]]:
     d = df[df.dataset == ds]
-    xs, means, sds = [], [], []
+    xs: list[float] = []
+    means: list[float] = []
+    sds: list[float] = []
     for lv in ORDER:
         vals = d[d.level == lv][col].dropna()
         if len(vals):
-            xs.append(XLABEL[lv])
+            xs.append(float(XLABEL[lv]))
             means.append(float(vals.mean()))
             sds.append(float(vals.std()))
     return xs, means, sds
@@ -50,7 +53,7 @@ def run() -> None:
     for ds in ["dagstuhl", "esmuc", "choralsynth"]:
         if not (df.dataset == ds).any():
             continue
-        for ax, col in ((ax1, "onset_sync"), (ax2, "E_mean")):
+        for ax, col in ((ax1, "onset_sync"), (ax2, SECOND_PANEL_COLUMN)):
             xs, m, sd = _series(df, ds, col)
             m_a, sd_a = np.array(m), np.array(sd)
             ax.plot(
@@ -64,14 +67,14 @@ def run() -> None:
             ax.fill_between(xs, m_a - sd_a, m_a + sd_a, color=COLOR[ds], alpha=0.15)
     ax1.set_title("Attack-timing onset synchrony (latency-sensitive)", fontsize=12)
     ax1.set_ylabel("Zero-lag onset synchrony")
-    ax2.set_title("Envelope E(t) (latency-robust)", fontsize=12)
-    ax2.set_ylabel("Mean E(t)")
+    ax2.set_title("Pure envelope coupling A(t) (smaller decline)", fontsize=12)
+    ax2.set_ylabel("Mean A(t)")
     for ax in (ax1, ax2):
-        ax.set_xlabel("Injected jitter SD (ms)")
+        ax.set_xlabel("Regime jitter SD (ms; delay and dropout also vary)")
         ax.grid(True, alpha=0.3)
     ax1.legend(fontsize=9, loc="upper right")
     fig.suptitle(
-        "Tier-3 latency injection: attack timing degrades, loudness coupling does not\n"
+        "Tier-3 latency injection: attack timing degrades far more than envelope coupling\n"
         "28 pieces across 3 datasets (2 real + 1 synthetic), mean +- 1 SD",
         fontsize=12,
     )

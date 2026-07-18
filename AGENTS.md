@@ -119,6 +119,11 @@ Before task completion:
 
 ## 9. Mistake Log
 
+### 2026-07-18: Name metric components before interpreting a composite
+
+- Final materials initially described `E_mean`, the envelope-plus-network composite, as pure loudness-envelope coupling. The pure acoustic channel `A_mean` actually falls 7.9% on Dagstuhl and 11.9% across the corpus, while increasing network density can make `E_mean` rise.
+- Fix: final materials now report A(t) and E(t) separately, and the dashboard explicitly uses the envelope-only definition required for comparison with published values.
+
 ### 2026-07-16: Statistical claims must trace to the exact tested variable
 
 - The Jul-23 materials initially described deterministic onset-synchrony drops as surviving a 2000-shuffle null. Code inspection showed that the grid applies those shifts to envelope E(t) and Granger-network calculations, not onset synchrony.

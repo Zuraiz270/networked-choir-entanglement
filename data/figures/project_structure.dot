@@ -1,0 +1,89 @@
+digraph ProjectStructure {
+  graph [
+    rankdir=LR,
+    bgcolor="#FBF7ED",
+    pad=0.25,
+    nodesep=0.32,
+    ranksep=0.62,
+    splines=polyline,
+    fontname="Arial",
+    fontsize=18
+  ];
+  node [
+    shape=box,
+    style="rounded,filled",
+    color="#9DB7BA",
+    fillcolor="#FDFBF6",
+    fontcolor="#123F48",
+    fontname="Arial",
+    fontsize=12,
+    margin="0.16,0.11",
+    penwidth=1.2
+  ];
+  edge [color="#56777D", penwidth=1.4, arrowsize=0.7];
+
+  subgraph cluster_data {
+    label="1. DATA";
+    color="#D4E2E3";
+    fontcolor="#0B5968";
+    style="rounded,filled";
+    fillcolor="#F4F8F7";
+    tier1 [label="Tier 1\n29 performance videos\n18 pose-usable"];
+    tier2 [label="Tier 2\n28 multitrack pieces\n2 human + 1 synthetic corpus"];
+    tier3 [label="Tier 3\n5 controlled latency regimes\n140 piece-condition cells"];
+    tier2 -> tier3 [label=" inject", fontname="Arial", fontsize=9, fontcolor="#56777D"];
+  }
+
+  subgraph cluster_pipeline {
+    label="2. MEASUREMENT PIPELINES";
+    color="#D4E2E3";
+    fontcolor="#0B5968";
+    style="rounded,filled";
+    fillcolor="#F4F8F7";
+    wp1 [label="WP1 Audio\nRMS envelope + note onsets", fillcolor="#FFF5D9", color="#D7AE49"];
+    wp2 [label="WP2 Video\nPose motion + visibility", fillcolor="#FFF5D9", color="#D7AE49"];
+    wp3 [label="WP3 Network\nGranger influence graphs", fillcolor="#FFF5D9", color="#D7AE49"];
+  }
+
+  subgraph cluster_inference {
+    label="3. INTEGRATION + TESTS";
+    color="#D4E2E3";
+    fontcolor="#0B5968";
+    style="rounded,filled";
+    fillcolor="#F4F8F7";
+    h1 [label="H1\nPaired onset-synchrony test"];
+    h2 [label="H2\nOut-degree Gini vs matched null"];
+    h3 [label="H3\nVisual-onset circular-shift test"];
+    et [label="E(t)\nA(t) + V(t) + N(t)", fillcolor="#DDEDEF", color="#0B5968", penwidth=2.0];
+  }
+
+  subgraph cluster_outputs {
+    label="4. OUTPUTS";
+    color="#D4E2E3";
+    fontcolor="#0B5968";
+    style="rounded,filled";
+    fillcolor="#F4F8F7";
+    results [label="Committed CSVs\nFigures + evidence trail", fillcolor="#E5F0E8", color="#4C8A61"];
+    dashboard [label="FastAPI + React\nLocal research dashboard", fillcolor="#E5F0E8", color="#4C8A61"];
+    delivery [label="Final report\nPresentation + live demo", fillcolor="#E5F0E8", color="#4C8A61"];
+  }
+
+  tier1 -> wp2;
+  tier1 -> h3 [label=" mixed audio", fontname="Arial", fontsize=9, fontcolor="#56777D"];
+  tier2 -> wp1;
+  tier3 -> wp1;
+  wp1 -> wp3;
+  wp1 -> h1;
+  wp3 -> h2;
+  wp1 -> h3;
+  wp2 -> h3;
+  wp1 -> et;
+  wp2 -> et;
+  wp3 -> et;
+  h1 -> results;
+  h2 -> results;
+  h3 -> results;
+  et -> dashboard;
+  results -> delivery;
+  dashboard -> delivery;
+}

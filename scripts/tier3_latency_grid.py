@@ -6,8 +6,9 @@ graph (standard Granger), and the E(t) timeline with a circular-shift null,
 then records a tidy long row. This is the first test of H1 (E drops with
 latency) and H2 (topology shifts toward leader-dominated).
 
-Compute control (per plan): standard Granger only, 100-shuffle null, 0.5s step.
-Latency is deterministic (constant delay), so no seed replication.
+Compute control (per plan): standard Granger only, configurable circular-shift
+null, 0.5s step. Jitter and dropout are stochastic but seeded
+(`LatencyConfig.seed`), so every cell reproduces exactly.
 
 Usage:
     python -m scripts.tier3_latency_grid --dataset dagstuhl

@@ -12,7 +12,7 @@
 
 ## Abstract
 
-Online choir performance is constrained by transmission delay, jitter, and packet loss, but the resulting loss of coordination is often described qualitatively. This project develops a reproducible measurement pipeline for acoustic, visual, and network coordination and evaluates three preregistered project hypotheses. H1 predicts that higher latency reduces coordination. H2 predicts that choir influence networks contain leadership structure. H3 predicts that visual signals add information beyond audio. We analyze 28 multitrack pieces from Dagstuhl ChoirSet, the ESMUC Choir Dataset, and ChoralSynth, together with 29 networked-performance videos. Controlled latency injection creates five conditions per multitrack piece and 140 analysis cells. From clean to Zoom-class conditions, zero-lag onset synchrony falls in all 28 pieces. Mean within-piece drops are 56.5% for Dagstuhl, 65.1% for ESMUC, and 75.1% for ChoralSynth, with an overall mean of 70.7% and an exact one-sided sign-test p-value of 3.73e-9. Loudness-envelope coupling remains approximately flat, showing that latency primarily damages note-attack timing rather than slow amplitude structure. H2 receives limited support: 2 of 8 human pieces show more out-degree centralization than matched random graphs, compared with 0 of 20 synthetic pieces. An exploratory H3 experiment pairs pose-derived motion with mixed-audio onset envelopes on 18 videos. Seventeen are analyzable and 1 of 17 is significant, consistent with chance. The full H3 delta-R-squared claim remains untested because no corpus provides synchronized per-singer audio and video. The result is a scoped, auditable account of what can and cannot be inferred from the available data.
+Online choir performance is constrained by transmission delay, jitter, and packet loss, but the resulting loss of coordination is often described qualitatively. This project develops a reproducible measurement pipeline for acoustic, visual, and network coordination and evaluates the project's three declared hypotheses. H1 predicts that higher latency reduces coordination. H2 predicts that choir influence networks contain leadership structure. H3 predicts that visual signals add information beyond audio. We analyze 28 multitrack pieces from Dagstuhl ChoirSet, the ESMUC Choir Dataset, and ChoralSynth, together with 29 networked-performance videos. Controlled latency injection creates five conditions per multitrack piece and 140 analysis cells. From clean to Zoom-class conditions, zero-lag onset synchrony falls in all 28 pieces. Mean within-piece drops are 56.5% for Dagstuhl, 65.1% for ESMUC, and 75.1% for ChoralSynth, with an overall mean of 70.7% and an exact one-sided sign-test p-value of 3.73e-9. Loudness-envelope coupling falls an order of magnitude less, roughly 6% to 14% across corpora, showing that latency primarily damages note-attack timing rather than slow amplitude structure. H2 receives limited support: 2 of 8 human pieces show more out-degree centralization than matched random graphs, compared with 0 of 20 synthetic pieces. An exploratory H3 experiment pairs pose-derived motion with mixed-audio onset envelopes on 18 videos. Seventeen are analyzable and 1 of 17 is significant, consistent with chance. The full H3 delta-R-squared claim remains untested because no corpus provides synchronized per-singer audio and video. The result is a scoped, auditable account of what can and cannot be inferred from the available data.
 
 ## 1. Introduction
 
@@ -24,15 +24,7 @@ Choirs provide a useful setting because coordination has an observable timing di
 
 The project adapts the entanglement concept from communication-network research [1] and the behavioral-signal perspective associated with Honest Signals [2]. The adaptation is not assumed to be valid merely because those concepts worked in another domain. Instead, the choir-specific measurements are treated as operational proposals that must survive controls and hypothesis tests.
 
-Three hypotheses guide the analysis:
-
-| Hypothesis | Operational question | Primary measurement | Final status |
-|:--|:--|:--|:--|
-| H1 | Does higher latency reduce coordination? | Within-piece change in zero-lag onset synchrony | Supported for the timing channel |
-| H2 | Do choir influence networks contain leadership structure? | Out-degree Gini relative to matched random graphs | Partially supported for human recordings |
-| H3 | Do visual signals explain coordination beyond audio? | Planned delta-R-squared comparison | Full claim untested; exploratory coupling is null |
-
-The main contribution is a measurement dissociation. Slow loudness-envelope coupling is robust to the simulated network conditions, while note-attack synchrony collapses. This result also documents why the project's first method produced a null effect and why the revised timing measure is a better match to the physical hypothesis.
+The project contributes a tested latency result, an influence-network analysis, an exploratory multimodal experiment, and an integrated dashboard. The full pipeline links raw choir recordings to reproducible feature tables, statistical tests, figures, and presentation artifacts.
 
 ## 2. Related Work
 
@@ -52,7 +44,21 @@ Networked-performance studies commonly report delay as a central constraint. Rat
 
 Granger causality tests whether past values of one series improve prediction of another [6]. Directed significant relations form a singer influence graph. Continuous ordinal-pattern preprocessing can improve sensitivity to nonlinear relations [7], although the final H2 centralization analysis uses a consistent standard graph definition across pieces. For video, MediaPipe BlazePose provides body landmarks suitable for estimating shoulder movement, head sway, and trunk lean [8].
 
-## 3. Data and Provenance
+## 3. Hypotheses
+
+The hypotheses and their predicted directions were declared at project start. Their operational metrics were refined in documented, dated revisions when controls exposed measurement problems. Reporting that audit trail is part of the method rather than a claim of technical preregistration.
+
+| Hypothesis | Operational question | Primary measurement | Final status |
+|:--|:--|:--|:--|
+| H1 | Does higher latency reduce coordination? | Within-piece change in zero-lag onset synchrony | Supported for the timing channel |
+| H2 | Do choir influence networks contain leadership structure? | Out-degree Gini relative to matched random graphs | Partially supported for human recordings |
+| H3 | Do visual signals explain coordination beyond audio? | Planned delta-R-squared comparison | Full claim untested; exploratory coupling is null |
+
+The final results support H1 for the timing channel, provide limited evidence for H2, and leave the full H3 incremental-validity claim untested while reporting a null exploratory coupling experiment.
+
+## 4. Method
+
+### 4.1 Data and provenance
 
 The project uses three data tiers. Tier 1 contains networked-performance videos with mixed audio. Tier 2 contains per-singer or per-part multitrack audio. Tier 3 is generated by injecting controlled degradation into Tier-2 recordings.
 
@@ -67,28 +73,36 @@ Dataset archives are identified in `data/raw/_dataset_inventory.md`, and availab
 
 No item has synchronized per-singer audio and per-singer video. Tier 2 supports singer-level acoustic and influence analysis but has no video. Tier 1 supports video analysis but exposes only a mixed audio track. This prevents the planned H3 delta-R-squared comparison between audio-only and audio-plus-visual per-singer models.
 
-## 4. Methods
+### 4.2 Whole-project structure
 
-### 4.1 Coordination components
+The project is organized as a traceable transformation from source recordings to scientific and software outputs. Tier-1 video feeds the visual and exploratory H3 pipeline. Tier-2 multitrack audio feeds acoustic and influence-network extraction. Tier-3 controlled degradation is derived from Tier 2 and feeds the H1 latency analysis. The integration layer combines only the channels actually available for each item, and the same committed summaries supply the dashboard, report, and presentation.
+
+![Figure 1. Whole-project structure from source data through measurement pipelines, tested hypotheses, and final outputs.](data/figures/project_structure.png)
+
+This structure keeps the multimodal limitation visible. No arrow implies that per-singer video exists for Tier 2 or that per-singer audio exists for Tier 1. The dashboard signal-availability panel enforces the same boundary in the implementation.
+
+### 4.3 Coordination components
 
 The proposed Entanglement Index combines available components on a shared time grid:
 
-- A(t), acoustic coordination, based on pairwise envelope coupling and, where available, onset synchrony.
-- V(t), visual coordination, based on pose-derived motion features.
-- N(t), network coordination, based on the density of significant directed influence relations.
-- E(t), the mean of the available components at each time point.
+| Component | Interpretation | Operational source |
+|:--|:--|:--|
+| A(t) | Acoustic coordination | Pairwise envelope coupling and, where available, onset synchrony |
+| V(t) | Visual coordination | Pose-derived motion features |
+| N(t) | Network coordination | Density of significant directed influence relations |
+| E(t) | Available-channel coordination index | Mean of the available components at each time point |
 
 The code exposes envelope-only and onset-combined acoustic definitions so older outputs remain reproducible. This separation prevents a metric-definition change from silently altering previously committed E(t) tables.
 
-![Figure 1. The four-stage transformation from raw signals to interpretable coordination outputs.](data/figures/wp4_alchemical_stages.png)
+![Figure 2. The four-stage transformation from raw signals to interpretable coordination outputs.](data/figures/wp4_alchemical_stages.png)
 
-### 4.2 Acoustic coupling and onset synchrony
+### 4.4 Acoustic coupling and onset synchrony
 
 Envelope coupling measures the relationship between slow root-mean-square amplitude trajectories while allowing temporal lag. It captures shared phrasing and dynamics but can absorb constant offsets. The first latency experiment therefore produced little change: the metric was designed to tolerate the manipulation.
 
 Zero-lag onset synchrony targets simultaneous note attacks. Binary onset trains are smoothed by a short tolerance window and compared at zero lag. This measurement cannot search for and absorb a delayed attack. It is therefore the primary H1 outcome.
 
-### 4.3 Controlled latency grid
+### 4.5 Controlled latency grid
 
 Each of the 28 Tier-2 pieces is evaluated under five regimes, producing 140 cells:
 
@@ -104,7 +118,7 @@ One reference stream remains fixed while the other streams receive delay, frame-
 
 The final grid rerun uses 2,000 circular shifts per cell for the envelope E(t) and Granger-network null calculations. A circular shift preserves each stream's autocorrelation while disrupting alignment between streams. The deterministic onset-synchrony values do not receive those 2,000 shifts. H1 inference is instead reported with the paired clean-to-Zoom analysis described next.
 
-### 4.4 H1 paired inference
+### 4.6 H1 paired inference
 
 For each piece, the percentage drop is:
 
@@ -112,21 +126,29 @@ For each piece, the percentage drop is:
 
 The primary inferential test is an exact one-sided sign test of whether decreases occur more often than a 0.5 probability under the null. This test uses direction rather than assuming normally distributed effect sizes. A seeded 10,000-resample bootstrap estimates a 95% confidence interval for the mean percentage drop. Dataset-level intervals are descriptive because Dagstuhl and ESMUC contain only five and three pieces.
 
-### 4.5 H2 centralization test
+### 4.7 H2 centralization test
 
 Pairwise Granger tests produce a directed graph for each clean piece. Leadership is operationalized as the Gini coefficient of out-degree. A value of zero represents equal outgoing influence; larger values indicate concentration in fewer nodes. Each observed graph is compared with 1,000 random directed graphs matched on node and edge count. The empirical one-sided p-value asks whether observed centralization exceeds the matched null.
 
-![Figure 2. Example directed influence graph for a Dagstuhl quartet.](data/figures/wp3_flagship_LI_QuartetA_Take02_standard.png)
+![Figure 3. Example directed influence graph for a Dagstuhl quartet.](data/figures/wp3_flagship_LI_QuartetA_Take02_standard.png)
 
-### 4.6 Exploratory H3 experiment
+### 4.8 Exploratory H3 experiment
 
-The exploratory analysis uses the 18 Tier-1 videos that passed the pose-detection floor. Pose-derived movement and the mixed-audio onset envelope are resampled to a common 10 Hz grid. For each video, the estimator searches for the maximum absolute correlation within plus or minus two seconds. Significance is evaluated with 1,000 circular shifts per video.
+The exploratory analysis uses the 18 Tier-1 videos that passed the pose-detection floor. Pose-derived movement and the mixed-audio onset envelope are resampled to a common 10 Hz grid. For each video, the estimator searches for the maximum (signed) correlation within plus or minus two seconds. Significance is evaluated with 1,000 circular shifts per video. The analyzed pose window is recorded per video in the result CSV; most windows are 60 to 72 seconds, with a shorter usable window where the source permits.
 
 The estimator is tested on synthetic coupled signals with known lag and on independent signals. These controls establish that the implementation can recover a coupling when one exists. They do not make mixed audio equivalent to per-singer audio, so the experiment remains exploratory.
 
-## 5. Results
+## 5. Work Process and Coolhunting Results
 
-### 5.1 H1: latency breaks timing
+The team divided the project into four connected work packages: acoustic and integration metrics, visual feature extraction, influence-network analysis, and dashboard/report integration. Each iteration ended in a reviewable artifact such as a schema, result table, test, figure, or deck. Markdown project records and committed provenance files kept decisions tied to dated evidence rather than presentation memory.
+
+The course's Virtual Mirror exercise was used as a coolhunting and team-process check. Five responses consistently characterized the team as high in shared meaning, low in emotional exchange, and medium in relationship intensity. The practical interpretation was not that task execution was weak, but that communication was highly task-focused. The team adopted a short weekly asynchronous check-in so risks, blockers, and ownership changes would surface before the next status meeting.
+
+The retrospective identified two useful process outcomes. First, controls were treated as decision points: the first envelope-based null exposed a construct mismatch and motivated the onset metric revision. Second, reproducibility work was integrated into analysis rather than postponed: schemas, seeded scripts, provenance tables, automated tests, and independent audits were used to catch stale or overstated claims.
+
+## 6. Results
+
+### 6.1 H1: latency breaks timing
 
 Onset synchrony decreases from clean to Zoom-class conditions in all 28 pieces. The overall mean drop is 70.7%, with a 95% bootstrap interval from 66.8% to 74.4%. The exact one-sided sign-test p-value is 3.73e-9.
 
@@ -137,13 +159,13 @@ Onset synchrony decreases from clean to Zoom-class conditions in all 28 pieces. 
 | ChoralSynth | 20 | 20 | 75.1% | 71.5% to 78.3% | 9.54e-7 |
 | All corpora | 28 | 28 | 70.7% | 66.8% to 74.4% | 3.73e-9 |
 
-The small ESMUC p-value cannot cross 0.05 with only three same-direction observations; this reflects sample size, not an inconsistent direction. The overall result and the ChoralSynth contrast are statistically strong, while all human pieces move in the predicted direction.
+With only three pieces, the ESMUC sign test cannot cross 0.05 (its minimum attainable p is 0.5^3 = 0.125, exactly the observed value); this reflects sample size, not an inconsistent direction. The overall result and the ChoralSynth contrast are statistically strong, while all human pieces move in the predicted direction.
 
-![Figure 3. Corpus-level latency response. Onset synchrony falls while envelope coupling remains stable.](data/figures/tier3_corpus_summary.png)
+![Figure 4. Corpus-level latency response. Onset synchrony falls much more than the pure envelope channel.](data/figures/tier3_corpus_summary.png)
 
-Envelope E(t) remains approximately flat in Dagstuhl and rises slightly at overall corpus level. This does not contradict H1 because envelope coupling is lag-tolerant and measures a slower acoustic property. The dissociation identifies the damaged channel: latency disrupts when singers land note attacks, not the broad shape of their loudness trajectories.
+The pure envelope channel A(t) falls only modestly (Dagstuhl -7.9%, corpus -11.9%, mean of per-piece changes), an order of magnitude less than onset synchrony. The envelope-plus-network composite E(t) remains approximately flat in Dagstuhl and rises slightly at corpus level because influence-graph density increases under degradation and offsets the envelope decline. This does not contradict H1: envelope coupling is lag-tolerant and measures a slower acoustic property. The dissociation identifies the damaged channel: latency disrupts when singers land note attacks, not the broad shape of their loudness trajectories.
 
-### 5.2 H2: weak leadership in human choirs
+### 6.2 H2: weak leadership in human choirs
 
 Across all 28 clean pieces, mean observed out-degree Gini is 0.162, compared with a matched-null mean of 0.155. Significant centralization occurs only in two human pieces.
 
@@ -153,61 +175,67 @@ Across all 28 clean pieces, mean observed out-degree Gini is 0.162, compared wit
 | ESMUC | 0.111 | 0.089 | 1 of 3 |
 | ChoralSynth | 0.193 | 0.191 | 0 of 20 |
 
-Two of eight human pieces are individually significant, compared with none of twenty synthetic pieces. This is limited evidence of human leadership structure, not evidence of a general choir hierarchy. The original latency-driven H2 cannot be tested by delaying already coordinated recordings because injected delay changes transmission but cannot generate behavioral adaptation or a new leader.
+Two of eight human pieces are individually significant, compared with none of twenty synthetic pieces. Two significant results in 28 tests at the 0.05 level is within chance expectation for the corpus as a whole (1.4 expected; the probability of at least two by chance is 0.41), and the two-of-eight human versus zero-of-twenty synthetic contrast is suggestive rather than significant (one-sided hypergeometric p = 0.074). The evidence is therefore limited in the strict sense: consistent directional elevations per dataset, two individually significant human pieces, and no corpus-level significance. The original latency-driven H2 cannot be tested by delaying already coordinated recordings because injected delay changes transmission but cannot generate behavioral adaptation or a new leader.
 
-### 5.3 H3: exploratory result is null
+### 6.3 H3: exploratory result is null
 
 Seventeen of the 18 pose-usable videos are analyzable. One video has a digitally silent first 90 seconds and is explicitly flagged rather than silently removed. Of the 17 valid analyses, one is significant at p below 0.05, matching the chance expectation. The median maximum-lag correlation is 0.068.
 
-![Figure 4. Exploratory pose-motion and mixed-audio onset coupling across Tier-1 videos.](data/figures/h3_visual_onset.png)
+![Figure 5. Exploratory pose-motion and mixed-audio onset coupling across Tier-1 videos.](data/figures/h3_visual_onset.png)
 
 The synthetic-signal tests show that the estimator detects known coupling and known lag. The null result is therefore evidence about this data configuration: motion from one tracked visual stream does not reliably couple to a mixed ensemble audio envelope. It does not test whether per-singer visual features add predictive value beyond per-singer audio. That delta-R-squared hypothesis still requires paired multimodal recordings.
 
-### 5.4 Implemented research platform
+### 6.4 Implemented research platform
 
 The project also delivers an integrated FastAPI and React dashboard for inspecting E(t), directed influence graphs, pose overlays, and signal availability. The metadata panel prevents absent channels from being presented as measured channels. A live demonstration requires the gitignored feature parquets and media on the presentation laptop; the committed screenshot provides a presentation-safe record of the same interface.
 
-![Figure 5. Dashboard alpha displaying committed real-data outputs.](data/figures/wp4_dashboard_realdata.png)
+![Figure 6. Dashboard alpha displaying committed real-data outputs.](data/figures/wp4_dashboard_realdata.png)
 
-## 6. Discussion
+## 7. Discussion
 
-### 6.1 Measurement choice changes the conclusion
+### 7.1 Measurement choice changes the conclusion
 
 The first envelope-based latency analysis returned a null because the measurement could search over lag. Keeping that result is important. It shows that a plausible coordination metric may be insensitive to the specific failure mode under study. The revised onset measure was selected because simultaneous attacks are the physical quantity that unstable transmission should damage. Its consistent within-piece decline supports that interpretation.
 
 This result narrows H1. The experiment demonstrates destruction of timing structure in transmitted, previously coordinated recordings. It does not demonstrate how live singers adapt while hearing delayed collaborators. A live experiment could show compensation, destabilization, or leadership changes that post-processing cannot model.
 
-### 6.2 Human and synthetic influence structure
+### 7.2 Human and synthetic influence structure
 
 The H2 result suggests that human recordings contain a modest asymmetry absent from synthetic rendering. The contrast is more informative than the pooled Gini difference alone because ChoralSynth can preserve musical score structure without reproducing interpersonal influence. However, dataset size is limited and the human corpora differ in recording conditions. The result should motivate replication rather than a general claim that choirs are leader-driven.
 
-### 6.3 What the H3 null adds
+### 7.3 What the H3 null adds
 
 Before the exploratory run, the paired-data requirement was an architectural argument. The null experiment turns it into empirical evidence. Mixed ensemble audio and a single tracked visual stream are too coarse for the proposed visual increment. A suitable follow-up corpus should record each singer's microphone and camera with shared timestamps, retain enough spatial context for pose estimation, and include repeated conditions.
 
-### 6.4 Entanglement as a domain adaptation
+### 7.4 Entanglement as a domain adaptation
 
 E(t) remains a proposed choir-domain index, not a validated transfer of the email-domain construct. The current evidence supports onset synchrony as an H1-sensitive component and identifies useful network and visual diagnostics. It does not establish that an equal-weighted scalar is optimal or that it predicts an external performance-quality criterion. Future validation should compare E(t) with expert ratings, singer experience, and objective score-alignment errors.
 
-## 7. Limitations and Threats to Validity
+## 8. Weaknesses and Possible Future Work
 
-### 7.1 Construct validity
+The weaknesses below define what the current evidence cannot establish. They also specify the next experiments required to move from a controlled retrospective analysis to claims about live networked ensembles.
+
+### 8.1 Construct validity
 
 Onset synchrony measures attack alignment, not intonation, blend, expression, or perceived musical quality. Envelope coupling measures slow shared dynamics and may remain high when attack timing is poor. Out-degree Gini captures concentration of inferred influence, but Granger direction is predictive rather than proof of interpersonal causation. Pose features are proxies for movement and breathing gestures, not direct physiological measurement.
 
-### 7.2 Internal validity
+### 8.2 Internal validity
 
 Latency is simulated after a coordinated performance. The manipulation controls transmission effects but excludes behavioral feedback. One stream is fixed as reference, and stochastic jitter is seeded for reproducibility. The exact sign test protects the primary direction claim from distributional assumptions, but effect-size uncertainty is still shaped by the available 28 pieces.
 
-### 7.3 External validity
+### 8.3 External validity
 
 Dagstuhl and ESMUC contain a small number of human pieces. ChoralSynth broadens musical material but not human behavior. Tier-1 videos vary in camera framing, editing, and audio mixing. Results should not be generalized to all choir sizes, network tools, room acoustics, or singer expertise.
 
-### 7.4 Reproducibility boundary
+### 8.4 Reproducibility boundary
 
 The merged analysis CSVs, figures, scripts, environment lock, and automated tests are committed. Large source media and intermediate parquets are excluded from Git for size and provenance reasons. Consequently, `make reproduce` regenerates report-stage statistics, figures, and the PDF from committed summaries. Full extraction and the live dashboard require the separately retained data directory.
 
-## 8. Reproducibility and Software Quality
+### 8.5 Possible future work
+
+The first priority is a controlled live study in which singers hear the delayed ensemble and can adapt. Repeated clean and degraded sessions would test whether the timing losses found here persist under behavioral feedback and whether influence-network centralization changes with latency. The second priority is a synchronized per-singer audio-video corpus. Shared timestamps, individual microphones, stable camera views, and repeated conditions would permit the planned audio-only versus audio-plus-visual delta-R-squared test. A third step is external validation of E(t) against expert ratings, singer experience, and score-alignment errors rather than assuming that an equal-weighted index represents perceived performance quality.
+
+## 9. Reproducibility and Software Quality
 
 The Python environment is pinned to Python 3.11.9 and resolved in `uv.lock`. The project separates audio, video, network, latency, dashboard, and report scripts. Data contracts are documented in `features/schema.md`. The cluster submission script runs one latency-grid cell per SLURM array task and disables concurrent environment synchronization.
 
@@ -221,9 +249,9 @@ The canonical report-stage command performs the following steps:
 
 The H3 result CSV and figure are committed, but rerunning raw pose and audio extraction requires the gitignored video and feature data. The report does not claim otherwise.
 
-## 9. Conclusion
+## 10. Conclusion
 
-This project provides a reproducible analysis of coordination in networked choir recordings. H1 is supported for attack timing: all 28 pieces lose onset synchrony under Zoom-class degradation, with mean corpus decline of 70.7% and a paired sign-test p-value of 3.73e-9. Envelope coupling remains stable, making the timing-versus-loudness dissociation the central finding.
+This project provides a reproducible analysis of coordination in networked choir recordings. H1 is supported for attack timing: all 28 pieces lose onset synchrony under Zoom-class degradation, with mean corpus decline of 70.7% and a paired sign-test p-value of 3.73e-9. Pure envelope coupling falls only 11.9% at corpus level, making the timing-versus-slow-envelope dissociation the central finding.
 
 H2 receives limited support. Two human choir influence graphs show centralization while no synthetic graph does, but the pooled difference is small and latency-driven leadership remains untested. The first H3 visual-onset experiment is a clean null. Its validated estimator and explicit exclusion record show that mixed audio plus one tracked pose stream cannot substitute for paired per-singer multimodal data.
 
