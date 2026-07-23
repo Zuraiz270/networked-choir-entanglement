@@ -54,11 +54,27 @@ export default function App() {
 
       <div className="grid flex-1 grid-cols-2 gap-3">
         <VideoPanel videoId={selected} meta={currentMeta} />
-        <GraphPanel videoId={selected} />
+        {currentMeta?.kind === "audio_network" ? (
+          <GraphPanel videoId={selected} />
+        ) : (
+          <UnavailablePanel message="Influence graph is not available for video-only recordings." />
+        )}
       </div>
 
-      <TimelinePanel videoId={selected} />
+      {currentMeta?.kind === "audio_network" ? (
+        <TimelinePanel videoId={selected} />
+      ) : (
+        <UnavailablePanel message="E(t) timeline is not available because this recording has no per-singer audio." />
+      )}
       <MetadataPanel meta={currentMeta} />
+    </div>
+  );
+}
+
+function UnavailablePanel({ message }: { message: string }) {
+  return (
+    <div className="flex min-h-64 items-center justify-center rounded bg-slate-800 p-6 text-center text-sm text-slate-400">
+      {message}
     </div>
   );
 }

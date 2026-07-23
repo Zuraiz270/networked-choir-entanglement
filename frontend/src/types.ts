@@ -52,4 +52,5 @@ export interface PoseResponse {
 
 export interface VideoMetaFull extends VideoMeta {
   kind: "audio_network" | "video_pose";
+  has_video: boolean;
 }

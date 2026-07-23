@@ -73,7 +73,7 @@ export default function VideoPanel({ videoId, meta }: Props) {
         Video playback {isVideo ? "(33-keypoint pose overlay)" : ""}
       </h2>
       <div className="relative flex flex-1 items-center justify-center overflow-hidden rounded border border-slate-700 bg-slate-900">
-        {videoId && isVideo ? (
+        {videoId && isVideo && meta?.has_video ? (
           <>
             <video
               ref={videoRef}
@@ -92,7 +92,9 @@ export default function VideoPanel({ videoId, meta }: Props) {
             <div className="mt-2 text-xs">
               {meta?.kind === "audio_network"
                 ? "Audio + network piece (Dagstuhl): no video. See timeline + influence graph."
-                : "Select a Tier-1 video to see the pose overlay."}
+                : meta?.has_video
+                  ? "Select a Tier-1 video to see the pose overlay."
+                  : "Pose data is available, but the MP4 file is missing on this machine."}
             </div>
           </div>
         )}

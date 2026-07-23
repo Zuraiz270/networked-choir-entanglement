@@ -82,6 +82,7 @@ def _video_index() -> dict[str, dict[str, Any]]:
             "regime": "Dagstuhl-Tier2 (audio+network)",
             "kind": "audio_network",
             "n_singers": len(parquets),
+            "has_video": False,
         }
     for vid in _tier1_videos():
         index[vid] = {
@@ -90,6 +91,7 @@ def _video_index() -> dict[str, dict[str, Any]]:
             "regime": "Tier-1 (video+pose)",
             "kind": "video_pose",
             "n_singers": None,
+            "has_video": (RAW_TIER1 / vid / f"{vid}.mp4").exists(),
         }
     return index
 
