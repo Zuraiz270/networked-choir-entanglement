@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import shutil
 import subprocess
 import sys
 import time
@@ -17,7 +18,9 @@ from pathlib import Path
 
 MANIFEST = Path("data/tier1_corpus_manifest.csv")
 DOWNLOAD_ROOT = Path("data/raw/tier1")
-YT_DLP = r"C:\Users\zurai\AppData\Local\Programs\Python\Python311\Scripts\yt-dlp.exe"
+# Resolve yt-dlp from PATH so the script is portable across machines; fall back to
+# the original absolute path only if it is not on PATH.
+YT_DLP = shutil.which("yt-dlp") or r"C:\Users\zurai\AppData\Local\Programs\Python\Python311\Scripts\yt-dlp.exe"
 
 PENDING_TOKEN = "pending-sprint3"
 
