@@ -55,6 +55,10 @@ data/processed/**
 # runs on a fresh clone. The endpoint recomputes E(t) live from these per-singer
 # f0/rms/onset series (not from the summary CSVs), so a clone without them 500s.
 !data/processed/dagstuhl/**/*.parquet
+# Tier-1 pose-keypoint parquet: tracked so the dashboard pose overlay renders on a
+# clone once the (gitignored, re-downloadable) mp4s are fetched via
+# scripts/download_and_hash_tier1.py. Saves re-running WP2 MediaPipe extraction.
+!data/processed/tier1/**/*.parquet
 
 # Dataset caches (raw/ is tracked for metadata only; dataset binaries use volumes)
 raw/youtube/*/
