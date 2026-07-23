@@ -71,6 +71,7 @@ uv.lock                     # frozen resolution
 - `make lint` / `make typecheck` / `make test` - quality gates.
 - `make all` - run tests and rebuild final report artifacts.
 - `make reproduce` - rebuild final statistics, the H1 figure, and the report PDF.
+- `make ieee-report` - build the separate IEEE-style two-column report PDF.
 
 ## Dependency Groups
 
@@ -99,6 +100,17 @@ The final report-stage pass regenerates:
 - H2 centralization table: `data/processed/tier3/_h2_centralization.csv`
 - H1 corpus figure: `data/figures/tier3_corpus_summary.png`
 - Final report: `output/pdf/networked_choir_final_report.pdf`
+
+An editable IEEE-style Word counterpart is available at
+`output/docx/networked_choir_final_report_ieee.docx`. Regenerate it from the
+same Markdown source with `python -m scripts.render_report_ieee_docx` in an
+environment that provides `python-docx`.
+
+The optional IEEE-style export is generated from the same report source with
+`make ieee-report` and written to
+`output/pdf/networked_choir_final_report_ieee.pdf`. It is a course-delivery
+alternative, not a claim of IEEE Xplore compliance; an IEEE submission would
+still require the target conference template and PDF eXpress validation.
 
 The live dashboard needs the gitignored media and feature parquets on the
 presentation laptop. The committed screenshot is the portable fallback; full

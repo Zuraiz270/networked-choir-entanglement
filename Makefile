@@ -1,4 +1,4 @@
-.PHONY: help sync smoke all reproduce lint typecheck test clean
+.PHONY: help sync smoke all reproduce ieee-report lint typecheck test clean
 
 UV_RUN := uv run --all-extras
 
@@ -8,6 +8,7 @@ help:
 	@echo "  smoke          run canary smoke tests (< 90s)"
 	@echo "  all            run tests and rebuild final report artifacts"
 	@echo "  reproduce      rebuild final statistics, figure, and PDF"
+	@echo "  ieee-report    build the separate IEEE-style report PDF"
 	@echo "  lint           ruff format + check"
 	@echo "  typecheck      mypy strict"
 	@echo "  test           pytest with coverage"
@@ -28,6 +29,9 @@ reproduce:
 	$(UV_RUN) python -m scripts.h2_centralization_test
 	$(UV_RUN) python -m scripts.tier3_corpus_figure
 	$(UV_RUN) python -m scripts.render_report
+
+ieee-report:
+	$(UV_RUN) python -m scripts.render_report_ieee
 
 lint:
 	$(UV_RUN) ruff format .
