@@ -51,6 +51,10 @@ data/processed/**
 !data/processed/**/
 !data/processed/**/_*.csv
 !data/processed/**/*.gexf
+# Dagstuhl per-singer feature parquet: tracked so the WP4 dashboard E(t) timeline
+# runs on a fresh clone. The endpoint recomputes E(t) live from these per-singer
+# f0/rms/onset series (not from the summary CSVs), so a clone without them 500s.
+!data/processed/dagstuhl/**/*.parquet
 
 # Dataset caches (raw/ is tracked for metadata only; dataset binaries use volumes)
 raw/youtube/*/
